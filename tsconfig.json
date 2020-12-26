@@ -1,0 +1,28 @@
+{
+	"compilerOptions": {
+		"target": "ES6",
+		"module": "CommonJS",
+		"moduleResolution": "Node",
+		"esModuleInterop": true,
+		"downlevelIteration": true,
+		"strict": true,
+		"baseUrl": "./",
+		"paths": {
+			"@input/*": [
+				"./input/*"
+			]
+		},
+		"typeRoots": [
+			"./node_modules/@types"
+		],
+		// "types": [
+		// 	"./module.d.ts"
+		// ],
+	},
+	// "files": [
+	// 	"./module.d.ts"
+	// ],
+	"include": [
+		"./src/**/*.ts"
+	]
+}

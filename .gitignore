@@ -1,0 +1,8 @@
+/input/*
+!/input/export_ancillaries__.lua
+!/input/schema_wh2.ron
+node_modules/*
+!node_modules/tokenizr/
+*.code-workspace
+*.rar
+/output/original
