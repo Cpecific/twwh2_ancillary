@@ -141,7 +141,6 @@ async function outputSteam() {
 
 			let myInfo: string[] = [];
 			ancillaryInfo.narrow.length > 0 && myInfo.push(ancillaryInfo.narrow.join(', '));
-			// ancillaryInfo.agent_subtype.length > 0 && myInfo.push(ancillaryInfo.agent_subtype.join(', '));
 
 			if (!isEqualShuffle(subcultureSubset, allSubcultureList)) {
 				myInfo.unshift(subcultureSubset
@@ -202,7 +201,7 @@ ${string}
 			fs.writeFileSync(filename, string);
 		}
 	}
-	console.log('writtenCultureList', writtenCultureList);
+	console.log('@writtenCultureList', writtenCultureList);
 }
 
 // !HTML
@@ -297,8 +296,7 @@ async function outputHTML() {
 			let steamChanceText = steamChanceIcon.length > 0 ? steamChanceIcon.join('') + '\n' : '';
 
 			let myInfo: string[] = [];
-			// ancillaryInfo.agent.length > 0 && myInfo.push(`(only for: ${ancillaryInfo.agent.join(', ')})`);
-			// ancillaryInfo.agent_subtype.length > 0 && myInfo.push(`(only for: ${ancillaryInfo.agent_subtype.join(', ')})`);
+			ancillaryInfo.narrow.length > 0 && myInfo.push(ancillaryInfo.narrow.join(', '));
 
 			const tgResult = tirggerList.map(({ chance, triggerDesc }, idx) => {
 				const tgDescList = triggerDesc.map(v => {
@@ -322,6 +320,7 @@ async function outputHTML() {
 <td class="trigger-condition-list"><div>${unique(tgDescList).map(v => v.replace(/\n/g, '<br/>')).join('</div><div>')}</div></td>`;
 			});
 
+			myInfo = myInfo.map(v => `(${v})`);
 			string += `<tr>
 <td class="ancillary-icon" rowspan="${tgResult.length}"><img class="ancillary-icon" src="${ancillary.icon}" /></td>
 <td class="ancillary-name" rowspan="${tgResult.length}">${ancillary.ancillary['@onscreen_name']}</td>
@@ -362,7 +361,7 @@ ${string}
 		}
 		resolve(null);
 	}));
-	console.log({ copyFiles: requiredImageSet });
+	// console.log({ copyFiles: requiredImageSet });
 	for (const src of requiredImageSet) {
 		const from = path.join(inputGameFolder, src);
 		const to = path.join(outputGameFolder, src);
@@ -409,6 +408,6 @@ data = ${JSON.stringify(output, null, '\t')}
 }
 
 Promise.all([
-	// outputSteam(),
+	outputSteam(),
 	outputHTML(),
 ]).then(() => console.log('END'))

@@ -58,7 +58,7 @@ Win a battle[/td]
 [td]*Win a battle[/td]
 [/tr][tr]
 [td]Warpstone Sculptor[/td]
-[td](Grey Seer (Plague), Grey Seer (Ruin))
+[td](Grey Seer)
 Warpstone from all buildings: +5% (factionwide)[/td]
 [td][previewicon=21642549;sizeOriginal,inline;character_general_ability.png][/previewicon]
 5%[/td]

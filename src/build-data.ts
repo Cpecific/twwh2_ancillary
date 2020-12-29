@@ -30,6 +30,7 @@ export const DB = {
 	technologies: schema['technologies'].getData(),
 	//
 	agents: schema['agents'].getData(),
+	agent_recruitment_categories: schema['agent_recruitment_categories'].getData(), // key, @onscreen_name
 	agent_subtypes: schema['agent_subtypes'].getData(),
 	agent_subtype_subculture_overrides: schema['agent_subtype_subculture_overrides'].getData(),
 	agent_culture_details: schema['agent_culture_details'].getData(),
@@ -237,7 +238,6 @@ const getIcon = async (icon: string): Promise<string> => {
 	}
 	const output = `${dir}${src}.png`;
 	_getIconCache.set(icon, output);
-	console.log(icon, output);
 	return output;
 };
 export const getEffectDesc = async (v: EffectData, opts?: {
@@ -298,8 +298,13 @@ export const getSubcultureSubset = (cultureKey: CultureType | SubCultureType[], 
 	// return subcultureList
 	// 	.filter(subcultureKey => allSubcultureList.includes(subcultureKey));
 };
+const getSubcultureFactionList = (subcultureSubset: SubCultureType[]) => {
+	return unique(DB.factions.raw.filter(row => (
+		subcultureSubset.includes(row['subculture'] as SubCultureType)
+	)).map(row => row['key'] as string));
+};
 // CONTEXT
-const getEventData = () => {
+const ctx_getEventData = () => {
 	let turnStart = false, turnEnd = false;
 	let heroEvent = false, notObviousHeroEvent = false;
 	switch (context.event) {
@@ -333,7 +338,7 @@ const getEventData = () => {
 		notObviousHeroEvent,
 	};
 }
-const getContextSubcultureSubset = (): SubCultureType[] => {
+const ctx_getSubcultureSubset = (): SubCultureType[] => {
 	const { group } = context;
 	switch (group.by) {
 		case 'culture':
@@ -349,7 +354,7 @@ const getUnitCaste = (associated_unit: any): UnitCasteType | null => {
 	}
 	return null;
 };
-const getAgentData = (agentKey: AgentType) => {
+const ctx_getAgentData = (agentKey: AgentType) => {
 	const { group } = context;
 	const { cultureKey } = group;
 	let unit: any = null;
@@ -367,7 +372,7 @@ const getAgentData = (agentKey: AgentType) => {
 		unit_caste: getUnitCaste(unit),
 	};
 };
-const getAgentSubtypeData = (subtypeKey: string) => {
+const ctx_getAgentSubtypeData = (subtypeKey: string) => {
 	const { group } = context;
 	const agentSubtypeRow = DB.agent_subtypes.getEntry([subtypeKey]);
 	if (!agentSubtypeRow) { return; }
@@ -419,9 +424,50 @@ const getAgentSubtypeData = (subtypeKey: string) => {
 		}
 	}
 	return {
+		row: agentSubtypeRow,
 		name,
 		unit_caste: getUnitCaste(unit),
 	};
+};
+const _ctx_getPermittedSubtypeListCache = new Map<string, GetPermittedSubtypeList[]>();
+interface GetPermittedSubtypeList {
+	agent: AgentType;
+	subtype: AgentSubtype;
+}
+const ctx_getPermittedSubtypeList = (): GetPermittedSubtypeList[] => {
+	const subcultureSubset = ctx_getSubcultureSubset();
+	const key = subcultureSubset.join(',');
+	if (_ctx_getPermittedSubtypeListCache.has(key)) {
+		return _ctx_getPermittedSubtypeListCache.get(key)!;
+	}
+	const factionList = getSubcultureFactionList(subcultureSubset);
+	const list = DB.faction_agent_permitted_subtypes.raw.filter(row => (
+		factionList.includes(row['faction'] as string)
+	))
+		// .map(row => row['subtype'] as AgentSubtype);
+		.map(row => ({
+			agent: row['agent'] as AgentType,
+			subtype: row['subtype'] as AgentSubtype,
+		})).filter((row, idx, self) => (
+			self.findIndex(v => (
+				v.subtype === row.subtype
+				// && v.agent === row.agent
+			)) === idx
+		));
+	// return unique(data);
+	_ctx_getPermittedSubtypeListCache.set(key, list);
+	return list;
+};
+const ctx_getRecruitmentCategoryMap = () => {
+	const subtypeList = ctx_getPermittedSubtypeList().map(v => v.subtype);
+	const map = new Map<string, AgentSubtype[]>();
+	for (const row of DB.agent_subtypes.raw) {
+		const subtypeKey = row['key'] as AgentSubtype;
+		if (!subtypeList.includes(subtypeKey)) { continue; }
+		const categoryKey = row['recruitment_category'] as string;
+		addMap(map, categoryKey, subtypeKey);
+	}
+	return map;
 };
 export interface AncillaryInfo {
 	hasLord: boolean;
@@ -433,7 +479,6 @@ export interface AncillaryInfo {
 }
 const getAncillaryInfo = (): AncillaryInfo => {
 	const { ancillary, group } = context;
-	const subcultureSubset = getContextSubcultureSubset();
 	let info: AncillaryInfo = {
 		hasLord: false,
 		incompleteLord: false,
@@ -458,7 +503,7 @@ const getAncillaryInfo = (): AncillaryInfo => {
 
 		let keyList = ancillary.toAgent.filter(key => cultureAgentList.some(row => row['agent'] === key));
 		// let int = intersect(arr, cultureAgentList);
-		toAgentList = keyList.map(key => getAgentData(key).name);
+		toAgentList = keyList.map(key => ctx_getAgentData(key).name);
 		let narrow = intersect(keyList, playableList);
 		if (narrow.length > 0) {
 			if (narrow.includes('general')) {
@@ -476,35 +521,24 @@ const getAncillaryInfo = (): AncillaryInfo => {
 		}
 
 		info.list = toAgentList;
-		info.narrow = narrow.map(key => getAgentData(key).name);
+		info.narrow = narrow.map(key => ctx_getAgentData(key).name);
 	}
 	if (ancillary.toAgentSubtype.length > 0) {
-		// let subcultureAgentList = unique(DB.agent_culture_details.raw.filter(row => (
-		// 	subcultureSubset.includes(row['culture'] as SubCultureType)
-		// )).map(row => row['agent'] as AgentType));
-		let subcultureFactionList = unique(DB.factions.raw.filter(row => (
-			subcultureSubset.includes(row['subculture'] as SubCultureType)
-			&& DB.start_pos_factions.some(f => (
-				f.faction === row['key']
-				&& f.playable
-			))
-		)).map(row => row['key'] as string));
+		// && DB.start_pos_factions.some(f => (
+		// 	f.faction === row['key']
+		// 	// && f.playable
+		// ))
 		// subculturePermittedSubtypeList
-		let permittedList = DB.faction_agent_permitted_subtypes.raw.filter(row => (
-			subcultureFactionList.includes(row['faction'] as string)
-		)).map(row => ({
-			agent: row['agent'] as AgentType,
-			subtype: row['subtype'] as AgentSubtype,
-		})).filter((row, idx, self) => (
-			self.findIndex(v => v.subtype === row.subtype) === idx
-		)).map(row => ({
-			...row,
-			...getAgentSubtypeData(row.subtype)!,
-		}));
-
-		let toAgentSubtypeList = permittedList.filter(row => ancillary.toAgentSubtype.includes(row.subtype));
+		const permittedList = ctx_getPermittedSubtypeList();
+		const toAgentSubtypeList = permittedList
+			.filter(row => ancillary.toAgentSubtype.includes(row.subtype))
+			.map(row => ({
+				...ctx_getAgentSubtypeData(row.subtype)!,
+				...row,
+			}));
 		// We always assume, that `ancillaries_included_agent_subtypes` only contain a subset of `agents`
 		// so it will always give **incomplete**
+		// TODO not to assume ;)
 		if (toAgentSubtypeList.some(v => v.agent === 'general')) {
 			info.hasLord = true;
 			info.incompleteLord = true;
@@ -515,21 +549,28 @@ const getAncillaryInfo = (): AncillaryInfo => {
 		}
 		let keyList = ancillary.toAgentSubtype
 			.map(subtypeKey => ({
+				...ctx_getAgentSubtypeData(subtypeKey)!,
 				subtypeKey,
-				...getAgentSubtypeData(subtypeKey)!,
 			}));
-		let output: string[] = keyList.map(v => v.name);
+
+		let output: string[] = [];
+		for (const [recruitmentKey, subtypeList] of ctx_getRecruitmentCategoryMap()) {
+			const filter = keyList.filter(v => subtypeList.includes(v.subtypeKey));
+			if (filter.length === subtypeList.length) {
+				output.push(DB.agent_recruitment_categories.getEntry([recruitmentKey])!['@onscreen_name'] as string);
+			} else {
+				output = output.concat(filter.map(v => v.name));
+			}
+		}
 
 		if (output.length > 0) {
 			info.list.push(...output);
 			info.narrow.push(...output);
 		}
 	}
-	if (
-		info.list.length === 0
+	if (info.list.length === 0) {
 		// toAgentList.length === 0
 		// && toAgentSubtypeList.length === 0
-	) {
 		info.hasLord = true;
 		info.hasHero = true;
 	}
@@ -539,9 +580,9 @@ const getAncillaryInfo = (): AncillaryInfo => {
 // TODO ancillaries_included_agent_subtypes
 const buildTriggerDesc = () => {
 	const { trigger, group } = context;
-	const subcultureSubset = getContextSubcultureSubset();
+	const subcultureSubset = ctx_getSubcultureSubset();
 	// const ancillaryKey = ancData.key;
-	let { notObviousHeroEvent } = getEventData();
+	let { notObviousHeroEvent } = ctx_getEventData();
 	return trigger.condition.map((c, cIdx) => {
 		let allowed: string[] = [];
 		let allowedGreenKnight = false; // c.allowed.default: case 'no-green-knight':
@@ -565,7 +606,7 @@ const buildTriggerDesc = () => {
 			if (typeof c.allowed.agent !== 'undefined') {
 				const tmp: string[] = [];
 				for (const agentKey of c.allowed.agent) {
-					const res = getAgentData(agentKey);
+					const res = ctx_getAgentData(agentKey);
 					if (res) {
 						if (res.unit_caste === 'hero') {
 							hasHero = true;
@@ -578,7 +619,7 @@ const buildTriggerDesc = () => {
 			if (typeof c.allowed.agent_subtype !== 'undefined') {
 				const tmp: string[] = [];
 				for (const subtypeKey of c.allowed.agent_subtype) {
-					const res = getAgentSubtypeData(subtypeKey);
+					const res = ctx_getAgentSubtypeData(subtypeKey);
 					if (res) {
 						if (res.unit_caste === 'hero') {
 							hasHero = true;
@@ -650,7 +691,7 @@ const buildTriggerDesc = () => {
 				});
 				const tmp: string[] = [];
 				for (const subtypeKey of agent_subtype) {
-					const res = getAgentSubtypeData(subtypeKey);
+					const res = ctx_getAgentSubtypeData(subtypeKey);
 					if (res) {
 						tmp.push(res.name);
 					}
@@ -812,7 +853,7 @@ const typical_output = (output: string[]) => {
 };
 export const building_exists = (keyList: string[]) => {
 	const { group } = context;
-	const subcultureSubset = getContextSubcultureSubset();
+	const subcultureSubset = ctx_getSubcultureSubset();
 	const buildingList = keyList.map(key => (
 		DB.building_levels.getEntry([key])!
 	));
@@ -862,7 +903,7 @@ const superchain_loc: { [K: string]: string } = {
 	wh2_main_sch_defence_norsca: 'Garrison',
 };
 export const chain_or_superchain = (keyList: string[]): string => {
-	const contextSubcultureSubset = getContextSubcultureSubset();
+	const contextSubcultureSubset = ctx_getSubcultureSubset();
 	let superChainMap = new Map<string, IEntry[]>(); // superchain > chain_row[]
 	for (const key of keyList) {
 		for (const row of DB.building_chains.raw) {
@@ -873,7 +914,7 @@ export const chain_or_superchain = (keyList: string[]): string => {
 	// #region sth
 	for (let kv of superChainMap) { kv[1] = unique(kv[1]); }
 	// TODO проверить (сейчас нигде не используется в data)
-	let { turnStart, turnEnd } = getEventData();
+	let { turnStart, turnEnd } = ctx_getEventData();
 	const filterOwnRegion = turnStart
 		? context.condition.turnOwnRegion :
 		undefined;
@@ -1060,7 +1101,7 @@ export const unit = (keyList: string[], hideCaption?: boolean) => {
 export const agent = (keyList: AgentType[], hideCaption?: boolean) => {
 	const output: string[] = [];
 	for (const unitKey of keyList) {
-		const row = getAgentData(unitKey)!;
+		const row = ctx_getAgentData(unitKey)!;
 		output.push(`“${row.name}”`);
 	}
 	return `${hideCaption ? '' : 'agent '}${typical_output(output)}`;
