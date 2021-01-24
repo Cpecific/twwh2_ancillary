@@ -1,8 +1,10 @@
 /input/*
 !/input/export_ancillaries__.lua
 !/input/schema_wh2.ron
+!/input/start_pos_factions.xml
 node_modules/*
 !node_modules/tokenizr/
+src/data-mod.ts
 *.code-workspace
 *.rar
 /output/original

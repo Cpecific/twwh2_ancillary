@@ -58,7 +58,7 @@ export const DB = {
 	unit_castes: schema['unit_castes'].getData(),
 	start_pos_factions: (() => {
 		const content = fs.readFileSync(
-			'E:/Steam/steamapps/common/Total War WARHAMMER II/assembly_kit/raw_data/db/start_pos_factions.xml'
+			path.join(__dirname, '../input/start_pos_factions.xml')
 		);
 		const json = xml.parse(content.toString(), {
 			parseNodeValue: false,
