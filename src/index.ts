@@ -243,31 +243,39 @@ async function outputHTML() {
 			}
 		}
 	}
+	type OutputEntry = {
+		title: string;
+		description: string | undefined;
+		ancillaryList: JsonEntry[];
+	}
+	type JsonEntry = [
+		ancillaryIcon: string,
+		ancillaryName: string,
+		effectList: string[],
+		appliedToIcon: string[],
+		triggerList: JsonTriggerEntry[],
+	]
+	type JsonTriggerEntry = [
+		chance: number,
+		conditionList: string[]
+	]
 	// @ts-ignore
-	const output: { [K in SubCultureType]: string; } = {};
+	const output: { [K in SubCultureType]: OutputEntry; } = {};
 	const requiredImageSet = new Set<string>();
+	const getIconSrc = (src: string): string => {
+		if (/^output\/html\//.test(src)) { return src; }
+		src = src.replace(/\\/, '/');
+		requiredImageSet.add(src);
+		src = `output/html/game/${src}`;
+		return src;
+	}
 	for (const [subcultureKey, subcultureMap] of parsed) {
-		// if (subcultureKey !== 'wh_main_sc_emp_empire') { continue; }
-		// if (subcultureKey !== 'wh_main_sc_ksl_kislev') { continue; }
 		if (subcultureMap.size === 0) { continue; }
-		let string = '';
+		let jsonList: JsonEntry[] = [];
 		const cultureKey = toCultureKey(subcultureKey);
 		const culture = getCulture(cultureKey)!;
 		const cultureData = cultureDataMap.get(cultureKey)!;
 		const subcultureRow = DB.cultures_subcultures.getEntry([subcultureKey])!;
-		string += `<h1>${subcultureRow['@name']}</h1>`;
-		if (typeof cultureData.description !== 'undefined') {
-			string += `<h5>${cultureData.description}</h5>`;
-		}
-		string += `\n<table>
-<thead>
-<th width="40px"></th>
-<th width="110px"></th>
-<th width="240px"></th>
-<th width="42px"></th>
-<th></th>
-</thead>
-<tbody>`;
 		for (const [ancillaryKey, parsed] of subcultureMap) {
 			const { ancillaryInfo, tirggerList } = parsed;
 			const ancillary = findAncillary(ancillaryKey);
@@ -276,29 +284,34 @@ async function outputHTML() {
 					color: 'html',
 					image: 'html',
 				}))
-			)).map(v => v.replace(/\n/g, '<br/>'));
+			)).map(v => (
+				v
+					.replace(/\n/g, '<br/>')
+					.replace(/\<img(.*?) src\=\"(.*?)\"(.*?)\>/g, (_, before, src, after) => {
+						return `<img${before} src="${getIconSrc(src)}"${after}>`;
+					})
+			));
 
-			let steamChanceIcon: string[] = [];
+			let appliedToIcon: string[] = [];
 			if (ancillaryInfo.hasLord) {
 				if (ancillaryInfo.incompleteLord) {
-					steamChanceIcon.push(`<img src="output/html/character_general_ability.png" />`);
+					appliedToIcon.push(`character_general_ability.png`);
 				} else {
-					steamChanceIcon.push(`<img src="output/html/battle_general_ability.png" />`);
+					appliedToIcon.push(`battle_general_ability.png`);
 				}
 			}
 			if (ancillaryInfo.hasHero) {
 				if (ancillaryInfo.incompleteHero) {
-					steamChanceIcon.push(`<img src="output/html/character_agent.png" />`);
+					appliedToIcon.push(`character_agent.png`);
 				} else {
-					steamChanceIcon.push(`<img src="output/html/campaign_agent.png" />`);
+					appliedToIcon.push(`campaign_agent.png`);
 				}
 			}
-			let steamChanceText = steamChanceIcon.length > 0 ? steamChanceIcon.join('') + '\n' : '';
 
 			let myInfo: string[] = [];
 			ancillaryInfo.narrow.length > 0 && myInfo.push(ancillaryInfo.narrow.join(', '));
 
-			const tgResult = tirggerList.map(({ chance, triggerDesc }, idx) => {
+			const tgResult = tirggerList.map(({ chance, triggerDesc }, idx): JsonTriggerEntry => {
 				const tgDescList = triggerDesc.map(v => {
 					let text = v.text;
 					if ((v.top.allowed.length + v.top.against.length + v.top.forbid.length) > 0) {
@@ -316,36 +329,28 @@ async function outputHTML() {
 					}
 					return text;
 				});
-				return `<td>${idx === 0 ? `${steamChanceText}<br/>` : ''}${chance}%</td>
-<td class="trigger-condition-list"><div>${unique(tgDescList).map(v => v.replace(/\n/g, '<br/>')).join('</div><div>')}</div></td>`;
+				return [
+					chance,
+					unique(tgDescList)
+				];
 			});
 
 			myInfo = myInfo.map(v => `(${v})`);
-			string += `<tr>
-<td class="ancillary-icon" rowspan="${tgResult.length}"><img class="ancillary-icon" src="${ancillary.icon}" /></td>
-<td class="ancillary-name" rowspan="${tgResult.length}">${ancillary.ancillary['@onscreen_name']}</td>
-<td class="effect-list" rowspan="${tgResult.length}">${[...myInfo, ...effectList].join('<br/>')}</td>
-${tgResult[0]}
-</tr>`;
-			if (tgResult.length > 1) {
-				string += tgResult
-					.slice(1)
-					.map(string => `
-<tr>
-${string}
-</tr>`)
-					.join('');
-			}
+
+			let json: JsonEntry = [
+				getIconSrc(ancillary.icon),
+				ancillary.ancillary['@onscreen_name'] as string,
+				[...myInfo, ...effectList],
+				appliedToIcon,
+				tgResult,
+			];
+			jsonList.push(json);
 		}
-		string += `</tbody></table>`;
-		string = string.replace(/\<img(.*?) src\=\"(.*?)\"(.*?)\>/g, (_, before, src, after) => {
-			if (/^output\/html\//.test(src)) { return _; }
-			src = src.replace(/\\/, '/');
-			requiredImageSet.add(src);
-			src = `output/html/game/${src}`;
-			return `<img${before} src="${src}"${after}>`;
-		});
-		output[subcultureKey] = string;
+		output[subcultureKey] = {
+			title: subcultureRow['@name'] as string,
+			description: cultureData.description,
+			ancillaryList: jsonList,
+		};
 	}
 	const inputGameFolder = path.join(__dirname, '../input');
 	const outputGameFolder = path.join(__dirname, '../output/html/game');
@@ -382,6 +387,7 @@ ${string}
 		}));
 	let string = `<html>
 <head>
+<title>Ultimate Ancillary Guide</title>
 <link rel="stylesheet" href="output/html/style.css" />
 </head>
 <body>
@@ -392,7 +398,8 @@ ${subcultureList.map(v => {
 		const subcultureRow = DB.cultures_subcultures.getEntry([v.subcultureKey])!;
 		let classList: string[] = [];
 		if (!v.playable) { classList.push('not-playable'); }
-		return `<a ${classList.length > 0 ? `class="${classList.join(' ')}" ` : ''}href="#${v.subcultureKey}">${subcultureRow['@name']}</a>`;
+		return `<a ${classList.length > 0 ? `class="${classList.join(' ')}" ` : ''}href="#${v.subcultureKey}">${subcultureRow['@name']}</a>
+`;
 	}).join('')}
 	</div>
 </div>

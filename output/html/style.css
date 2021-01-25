@@ -1,4 +1,8 @@
-body { margin: 0 8px 20px; background: #1b2838; }
+body {
+	margin: 0 8px 20px;
+	background: #1b2838;
+	overflow-y: scroll;
+}
 body, td {
 	font-family: system-ui;
 	font-size: 14px;
