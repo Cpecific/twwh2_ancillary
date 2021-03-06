@@ -201,7 +201,7 @@ ${string}
 			fs.writeFileSync(filename, string);
 		}
 	}
-	console.log('@writtenCultureList', writtenCultureList);
+	console.log('@writtenCultureList (steam)', writtenCultureList);
 }
 
 // !HTML
@@ -257,7 +257,11 @@ async function outputHTML() {
 	]
 	type JsonTriggerEntry = [
 		chance: number,
-		conditionList: string[]
+		conditionList: JsonConditionEntry[]
+	]
+	type JsonConditionEntry = [
+		text: string,
+		bug: boolean | string,
 	]
 	// @ts-ignore
 	const output: { [K in SubCultureType]: OutputEntry; } = {};
@@ -312,7 +316,7 @@ async function outputHTML() {
 			ancillaryInfo.narrow.length > 0 && myInfo.push(ancillaryInfo.narrow.join(', '));
 
 			const tgResult = tirggerList.map(({ chance, triggerDesc }, idx): JsonTriggerEntry => {
-				const tgDescList = triggerDesc.map(v => {
+				const tgDescList = triggerDesc.map((v): JsonConditionEntry => {
 					let text = v.text;
 					if ((v.top.allowed.length + v.top.against.length + v.top.forbid.length) > 0) {
 						let top = v.top.allowed.slice();
@@ -327,11 +331,14 @@ async function outputHTML() {
 					if (!v.c.prevent) {
 						text = `*${text}`;
 					}
-					return text;
+					return [
+						text,
+						v.c.bug || false,
+					];
 				});
 				return [
 					chance,
-					unique(tgDescList)
+					tgDescList
 				];
 			});
 

@@ -491,7 +491,8 @@ export interface ICondition {
 	/** Юзер должен быть осторожен, когда читает данный кондишн */
 	careful?: boolean;
 	/** Глупые разработчики CA */
-	bug?: boolean;
+	/** Кондишн никогда не вызывается (alwaysFalse) */
+	bug?: boolean | string;
 	/** Условие предотвращает выдачу ancillary, если такой уже есть у character */
 	prevent?: boolean;
 	/** Уникальный ancillary; prevent по умолчанию */

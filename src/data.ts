@@ -1,6 +1,7 @@
 import { ITrigger, Events } from './data-types';
 import { building_exists, chain_or_superchain, region, technology, unit, agent } from './build-data';
 
+const alwaysFalse = true;
 const careful = true;
 const bug = true;
 const impossible = true;
@@ -137,7 +138,8 @@ export const data: ITrigger[] = [
 	{
 		event: Events.CharacterRankUp,
 		condition: [{
-			bug,
+			// but maybe will not return false for general? what returns general:is_embedded_in_military_force() ??
+			bug: `in function char_army_has_unit, if second parameter is table, function will always return false`,
 			prevent,
 			text: () => `Rank Up while ${unit(['wh2_dlc09_tmb_mon_ushabti_0', 'wh2_dlc09_tmb_mon_ushabti_1'])} is in the army`
 		}],
@@ -583,6 +585,7 @@ export const data: ITrigger[] = [
 	{
 		event: Events.CharacterCharacterTargetAction,
 		condition: [{
+			bug: 'CA wrongly checks “Assist Army”, which always returns false',
 			careful,
 			forbid: { agent_subtype: ['dlc07_brt_green_knight'] },
 			text: () => `Perform successful action against another character other than “Assist Army”`
@@ -967,6 +970,7 @@ export const data: ITrigger[] = [
 			},
 			text: () => `Perform successfull action against another character`
 		}, {
+			bug: 'CA wrongly checks “Assist Army”, which always returns false',
 			text: () => `Perform critical success action against another character other than “Assist Army”`
 		}],
 		ancillaryList: [{
@@ -997,6 +1001,7 @@ export const data: ITrigger[] = [
 	{
 		event: Events.CharacterCharacterTargetAction,
 		condition: [{
+			bug: 'CA wrongly checks “Assist Army”, which always returns false',
 			forbid: {
 				agent_subtype: ['dlc07_brt_green_knight', 'wh2_dlc10_hef_shadow_walker'],
 			},
@@ -1030,6 +1035,7 @@ export const data: ITrigger[] = [
 			onlyPlayer,
 			text: () => `Perform successfull action against another character (every 2nd turn (even))`
 		}, {
+			bug: 'CA wrongly checks “Assist Army”, which always returns false',
 			text: () => `Perform critical success action against another character other than “Assist Army”`
 		}],
 		ancillaryList: [{
@@ -1046,6 +1052,7 @@ export const data: ITrigger[] = [
 			onlyPlayer,
 			text: () => `Perform successfull action against another character (every 2nd+1 turn (odd))`
 		}, {
+			bug: 'CA wrongly checks “Assist Army”, which always returns false',
 			text: () => `Perform critical success action against another character other than “Assist Army”`
 		}],
 		ancillaryList: [{
