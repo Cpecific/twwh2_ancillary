@@ -333,7 +333,7 @@ async function outputHTML() {
 						// }
 						let topText = printTextNode(top, v => {
 							if (v.type === 'onlyMainLord') {
-								return `<u title="Only primary lord satisfies this condition">${v.text}</u>`;
+								return `<u title="Main Lord - the one, who leads the attack/defense">${v.text}</u>`;
 							}
 							return v.text;
 						});
