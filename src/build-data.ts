@@ -306,7 +306,9 @@ const getSubcultureFactionList = (subcultureSubset: SubCultureType[]) => {
 // CONTEXT
 const ctx_getEventData = () => {
 	let turnStart = false, turnEnd = false;
-	let heroEvent = false, notObviousHeroEvent = false;
+	let heroEvent = false;
+	let onlyMainLord = false;
+	let notObviousHeroEvent = (context.event === Events.HeroCharacterParticipatedInBattle);
 	switch (context.event) {
 		case Events.CharacterTurnStart:
 		case Events.SlotTurnStart:
@@ -325,10 +327,14 @@ const ctx_getEventData = () => {
 		case Events.HeroCharacterParticipatedInBattle:
 			heroEvent = true;
 			break;
-	}
-	switch (context.event) {
-		case Events.HeroCharacterParticipatedInBattle:
-			notObviousHeroEvent = true;
+		case Events.CharacterCompletedBattle:
+		case Events.CharacterLootedSettlement:
+		case Events.CharacterSackedSettlement:
+		case Events.CharacterPostBattleRelease:
+		case Events.CharacterPostBattleSlaughter:
+		case Events.CharacterPostBattleEnslave:
+		case Events.GarrisonAttackedEvent:
+			onlyMainLord = true;
 			break;
 	}
 	return {
@@ -336,6 +342,7 @@ const ctx_getEventData = () => {
 		turnEnd,
 		heroEvent,
 		notObviousHeroEvent,
+		onlyMainLord,
 	};
 }
 const ctx_getSubcultureSubset = (): SubCultureType[] => {
@@ -576,87 +583,160 @@ const getAncillaryInfo = (): AncillaryInfo => {
 	}
 	return info;
 };
+type TextNode = {
+	text: string;
+	category?: boolean | TextNode;
+	underline?: boolean;
+	// [K: string]: string | boolean | undefined;
+} & {
+	[K: string]: string;
+}
+export const concatTextNode = (self: TextNode[], tmp: TextNode[], category?: TextNode, setRestCategory?: boolean) => {
+	if (tmp.length > 0) {
+		tmp[0].category = category || true;
+		if (setRestCategory) {
+			for (const a of tmp) {
+				if (a === tmp[0]) { continue; }
+				a.category = true;
+			}
+		}
+		return self.concat(tmp);
+	}
+	return self;
+};
+export const printTextNode = (self: TextNode[], format: (v: TextNode) => string) => {
+	let output = '';
+	for (let i = 0; i < self.length; ++i) {
+		const a = self[i];
+		if (a.category) {
+			output += '; ';
+			if (typeof a.category !== 'boolean') {
+				output += format(a.category);
+			}
+		} else {
+			output += ', ';
+		}
+		output += format(a);
+	}
+	return output.substr(2);
+};
 // TODO ancillary_to_included_agents
 // TODO ancillaries_included_agent_subtypes
 const buildTriggerDesc = () => {
 	const { trigger, group } = context;
 	const subcultureSubset = ctx_getSubcultureSubset();
 	// const ancillaryKey = ancData.key;
-	let { notObviousHeroEvent } = ctx_getEventData();
+	let { notObviousHeroEvent, onlyMainLord } = ctx_getEventData();
 	return trigger.condition.map((c, cIdx) => {
-		let allowed: string[] = [];
+		let allowed: TextNode[] = [];
 		let allowedGreenKnight = false; // c.allowed.default: case 'no-green-knight':
 		let allowedNormal = false; // c.allowed.default: case 'normal':
-		let hasHero = false;
+		let hasLord = false, hasHero = false;
 		if (typeof c.allowed !== 'undefined') {
-			if (typeof c.allowed.pooled_resource !== 'undefined') {
-				const pooled_resource = c.allowed.pooled_resource.slice();
-				if (deleteItem(pooled_resource, 'wh2_main_ritual_currency')) {
-					allowed.push(`Vortex`);
-					context.campaign = 'wh2_main_great_vortex';
-				}
-				const tmp: string[] = [];
-				for (const val of pooled_resource) {
-					const row = DB.pooled_resources.getEntry([val])!;
-					tmp.push(row['@display_name'] as string);
-				}
-				// tmp.length > 0 && allowed.push(`resource: ${tmp.join(', ')}`);
-				tmp.length > 0 && allowed.push(tmp.join(', '));
-			}
 			if (typeof c.allowed.agent !== 'undefined') {
-				const tmp: string[] = [];
+				const tmp: TextNode[] = [];
 				for (const agentKey of c.allowed.agent) {
 					const res = ctx_getAgentData(agentKey);
 					if (res) {
-						if (res.unit_caste === 'hero') {
+						const node: TextNode = { text: res.name };
+						if (res.unit_caste === 'lord') {
+							hasLord = true;
+							if (onlyMainLord) {
+								node.underline = true;
+								node.type = 'onlyMainLord';
+							}
+						} else if (res.unit_caste === 'hero') {
 							hasHero = true;
 						}
-						tmp.push(res.name);
+						tmp.push(node);
 					}
 				}
-				tmp.length > 0 && allowed.push(tmp.join(', '));
+				if (tmp.length > 0) {
+					tmp[0].category = true;
+					allowed = allowed.concat(tmp);
+				}
 			}
 			if (typeof c.allowed.agent_subtype !== 'undefined') {
-				const tmp: string[] = [];
+				const tmp: TextNode[] = [];
 				for (const subtypeKey of c.allowed.agent_subtype) {
 					const res = ctx_getAgentSubtypeData(subtypeKey);
 					if (res) {
-						if (res.unit_caste === 'hero') {
+						const node: TextNode = { text: res.name };
+						if (res.unit_caste === 'lord') {
+							hasLord = true;
+							if (onlyMainLord) {
+								node.underline = true;
+								node.type = 'onlyMainLord';
+							}
+						} else if (res.unit_caste === 'hero') {
 							hasHero = true;
 						}
-						tmp.push(res.name);
+						tmp.push(node);
 					}
 				}
-				// tmp.length > 0 && allowed.push(`character subtype: ${tmp.join(', ')}`);
-				tmp.length > 0 && allowed.push(tmp.join(', '));
+				if (tmp.length > 0) {
+					tmp[0].category = true; // `character subtype: `
+					allowed = allowed.concat(tmp);
+				}
 			}
 		}
 		if (notObviousHeroEvent && !hasHero) {
 			// DB.unit_castes.getEntry(['hero'])!['@localised_name'] as string
-			allowed.unshift(`Hero`);
+			allowed.unshift({ text: `Hero` });
+		}
+		if ((onlyMainLord || c.onlyMainLord) && !hasLord) {
+			const node: TextNode = { text: `Lord` };
+			node.underline = true;
+			node.type = 'onlyMainLord';
+			allowed.unshift(node);
+		}
+		 // !prepend
+		if (typeof c.allowed !== 'undefined') {
+			if (typeof c.allowed.pooled_resource !== 'undefined') {
+				const pooled_resource = c.allowed.pooled_resource.slice();
+				if (deleteItem(pooled_resource, 'wh2_main_ritual_currency')) {
+					allowed.unshift({ text: `Vortex` });
+					context.campaign = 'wh2_main_great_vortex';
+				}
+				const tmp: TextNode[] = [];
+				for (const val of pooled_resource) {
+					const row = DB.pooled_resources.getEntry([val])!;
+					tmp.push({ text: row['@display_name'] as string });
+				}
+				if (tmp.length > 0) {
+					tmp[0].category = true; // `resource: `
+					allowed = tmp.concat(allowed);
+				}
+			}
 		}
 		if (typeof c.allowed !== 'undefined') {
 			if (typeof c.allowed.culture !== 'undefined') {
 				let culture = c.allowed.culture.slice();
 				culture = culture.filter(cultureKey => cultureKey !== group.cultureKey);
 
-				const tmp: string[] = [];
+				const tmp: TextNode[] = [];
 				for (const val of culture) {
 					const row = getCulture(val)!;
-					tmp.push(row['@name'] as string);
+					tmp.push({ text: row['@name'] as string });
 				}
-				tmp.length > 0 && allowed.push(tmp.join(', '));
+				if (tmp.length > 0) {
+					tmp[0].category = true;
+					allowed = allowed.concat(tmp);
+				}
 			}
 			if (typeof c.allowed.subculture !== 'undefined') {
-				const tmp: string[] = [];
+				const tmp: TextNode[] = [];
 				for (const val of c.allowed.subculture) {
 					const row = DB.cultures_subcultures.getEntry([val])!;
-					tmp.push(row['@name'] as string);
+					tmp.push({ text: row['@name'] as string });
 				}
-				tmp.length > 0 && allowed.push(tmp.join(', '));
+				if (tmp.length > 0) {
+					tmp[0].category = true;
+					allowed = allowed.concat(tmp);
+				}
 			}
 		}
-		let forbid: string[] = [];
+		let forbid: TextNode[] = [];
 		if (typeof c.forbid !== 'undefined') {
 			if (typeof c.forbid.agent !== 'undefined') {
 				const agent = c.forbid.agent.slice();
@@ -689,29 +769,41 @@ const buildTriggerDesc = () => {
 					).filter(key => subcultureSubset.includes(key));
 					return (subcultureList.length > 0);
 				});
-				const tmp: string[] = [];
+				const tmp: TextNode[] = [];
 				for (const subtypeKey of agent_subtype) {
 					const res = ctx_getAgentSubtypeData(subtypeKey);
 					if (res) {
-						tmp.push(res.name);
+						tmp.push({ text: res.name });
 					}
 				}
-				// tmp.length > 0 && forbid.push(`character subtype: ${tmp.join(', ')}`);
-				tmp.length > 0 && forbid.push(tmp.join(', '));
+				if (tmp.length > 0) {
+					tmp[0].category = true; // `character subtype: `
+					forbid = forbid.concat(tmp);
+				}
 			}
 		}
-		let against: string[] = [];
+		let against: TextNode[] = [];
 		if (typeof c.against !== 'undefined') {
 			if (typeof c.against.culture !== 'undefined') {
+				const tmp: TextNode[] = [];
 				for (const cultureKey of c.against.culture) {
 					const row = getCulture(cultureKey)!;
-					against.push(row['@name'] as string);
+					tmp.push({ text: row['@name'] as string });
+				}
+				if (tmp.length > 0) {
+					tmp[0].category = true;
+					against = against.concat(tmp);
 				}
 			}
 			if (typeof c.against.subculture !== 'undefined') {
+				const tmp: TextNode[] = [];
 				for (const subcultureKey of c.against.subculture) {
 					const row = DB.cultures_subcultures.getEntry([subcultureKey])!;
-					against.push(row['@name'] as string);
+					tmp.push({ text: row['@name'] as string });
+				}
+				if (tmp.length > 0) {
+					tmp[0].category = true;
+					against = against.concat(tmp);
 				}
 			}
 		}

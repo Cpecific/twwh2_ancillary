@@ -10,6 +10,7 @@ const unique = true;
 const onlyPlayer = true;
 const turnOwnRegion = true;
 const turnEnemy = true;
+const onlyMainLord = true;
 
 // Used
 Events.CharacterCharacterTargetAction;
@@ -63,10 +64,12 @@ export const data: ITrigger[] = [
 	{
 		event: Events.CharacterCompletedBattle,
 		condition: [{
+			onlyMainLord,
 			allowed: { agent: ['general'] },
 			against: { culture: ['wh2_dlc09_tmb_tomb_kings'] },
 			text: () => `Lose/draw battle as attacker`
 		}, {
+			onlyMainLord,
 			against: { culture: ['wh2_dlc09_tmb_tomb_kings'] },
 			prevent,
 			text: () => `Complete battle as defender`
@@ -667,11 +670,13 @@ export const data: ITrigger[] = [
 	{
 		event: Events.CharacterCompletedBattle,
 		condition: [{
+			onlyMainLord,
 			allowed: { agent: ['general'] },
 			forbid: { agent_subtype: ['dlc07_brt_green_knight'] },
 			against: { culture: ['wh_main_dwf_dwarfs'] },
 			text: () => `Win battle as attacker`
 		}, {
+			onlyMainLord,
 			against: { culture: ['wh_main_dwf_dwarfs'] },
 			text: () => `Complete battle as defender`
 		}],
@@ -686,11 +691,13 @@ export const data: ITrigger[] = [
 	{
 		event: Events.CharacterCompletedBattle,
 		condition: [{
+			onlyMainLord,
 			allowed: { agent: ['general'] },
 			forbid: { agent_subtype: ['dlc07_brt_green_knight'] },
 			against: { culture: ['wh2_main_lzd_lizardmen'] },
 			text: () => `Win battle as attacker`
 		}, {
+			onlyMainLord,
 			against: { culture: ['wh2_main_lzd_lizardmen'] },
 			text: () => `Complete battle as defender`
 		}],
@@ -702,11 +709,13 @@ export const data: ITrigger[] = [
 	{
 		event: Events.CharacterCompletedBattle,
 		condition: [{
+			onlyMainLord,
 			allowed: { agent: ['general'] },
 			forbid: { agent_subtype: ['dlc07_brt_green_knight'] },
 			against: { culture: ['wh2_main_skv_skaven'] },
 			text: () => `Win battle as attacker`
 		}, {
+			onlyMainLord,
 			against: { culture: ['wh2_main_skv_skaven'] },
 			text: () => `Complete battle as defender`
 		}],
@@ -858,7 +867,7 @@ export const data: ITrigger[] = [
 		condition: [{
 			forbid: { agent_subtype: ['dlc07_brt_green_knight'] },
 			prevent,
-			text: () => `Raze settlement and you character has won 6 battles\n(faction unique in lua)`
+			text: () => `Raze settlement and your character has won 6 battles\n(faction unique in lua)`
 		}],
 		ancillaryList: [{
 			chance: 3,
@@ -2240,11 +2249,13 @@ export const data: ITrigger[] = [
 	{
 		event: Events.CharacterCompletedBattle,
 		condition: [{
+			onlyMainLord,
 			allowed: { agent: ['general'] },
 			forbid: { agent_subtype: ['dlc07_brt_green_knight'] },
 			against: { culture: ['wh_main_grn_greenskins'] },
 			text: () => `Lose/draw battle as attacker`
 		}, {
+			onlyMainLord,
 			against: { culture: ['wh_main_grn_greenskins'] },
 			text: () => `Complete battle as defender`
 		}],
@@ -2258,11 +2269,13 @@ export const data: ITrigger[] = [
 	{
 		event: Events.CharacterCompletedBattle,
 		condition: [{
+			onlyMainLord,
 			allowed: { agent: ['general'] },
 			forbid: { agent_subtype: ['dlc07_brt_green_knight'] },
 			against: { culture: ['wh_main_vmp_vampire_counts'] },
 			text: () => `Lose/draw battle as attacker`
 		}, {
+			onlyMainLord,
 			against: { culture: ['wh_main_vmp_vampire_counts'] },
 			text: () => `Complete battle as defender`
 		}],
@@ -2276,11 +2289,13 @@ export const data: ITrigger[] = [
 	{
 		event: Events.CharacterCompletedBattle,
 		condition: [{
+			onlyMainLord,
 			allowed: { agent: ['general'] },
 			forbid: { agent_subtype: ['dlc07_brt_green_knight'] },
 			against: { culture: ['wh_main_emp_empire', 'wh_main_brt_bretonnia'] },
 			text: () => `Win battle as attacker`
 		}, {
+			onlyMainLord,
 			against: { culture: ['wh_main_emp_empire', 'wh_main_brt_bretonnia'] },
 			text: () => `Complete battle as defender`
 		}],
@@ -2306,12 +2321,14 @@ export const data: ITrigger[] = [
 	{
 		event: Events.CharacterCompletedBattle,
 		condition: [{
+			onlyMainLord,
 			allowed: { agent: ['general'] },
 			forbid: { agent_subtype: ['dlc07_brt_green_knight'] },
 			against: { culture: ['wh_main_emp_empire', 'wh_main_brt_bretonnia'] },
 			prevent,
 			text: () => `Win battle as attacker`
 		}, {
+			onlyMainLord,
 			against: { culture: ['wh_main_emp_empire', 'wh_main_brt_bretonnia'] },
 			text: () => `Complete battle as defender`
 		}],

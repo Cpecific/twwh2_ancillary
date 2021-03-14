@@ -48,9 +48,9 @@ Hero action success chance: +10%
 Leadership: +4 when fighting against Dwarfs[/td]
 [td][previewicon=21641941;sizeOriginal,inline;battle_general_ability.png][/previewicon][previewicon=21642086;sizeOriginal,inline;character_agent.png][/previewicon]
 50%[/td]
-[td]*(Lord; against: Dwarfs)
+[td]*([u]Lord[/u]; against: Dwarfs)
 Win battle as attacker;
-*(against: Dwarfs)
+*([u]Lord[/u]; against: Dwarfs)
 Complete battle as defender[/td]
 [/tr][tr]
 [td]Priestess of Isha[/td]
@@ -124,13 +124,14 @@ Campaign line of sight: +15%
 Ambush defence chance: +30% (Lord's army)[/td]
 [td][previewicon=21641941;sizeOriginal,inline;battle_general_ability.png][/previewicon][previewicon=21642086;sizeOriginal,inline;character_agent.png][/previewicon]
 25%[/td]
-[td]*Participate in ambush battle[/td]
+[td]*([u]Lord[/u])
+Participate in ambush battle[/td]
 [/tr][tr]
 [td]Raven Keeper[/td]
 [td]Campaign line of sight: +25%[/td]
 [td][previewicon=21641941;sizeOriginal,inline;battle_general_ability.png][/previewicon][previewicon=21641943;sizeOriginal,inline;campaign_agent.png][/previewicon]
 5%[/td]
-[td]*(Lord)
+[td]*([u]Lord[/u])
 Post Battle: Kill captives[/td]
 [/tr][tr]
 [td]Eatainean Vintner[/td]

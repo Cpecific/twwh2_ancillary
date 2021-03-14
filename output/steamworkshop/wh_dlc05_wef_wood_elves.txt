@@ -8,14 +8,15 @@
 [td]Enemy Hero action success chance: -10%[/td]
 [td][previewicon=21641941;sizeOriginal,inline;battle_general_ability.png][/previewicon][previewicon=21641943;sizeOriginal,inline;campaign_agent.png][/previewicon]
 5%[/td]
-[td]*Participate in ambush battle[/td]
+[td]*([u]Lord[/u])
+Participate in ambush battle[/td]
 [/tr][tr]
 [td]Forest Spirit[/td]
 [td]Magic resistance: 5%
 Enemy leadership: -5 (local region)[/td]
 [td][previewicon=21641941;sizeOriginal,inline;battle_general_ability.png][/previewicon][previewicon=21641943;sizeOriginal,inline;campaign_agent.png][/previewicon]
 5%[/td]
-[td]*(Lord)
+[td]*([u]Lord[/u])
 Post Battle: Kill captives[/td]
 [/tr][tr]
 [td]Eternal Guard Commander[/td]
@@ -55,19 +56,22 @@ Reinforcement range: +20% (Lord's army)[/td]
 Public order: +2 (local province)[/td]
 [td][previewicon=21641941;sizeOriginal,inline;battle_general_ability.png][/previewicon][previewicon=21641943;sizeOriginal,inline;campaign_agent.png][/previewicon]
 5%[/td]
-[td]*Win battle[/td]
+[td]*([u]Lord[/u])
+Win battle[/td]
 [/tr][tr]
 [td]Royal Standard Bearer[/td]
 [td]Campaign movement range: +2%
 Character's aura leadership effect: +4[/td]
 [td][previewicon=21641941;sizeOriginal,inline;battle_general_ability.png][/previewicon][previewicon=21641943;sizeOriginal,inline;campaign_agent.png][/previewicon]
 5%[/td]
-[td]*Win battle (every 5th turn)[/td]
+[td]*([u]Lord[/u])
+Win battle (every 5th turn)[/td]
 [/tr][tr]
 [td]Vaul's Anvil Smith[/td]
 [td]Armour: +14
 Weapon strength: +14%[/td]
 [td][previewicon=21641941;sizeOriginal,inline;battle_general_ability.png][/previewicon][previewicon=21641943;sizeOriginal,inline;campaign_agent.png][/previewicon]
 5%[/td]
-[td]*Win siege battle[/td]
+[td]*([u]Lord[/u])
+Win siege battle[/td]
 [/tr][/table]

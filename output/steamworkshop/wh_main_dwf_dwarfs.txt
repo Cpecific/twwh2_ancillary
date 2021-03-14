@@ -14,7 +14,8 @@
 [td]Income from post-battle loot: +7%[/td]
 [td][previewicon=21641941;sizeOriginal,inline;battle_general_ability.png][/previewicon][previewicon=21641943;sizeOriginal,inline;campaign_agent.png][/previewicon]
 5%[/td]
-[td]*Loot settlement[/td]
+[td]*([u]Lord[/u])
+Loot settlement[/td]
 [/tr][tr]
 [td]Shipwright [/td]
 [td]Attrition: -60% casualties suffered from high seas, reef, maelstrom and storm attrition (Lord's army)[/td]
@@ -138,41 +139,45 @@ Leadership: +4 during subterranean intercept battles (Lord's army)[/td]
 [td]Income from sacking settlements: +9%[/td]
 [td][previewicon=21641941;sizeOriginal,inline;battle_general_ability.png][/previewicon][previewicon=21641943;sizeOriginal,inline;campaign_agent.png][/previewicon]
 5%[/td]
-[td]*Sack settlement[/td]
+[td]*([u]Lord[/u])
+Sack settlement[/td]
 [/tr][tr]
 [td]Troll Slayer[/td]
 [td]Bonus vs. Large: +14[/td]
 [td][previewicon=21641943;sizeOriginal,inline;campaign_agent.png][/previewicon]
 20%[/td]
-[td]*Win battle, which features unit “Trolls”[/td]
+[td]*([u]Lord[/u])
+Win battle, which features unit “Trolls”[/td]
 [/tr][tr]
 [td]Cooper[/td]
 [td]Income from Gem Cutters and Obsidian Quarries: +6% (local region)[/td]
 [td][previewicon=21641941;sizeOriginal,inline;battle_general_ability.png][/previewicon][previewicon=21641943;sizeOriginal,inline;campaign_agent.png][/previewicon]
 15%[/td]
-[td]*Win battle, while having less than 3000 in treasury[/td]
+[td]*([u]Lord[/u])
+Win battle, while having less than 3000 in treasury[/td]
 [/tr][tr]
 [td]Sapper[/td]
 [td]Enemy siege holdout time: -1 (minimum 1 turn)[/td]
 [td][previewicon=21641941;sizeOriginal,inline;battle_general_ability.png][/previewicon][previewicon=21641943;sizeOriginal,inline;campaign_agent.png][/previewicon]
 5%[/td]
-[td]*Win siege battle[/td]
+[td]*([u]Lord[/u])
+Win siege battle[/td]
 [/tr][tr]
 [td]Grudgekeeper[/td]
 [td]Leadership: +4 when fighting against Greenskins (Lord's army)[/td]
 [td][previewicon=21641941;sizeOriginal,inline;battle_general_ability.png][/previewicon]
 20%[/td]
-[td]*(Lord; against: Greenskins)
+[td]*([u]Lord[/u]; against: Greenskins)
 Lose/draw battle as attacker;
-*(against: Greenskins)
+*([u]Lord[/u]; against: Greenskins)
 Complete battle as defender[/td]
 [/tr][tr]
 [td]Reckoner[/td]
 [td]Character's aura leadership effect: +4[/td]
 [td][previewicon=21641941;sizeOriginal,inline;battle_general_ability.png][/previewicon][previewicon=21641943;sizeOriginal,inline;campaign_agent.png][/previewicon]
 10%[/td]
-[td]*(Lord; against: Empire, Bretonnia)
+[td]*([u]Lord[/u]; against: Empire, Bretonnia)
 Win battle as attacker;
-*(against: Empire, Bretonnia)
+*([u]Lord[/u]; against: Empire, Bretonnia)
 Complete battle as defender[/td]
 [/tr][/table]

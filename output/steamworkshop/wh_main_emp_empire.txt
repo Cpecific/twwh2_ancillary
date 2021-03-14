@@ -56,14 +56,14 @@ Ambush defence chance: +10% (Lord's army)[/td]
 Public order: +1 (local province)[/td]
 [td][previewicon=21641941;sizeOriginal,inline;battle_general_ability.png][/previewicon]
 13%[/td]
-[td]*(against: Empire)
+[td]*([u]Lord[/u]; against: Empire)
 Loot settlement[/td]
 [/tr][tr]
 [td]Tomb Robber[/td]
 [td]Leadership: +4 when fighting against Vampire Counts (Hero's army)[/td]
 [td][previewicon=21641943;sizeOriginal,inline;campaign_agent.png][/previewicon]
 20%[/td]
-[td]*(against: Vampire Counts)
+[td]*([u]Lord[/u]; against: Vampire Counts)
 Loot settlement[/td]
 [/tr][tr]
 [td]Barber-Surgeon[/td]
@@ -71,33 +71,36 @@ Loot settlement[/td]
 Casualty replenishment rate: +5% (Lord's army)[/td]
 [td][previewicon=21641941;sizeOriginal,inline;battle_general_ability.png][/previewicon]
 6%[/td]
-[td]*(Lord)
+[td]*([u]Lord[/u])
 Loot settlement and have more than 10 units in your army[/td]
 [/tr][tr]
 [td]Bounty Hunter[/td]
 [td]Magic item drop chance: +6%[/td]
 [td][previewicon=21641941;sizeOriginal,inline;battle_general_ability.png][/previewicon]
 8%[/td]
-[td]*(Lord)
+[td]*([u]Lord[/u])
 Loot settlement and have less than 10 units in your army[/td]
 [/tr][tr]
 [td]Mercenary[/td]
 [td]Casualty replenishment rate: +5% (Lord's army)[/td]
 [td][previewicon=21641941;sizeOriginal,inline;battle_general_ability.png][/previewicon]
 8%[/td]
-[td]*Lose/draw battle[/td]
+[td]*([u]Lord[/u])
+Lose/draw battle[/td]
 [/tr][tr]
 [td]Antagonist[/td]
 [td]Post battle chance of stealing a magic item: +12%[/td]
 [td][previewicon=21641941;sizeOriginal,inline;battle_general_ability.png][/previewicon][previewicon=21641943;sizeOriginal,inline;campaign_agent.png][/previewicon]
 4%[/td]
-[td]*Lose/draw battle[/td]
+[td]*([u]Lord[/u])
+Lose/draw battle[/td]
 [/tr][tr]
 [td]Soldier[/td]
 [td]Siege holdout time: +2 (local region)[/td]
 [td][previewicon=21641941;sizeOriginal,inline;battle_general_ability.png][/previewicon]
 2%[/td]
-[td]*Lose/draw battle[/td]
+[td]*([u]Lord[/u])
+Lose/draw battle[/td]
 [/tr][tr]
 [td]Road Warden[/td]
 [td](The Empire)
@@ -105,13 +108,14 @@ Ambush defence chance: +15% (Lord's army)
 Untainted: +2 (local province)[/td]
 [td][previewicon=21641941;sizeOriginal,inline;battle_general_ability.png][/previewicon]
 25%[/td]
-[td]*Participate in ambush battle[/td]
+[td]*([u]Lord[/u])
+Participate in ambush battle[/td]
 [/tr][tr]
 [td]Pit Fighter[/td]
 [td]Casualties captured post-battle: +10%[/td]
 [td][previewicon=21641941;sizeOriginal,inline;battle_general_ability.png][/previewicon][previewicon=21641943;sizeOriginal,inline;campaign_agent.png][/previewicon]
 5%[/td]
-[td]*(Lord)
+[td]*([u]Lord[/u])
 Post Battle: Kill captives[/td]
 [/tr][tr]
 [td]Servant[/td]
@@ -303,66 +307,73 @@ Campaign line of sight: +25%[/td]
 Ambush success chance: +10% (Hero's army)[/td]
 [td][previewicon=21641943;sizeOriginal,inline;campaign_agent.png][/previewicon]
 5%[/td]
-[td]*Win battle[/td]
+[td]*([u]Lord[/u])
+Win battle[/td]
 [/tr][tr]
 [td]Camp Follower[/td]
 [td](The Empire)
 Wound recovery time: -1[/td]
 [td][previewicon=21641943;sizeOriginal,inline;campaign_agent.png][/previewicon]
 6%[/td]
-[td]*Win battle[/td]
+[td]*([u]Lord[/u])
+Win battle[/td]
 [/tr][tr]
 [td]Apprentice Wizard[/td]
 [td](The Empire)
 Winds of Magic power reserve: +20[/td]
 [td][previewicon=21641941;sizeOriginal,inline;battle_general_ability.png][/previewicon][previewicon=21641943;sizeOriginal,inline;campaign_agent.png][/previewicon]
 4%[/td]
-[td]*Win battle[/td]
+[td]*([u]Lord[/u])
+Win battle[/td]
 [/tr][tr]
 [td]Charcoal Burner[/td]
 [td](The Empire)
 Public order: +1 (local province)[/td]
 [td][previewicon=21641941;sizeOriginal,inline;battle_general_ability.png][/previewicon][previewicon=21641943;sizeOriginal,inline;campaign_agent.png][/previewicon]
 8%[/td]
-[td]*Win battle (every 5th turn)[/td]
+[td]*([u]Lord[/u])
+Win battle (every 5th turn)[/td]
 [/tr][tr]
 [td]Peasant[/td]
 [td](The Empire)
 Income from all buildings: +1% (local region)[/td]
 [td][previewicon=21641941;sizeOriginal,inline;battle_general_ability.png][/previewicon]
 25%[/td]
-[td]*Win battle, while having negative income[/td]
+[td]*([u]Lord[/u])
+Win battle, while having negative income[/td]
 [/tr][tr]
 [td]Messenger[/td]
 [td](The Empire)
 Campaign movement range: +6%[/td]
 [td][previewicon=21641941;sizeOriginal,inline;battle_general_ability.png][/previewicon][previewicon=21641943;sizeOriginal,inline;campaign_agent.png][/previewicon]
 4%[/td]
-[td]Win battle[/td]
+[td]([u]Lord[/u])
+Win battle[/td]
 [/tr][tr]
 [td]Entertainer[/td]
 [td](The Empire)
 Public order: +2 (local province)[/td]
 [td][previewicon=21641943;sizeOriginal,inline;campaign_agent.png][/previewicon]
 20%[/td]
-[td]*Win battle, while having less than 3000 in treasury[/td]
+[td]*([u]Lord[/u])
+Win battle, while having less than 3000 in treasury[/td]
 [/tr][tr]
 [td]Grave Robber[/td]
 [td]Leadership: +4 when fighting against Vampire Counts (Lord's army)[/td]
 [td][previewicon=21641941;sizeOriginal,inline;battle_general_ability.png][/previewicon]
 25%[/td]
-[td]*(Lord; against: Vampire Counts)
+[td]*([u]Lord[/u]; against: Vampire Counts)
 Lose/draw battle as attacker;
-*(against: Vampire Counts)
+*([u]Lord[/u]; against: Vampire Counts)
 Complete battle as defender[/td]
 [/tr][tr]
 [td]Militiaman[/td]
 [td]Recruit rank: +1 for infantry units (Lord's army)[/td]
 [td][previewicon=21641941;sizeOriginal,inline;battle_general_ability.png][/previewicon]
 13%[/td]
-[td](Lord; against: Empire, Bretonnia)
+[td]([u]Lord[/u]; against: Empire, Bretonnia)
 Win battle as attacker;
-*(against: Empire, Bretonnia)
+*([u]Lord[/u]; against: Empire, Bretonnia)
 Complete battle as defender[/td]
 [/tr][tr]
 [td]Hedge Wizard[/td]

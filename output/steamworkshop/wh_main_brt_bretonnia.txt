@@ -36,39 +36,42 @@ Public order: +2 (local province)[/td]
 [td]Leadership: +4 when fighting against Vampire Counts (Hero's army)[/td]
 [td][previewicon=21641943;sizeOriginal,inline;campaign_agent.png][/previewicon]
 20%[/td]
-[td]*(against: Vampire Counts)
+[td]*([u]Lord[/u]; against: Vampire Counts)
 Loot settlement[/td]
 [/tr][tr]
 [td]Bounty Hunter[/td]
 [td]Magic item drop chance: +6%[/td]
 [td][previewicon=21641941;sizeOriginal,inline;battle_general_ability.png][/previewicon]
 8%[/td]
-[td]*(Lord)
+[td]*([u]Lord[/u])
 Loot settlement and have less than 10 units in your army[/td]
 [/tr][tr]
 [td]Mercenary[/td]
 [td]Casualty replenishment rate: +5% (Lord's army)[/td]
 [td][previewicon=21641941;sizeOriginal,inline;battle_general_ability.png][/previewicon]
 8%[/td]
-[td]*Lose/draw battle[/td]
+[td]*([u]Lord[/u])
+Lose/draw battle[/td]
 [/tr][tr]
 [td]Antagonist[/td]
 [td]Post battle chance of stealing a magic item: +12%[/td]
 [td][previewicon=21641941;sizeOriginal,inline;battle_general_ability.png][/previewicon][previewicon=21641943;sizeOriginal,inline;campaign_agent.png][/previewicon]
 4%[/td]
-[td]*Lose/draw battle[/td]
+[td]*([u]Lord[/u])
+Lose/draw battle[/td]
 [/tr][tr]
 [td]Soldier[/td]
 [td]Siege holdout time: +2 (local region)[/td]
 [td][previewicon=21641941;sizeOriginal,inline;battle_general_ability.png][/previewicon]
 2%[/td]
-[td]*Lose/draw battle[/td]
+[td]*([u]Lord[/u])
+Lose/draw battle[/td]
 [/tr][tr]
 [td]Pit Fighter[/td]
 [td]Casualties captured post-battle: +10%[/td]
 [td][previewicon=21641941;sizeOriginal,inline;battle_general_ability.png][/previewicon][previewicon=21641943;sizeOriginal,inline;campaign_agent.png][/previewicon]
 5%[/td]
-[td]*(Lord)
+[td]*([u]Lord[/u])
 Post Battle: Kill captives[/td]
 [/tr][tr]
 [td]Servant[/td]
@@ -153,27 +156,27 @@ Post Battle: Kill captives[/td]
 [td]Leadership: +4 when fighting against Vampire Counts (Lord's army)[/td]
 [td][previewicon=21641941;sizeOriginal,inline;battle_general_ability.png][/previewicon]
 25%[/td]
-[td]*(Lord; against: Vampire Counts)
+[td]*([u]Lord[/u]; against: Vampire Counts)
 Lose/draw battle as attacker;
-*(against: Vampire Counts)
+*([u]Lord[/u]; against: Vampire Counts)
 Complete battle as defender[/td]
 [/tr][tr]
 [td]Squire[/td]
 [td]Magic item drop chance: +4%[/td]
 [td][previewicon=21641941;sizeOriginal,inline;battle_general_ability.png][/previewicon][previewicon=21641943;sizeOriginal,inline;campaign_agent.png][/previewicon]
 8%[/td]
-[td]*(Lord; against: Empire, Bretonnia)
+[td]*([u]Lord[/u]; against: Empire, Bretonnia)
 Win battle as attacker;
-*(against: Empire, Bretonnia)
+*([u]Lord[/u]; against: Empire, Bretonnia)
 Complete battle as defender[/td]
 [/tr][tr]
 [td]Militiaman[/td]
 [td]Recruit rank: +1 for infantry units (Lord's army)[/td]
 [td][previewicon=21641941;sizeOriginal,inline;battle_general_ability.png][/previewicon]
 13%[/td]
-[td](Lord; against: Empire, Bretonnia)
+[td]([u]Lord[/u]; against: Empire, Bretonnia)
 Win battle as attacker;
-*(against: Empire, Bretonnia)
+*([u]Lord[/u]; against: Empire, Bretonnia)
 Complete battle as defender[/td]
 [/tr][tr]
 [td]Hedge Wizard[/td]

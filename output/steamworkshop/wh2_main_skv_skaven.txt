@@ -9,7 +9,7 @@
 Income from all buildings: +10% (local region)[/td]
 [td][previewicon=21641941;sizeOriginal,inline;battle_general_ability.png][/previewicon][previewicon=21641943;sizeOriginal,inline;campaign_agent.png][/previewicon]
 33%[/td]
-[td]*(against: High Elves)
+[td]*([u]Lord[/u]; against: High Elves)
 Sack settlement[/td]
 [/tr][tr]
 [td]Bell Polisher[/td]
@@ -23,7 +23,8 @@ Sack settlement[/td]
 Casualty replenishment rate: +5% (Lord's army)[/td]
 [td][previewicon=21641941;sizeOriginal,inline;battle_general_ability.png][/previewicon]
 1%[/td]
-[td]*Win a battle[/td]
+[td]*([u]Lord[/u])
+Win a battle[/td]
 [/tr][tr]
 [td]Clerk[/td]
 [td](Assassin)
@@ -42,7 +43,8 @@ Assassinate action: Additional 8% success chance[/td]
 [td]Research rate: +10% (factionwide)[/td]
 [td][previewicon=21641941;sizeOriginal,inline;battle_general_ability.png][/previewicon][previewicon=21641943;sizeOriginal,inline;campaign_agent.png][/previewicon]
 25%[/td]
-[td]*Have technology “Monstrous Abominations” and win a battle[/td]
+[td]*([u]Lord[/u])
+Have technology “Monstrous Abominations” and win a battle[/td]
 [/tr][tr]
 [td]Mechanic[/td]
 [td]Siege towers: +1 per siege item constructed (Hero's army)[/td]
@@ -55,7 +57,8 @@ Win a battle[/td]
 [td]Campaign line of sight: +15%[/td]
 [td][previewicon=21641941;sizeOriginal,inline;battle_general_ability.png][/previewicon][previewicon=21641943;sizeOriginal,inline;campaign_agent.png][/previewicon]
 1%[/td]
-[td]*Win a battle[/td]
+[td]*([u]Lord[/u])
+Win a battle[/td]
 [/tr][tr]
 [td]Warpstone Sculptor[/td]
 [td](Grey Seer)
@@ -76,18 +79,18 @@ Assassinate action: Additional 8% success chance[/td]
 [td]Leadership: +4 when fighting against Dwarfs[/td]
 [td][previewicon=21641941;sizeOriginal,inline;battle_general_ability.png][/previewicon][previewicon=21641943;sizeOriginal,inline;campaign_agent.png][/previewicon]
 11%[/td]
-[td]*(Lord; against: Dwarfs)
+[td]*([u]Lord[/u]; against: Dwarfs)
 Win battle as attacker;
-*(against: Dwarfs)
+*([u]Lord[/u]; against: Dwarfs)
 Complete battle as defender[/td]
 [/tr][tr]
 [td]Reptile-Thing Sacrifice[/td]
 [td]Weapon strength: +10% when fighting against Lizardmen[/td]
 [td][previewicon=21641941;sizeOriginal,inline;battle_general_ability.png][/previewicon][previewicon=21641943;sizeOriginal,inline;campaign_agent.png][/previewicon]
 11%[/td]
-[td]*(Lord; against: Lizardmen)
+[td]*([u]Lord[/u]; against: Lizardmen)
 Win battle as attacker;
-*(against: Lizardmen)
+*([u]Lord[/u]; against: Lizardmen)
 Complete battle as defender[/td]
 [/tr][tr]
 [td]Pet Wolf Rat[/td]
@@ -115,7 +118,7 @@ Assassinate action: Additional 8% success chance[/td]
 Recruitment cost: -10% (Lord's army)[/td]
 [td][previewicon=21641941;sizeOriginal,inline;battle_general_ability.png][/previewicon]
 6%[/td]
-[td]*(Lord)
+[td]*([u]Lord[/u])
 Loot settlement and have more than 10 units in your army[/td]
 [/tr][tr]
 [td]Clan Skryre Saboteur[/td]
@@ -129,21 +132,23 @@ Income from sacking settlements: +10% (own army)[/td]
 [td]Post battle chance of stealing a magic item: +10%[/td]
 [td][previewicon=21641941;sizeOriginal,inline;battle_general_ability.png][/previewicon]
 25%[/td]
-[td]*Sack settlement[/td]
+[td]*([u]Lord[/u])
+Sack settlement[/td]
 [/tr][tr]
 [td]Engineering Student[/td]
 [td]Armour: +5 for Skaven Weapon Team units[/td]
 [td][previewicon=21641941;sizeOriginal,inline;battle_general_ability.png][/previewicon][previewicon=21641943;sizeOriginal,inline;campaign_agent.png][/previewicon]
 5%[/td]
-[td]*Win siege battle[/td]
+[td]*([u]Lord[/u])
+Win siege battle[/td]
 [/tr][tr]
 [td]Man-Thing Slave[/td]
 [td]Income from all buildings: +10% (local region)
 Leadership: +4 when fighting against Men[/td]
 [td][previewicon=21641941;sizeOriginal,inline;battle_general_ability.png][/previewicon][previewicon=21641943;sizeOriginal,inline;campaign_agent.png][/previewicon]
 33%[/td]
-[td]*(Lord; against: Empire, Bretonnia)
+[td]*([u]Lord[/u]; against: Empire, Bretonnia)
 Win battle as attacker;
-*(against: Empire, Bretonnia)
+*([u]Lord[/u]; against: Empire, Bretonnia)
 Complete battle as defender[/td]
 [/tr][/table]

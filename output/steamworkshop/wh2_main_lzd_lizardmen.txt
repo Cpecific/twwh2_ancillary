@@ -10,7 +10,8 @@ Campaign movement range: +8%
 Recruitment cost: -10% (Lord's army)[/td]
 [td][previewicon=21641941;sizeOriginal,inline;battle_general_ability.png][/previewicon][previewicon=21642086;sizeOriginal,inline;character_agent.png][/previewicon]
 7%[/td]
-[td]*Complete battle and character has won 20 battles[/td]
+[td]*([u]Lord[/u])
+Complete battle and character has won 20 battles[/td]
 [/tr][tr]
 [td]Temple Architect[/td]
 [td](Skink Priest)
@@ -51,7 +52,8 @@ Research rate: +10% (factionwide)[/td]
 [td]Casualty replenishment rate: +5% (Lord's army)[/td]
 [td][previewicon=21641941;sizeOriginal,inline;battle_general_ability.png][/previewicon]
 5%[/td]
-[td]*Complete battle and character has won 4 battles[/td]
+[td]*([u]Lord[/u])
+Complete battle and character has won 4 battles[/td]
 [/tr][tr]
 [td]Carnivorous Horticulturist[/td]
 [td]Enables poison attacks
@@ -66,7 +68,7 @@ Ancient Plaques from all buildings: +5% (factionwide)
 Research rate: +10% (factionwide)[/td]
 [td][previewicon=21641941;sizeOriginal,inline;battle_general_ability.png][/previewicon][previewicon=21642086;sizeOriginal,inline;character_agent.png][/previewicon]
 4%[/td]
-[td]*(Vortex)
+[td]*(Vortex, [u]Lord[/u])
 Win a battle[/td]
 [/tr][tr]
 [td]Star-Metallurgist[/td]
@@ -96,9 +98,9 @@ Recruit rank: +1 for infantry units (Lord's army)[/td]
 Leadership: +4 when fighting against Skaven[/td]
 [td][previewicon=21641941;sizeOriginal,inline;battle_general_ability.png][/previewicon][previewicon=21642086;sizeOriginal,inline;character_agent.png][/previewicon]
 11%[/td]
-[td]*(Lord; against: Skaven)
+[td]*([u]Lord[/u]; against: Skaven)
 Win battle as attacker;
-*(against: Skaven)
+*([u]Lord[/u]; against: Skaven)
 Complete battle as defender[/td]
 [/tr][tr]
 [td]Acolyte Mage[/td]
@@ -113,7 +115,8 @@ Research rate: +10% (factionwide)[/td]
 Upkeep: -10% for Terradon Riders, Cold One, Stegadon, Bastiladon, Carnosaur and Dread Saurian units (Lord's army)[/td]
 [td][previewicon=21641941;sizeOriginal,inline;battle_general_ability.png][/previewicon][previewicon=21642086;sizeOriginal,inline;character_agent.png][/previewicon]
 25%[/td]
-[td]*Participate in ambush battle[/td]
+[td]*([u]Lord[/u])
+Participate in ambush battle[/td]
 [/tr][tr]
 [td]Great Plan Archivist[/td]
 [td](Skink Priest)
@@ -141,15 +144,16 @@ Magic item drop chance: +10%
 Post battle chance of stealing a magic item: +10%[/td]
 [td][previewicon=21642086;sizeOriginal,inline;character_agent.png][/previewicon]
 25%[/td]
-[td]*Sack settlement[/td]
+[td]*([u]Lord[/u])
+Sack settlement[/td]
 [/tr][tr]
 [td]Man-Spawn Sacrifice[/td]
 [td](Skink Chief, Skink Priest)
 Leadership: +4 when fighting against Men[/td]
 [td][previewicon=21641941;sizeOriginal,inline;battle_general_ability.png][/previewicon][previewicon=21642086;sizeOriginal,inline;character_agent.png][/previewicon]
 50%[/td]
-[td]*(Lord; against: Empire, Bretonnia)
+[td]*([u]Lord[/u]; against: Empire, Bretonnia)
 Win battle as attacker;
-*(against: Empire, Bretonnia)
+*([u]Lord[/u]; against: Empire, Bretonnia)
 Complete battle as defender[/td]
 [/tr][/table]

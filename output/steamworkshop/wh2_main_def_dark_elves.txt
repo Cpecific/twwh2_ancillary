@@ -124,7 +124,7 @@ Income from Slave Pens and Slave Markets: +5% (all provinces)
 Casualties captured post-battle: +15%[/td]
 [td][previewicon=21641941;sizeOriginal,inline;battle_general_ability.png][/previewicon][previewicon=21642086;sizeOriginal,inline;character_agent.png][/previewicon]
 5%[/td]
-[td]*(Lord)
+[td]*([u]Lord[/u])
 Post Battle: Kill captives[/td]
 [/tr][tr]
 [td]Fimir Balefiend[/td]
@@ -133,7 +133,7 @@ Hero action success chance: +10% for Sorceresses
 Post battle chance of stealing a magic item: +10%[/td]
 [td][previewicon=21642086;sizeOriginal,inline;character_agent.png][/previewicon]
 5%[/td]
-[td]*(Lord)
+[td]*([u]Lord[/u])
 Post Battle: Kill captives[/td]
 [/tr][tr]
 [td]Factor[/td]
@@ -162,5 +162,6 @@ Weapon strength: +10% when fighting against High Elves
 Income from all buildings: +10% (local region)[/td]
 [td][previewicon=21641941;sizeOriginal,inline;battle_general_ability.png][/previewicon][previewicon=21642086;sizeOriginal,inline;character_agent.png][/previewicon]
 30%[/td]
-[td]*Sack settlement[/td]
+[td]*([u]Lord[/u])
+Sack settlement[/td]
 [/tr][/table]

@@ -5,6 +5,7 @@ import { isEqual } from 'lodash';
 import path from 'path';
 import {
 	AncillaryInfo,
+	concatTextNode,
 	DB,
 	findAncillary,
 	getCulture,
@@ -14,6 +15,7 @@ import {
 	getSubcultureSubset,
 	IParsed,
 	parseTrigger,
+	printTextNode,
 	toCultureKey
 } from './build-data';
 import { isEqualShuffle, toArray, unique, toMap } from './common';
@@ -153,13 +155,14 @@ async function outputSteam() {
 					let text = v.text;
 					if ((v.top.allowed.length + v.top.against.length + v.top.forbid.length) > 0) {
 						let top = v.top.allowed.slice();
-						if (v.top.against.length > 0) {
-							top = top.concat([`against: ${v.top.against.join(', ')}`]);
-						}
-						if (v.top.forbid.length > 0) {
-							top = top.concat([`Forbid:: ${v.top.forbid[0]}`, ...v.top.forbid.slice(1)]);
-						}
-						text = `(${top.join('; ')})\n${text}`;
+						top = concatTextNode(top, v.top.against, { text: 'against: ' });
+						top = concatTextNode(top, v.top.forbid, { text: 'Forbid:: ' }, true);
+						let topText = printTextNode(top, v => {
+							let t = v.text;
+							if (v.underline) { t = `[u]${t}[/u]`; }
+							return t;
+						});
+						text = `(${topText})\n${text}`;
 					}
 					if (!v.c.prevent) {
 						text = `*${text}`;
@@ -320,13 +323,21 @@ async function outputHTML() {
 					let text = v.text;
 					if ((v.top.allowed.length + v.top.against.length + v.top.forbid.length) > 0) {
 						let top = v.top.allowed.slice();
-						if (v.top.against.length > 0) {
-							top = top.concat([`against: ${v.top.against.join(', ')}`]);
-						}
-						if (v.top.forbid.length > 0) {
-							top = top.concat([`Forbid:: ${v.top.forbid[0]}`, ...v.top.forbid.slice(1)]);
-						}
-						text = `(${top.join('; ')})\n${text}`;
+						top = concatTextNode(top, v.top.against, { text: 'against: ' });
+						top = concatTextNode(top, v.top.forbid, { text: 'Forbid:: ' }, true);
+						// if (v.top.against.length > 0) {
+						// 	top = top.concat([`against: ${v.top.against.join(', ')}`]);
+						// }
+						// if (v.top.forbid.length > 0) {
+						// 	top = top.concat([`Forbid:: ${v.top.forbid[0]}`, ...v.top.forbid.slice(1)]);
+						// }
+						let topText = printTextNode(top, v => {
+							if (v.type === 'onlyMainLord') {
+								return `<u title="Only primary lord satisfies this condition">${v.text}</u>`;
+							}
+							return v.text;
+						});
+						text = `(${topText})\n${text}`;
 					}
 					if (!v.c.prevent) {
 						text = `*${text}`;

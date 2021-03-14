@@ -51,34 +51,37 @@ Income from post-battle loot: +10%
 Income from sacking settlements: +10%[/td]
 [td][previewicon=21641941;sizeOriginal,inline;battle_general_ability.png][/previewicon][previewicon=21641943;sizeOriginal,inline;campaign_agent.png][/previewicon]
 10%[/td]
-[td]*(against: Empire)
+[td]*([u]Lord[/u]; against: Empire)
 Loot settlement[/td]
 [/tr]
 [tr]
 [td][/td]
 [td][/td]
 [td]10%[/td]
-[td]*Sack settlement[/td]
+[td]*([u]Lord[/u])
+Sack settlement[/td]
 [/tr][tr]
 [td]Skaeling Trader[/td]
 [td](Norsca)
 Income from all buildings: +7% (local region)[/td]
 [td][previewicon=21641941;sizeOriginal,inline;battle_general_ability.png][/previewicon][previewicon=21641943;sizeOriginal,inline;campaign_agent.png][/previewicon]
 10%[/td]
-[td]*(against: Empire)
+[td]*([u]Lord[/u]; against: Empire)
 Loot settlement[/td]
 [/tr]
 [tr]
 [td][/td]
 [td][/td]
 [td]10%[/td]
-[td]*Win battle, while having less than 3000 in treasury[/td]
+[td]*([u]Lord[/u])
+Win battle, while having less than 3000 in treasury[/td]
 [/tr][tr]
 [td]Mutant [/td]
 [td]Enemy leadership: -4 (local region)[/td]
 [td][previewicon=21641941;sizeOriginal,inline;battle_general_ability.png][/previewicon][previewicon=21641943;sizeOriginal,inline;campaign_agent.png][/previewicon]
 6%[/td]
-[td]*Lose/draw battle[/td]
+[td]*([u]Lord[/u])
+Lose/draw battle[/td]
 [/tr][tr]
 [td]Baernsonling Berserker[/td]
 [td](Norsca)
@@ -86,7 +89,7 @@ Weapon strength: +10% for Marauder Berserker units (Lord's army)
 Leadership: +4 for Marauder Berserker units (Lord's army)[/td]
 [td][previewicon=21641941;sizeOriginal,inline;battle_general_ability.png][/previewicon][previewicon=21641943;sizeOriginal,inline;campaign_agent.png][/previewicon]
 10%[/td]
-[td]*(Lord)
+[td]*([u]Lord[/u])
 Post Battle: Kill captives[/td]
 [/tr][tr]
 [td]Whalers[/td]
@@ -182,13 +185,15 @@ Horde building construction cost: -8% (Lord's army)[/td]
 [td]Income from sacking settlements: +10%[/td]
 [td][previewicon=21641941;sizeOriginal,inline;battle_general_ability.png][/previewicon][previewicon=21641943;sizeOriginal,inline;campaign_agent.png][/previewicon]
 5%[/td]
-[td]*Sack settlement[/td]
+[td]*([u]Lord[/u])
+Sack settlement[/td]
 [/tr][tr]
 [td]Collector[/td]
 [td]Income from sacking settlements: +6%[/td]
 [td][previewicon=21641941;sizeOriginal,inline;battle_general_ability.png][/previewicon][previewicon=21641943;sizeOriginal,inline;campaign_agent.png][/previewicon]
 5%[/td]
-[td]*Sack settlement[/td]
+[td]*([u]Lord[/u])
+Sack settlement[/td]
 [/tr][tr]
 [td]Slave Worker[/td]
 [td](Norsca)
@@ -196,20 +201,23 @@ Construction cost: -7% for all buildings (local region)[/td]
 [td][previewicon=21641941;sizeOriginal,inline;battle_general_ability.png][/previewicon][previewicon=21641943;sizeOriginal,inline;campaign_agent.png][/previewicon]
 10%
 x2[/td]
-[td]*Sack settlement[/td]
+[td]*([u]Lord[/u])
+Sack settlement[/td]
 [/tr][tr]
 [td]Darksoul [/td]
 [td](Chaos)
 Horde growth: +2 (Lord's army)[/td]
 [td][previewicon=21641941;sizeOriginal,inline;battle_general_ability.png][/previewicon]
 6%[/td]
-[td]*Sack settlement[/td]
+[td]*([u]Lord[/u])
+Sack settlement[/td]
 [/tr][tr]
 [td]Slave Master [/td]
 [td]Recruitment cost: -2% (Lord's army)[/td]
 [td][previewicon=21641941;sizeOriginal,inline;battle_general_ability.png][/previewicon]
 25%[/td]
-[td]*Declare war this turn and sack settlement[/td]
+[td]*([u]Lord[/u])
+Declare war this turn and sack settlement[/td]
 [/tr][tr]
 [td]Mammoth Tamer[/td]
 [td](Norsca)
@@ -218,25 +226,29 @@ Recruit rank: +1 for Mammoth units (Lord's army)
 Enemy leadership: -1 (local region)[/td]
 [td][previewicon=21641941;sizeOriginal,inline;battle_general_ability.png][/previewicon][previewicon=21641943;sizeOriginal,inline;campaign_agent.png][/previewicon]
 5%[/td]
-[td]*Win battle[/td]
+[td]*([u]Lord[/u])
+Win battle[/td]
 [/tr][tr]
 [td]Berserker[/td]
 [td](Norsca)
 Weapon strength: +8%[/td]
 [td][previewicon=21641943;sizeOriginal,inline;campaign_agent.png][/previewicon]
 5%[/td]
-[td]*Win battle[/td]
+[td]*([u]Lord[/u])
+Win battle[/td]
 [/tr][tr]
 [td]Norse Berserker[/td]
 [td]Casualties captured post-battle: +12%[/td]
 [td][previewicon=21641941;sizeOriginal,inline;battle_general_ability.png][/previewicon]
 3%[/td]
-[td]*Win battle[/td]
+[td]*([u]Lord[/u])
+Win battle[/td]
 [/tr][tr]
 [td]Demagogue [/td]
 [td](Chaos)
 Income from all horde buildings: +4% (Lord's army)[/td]
 [td][previewicon=21641941;sizeOriginal,inline;battle_general_ability.png][/previewicon][previewicon=21641943;sizeOriginal,inline;campaign_agent.png][/previewicon]
 15%[/td]
-[td]*Win battle, while having less than 3000 in treasury[/td]
+[td]*([u]Lord[/u])
+Win battle, while having less than 3000 in treasury[/td]
 [/tr][/table]

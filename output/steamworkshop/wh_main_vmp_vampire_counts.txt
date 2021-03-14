@@ -27,14 +27,15 @@
 [td]Campaign movement range: +5%[/td]
 [td][previewicon=21641941;sizeOriginal,inline;battle_general_ability.png][/previewicon][previewicon=21641943;sizeOriginal,inline;campaign_agent.png][/previewicon]
 13%[/td]
-[td]*(against: Empire)
+[td]*([u]Lord[/u]; against: Empire)
 Loot settlement[/td]
 [/tr][tr]
 [td]Warlock[/td]
 [td]Ambush defence chance: +10% (Lord's army)[/td]
 [td][previewicon=21641941;sizeOriginal,inline;battle_general_ability.png][/previewicon]
 25%[/td]
-[td]*Participate in ambush battle[/td]
+[td]*([u]Lord[/u])
+Participate in ambush battle[/td]
 [/tr][tr]
 [td]Crone[/td]
 [td]Hero recruitment cost: -12% for Banshees (local province)[/td]
@@ -70,32 +71,36 @@ Loot settlement[/td]
 [td]Post battle chance of stealing a magic item: +8%[/td]
 [td][previewicon=21641941;sizeOriginal,inline;battle_general_ability.png][/previewicon][previewicon=21641943;sizeOriginal,inline;campaign_agent.png][/previewicon]
 3%[/td]
-[td]*Win battle[/td]
+[td]*([u]Lord[/u])
+Win battle[/td]
 [/tr][tr]
 [td]Warpstone Hunter[/td]
 [td]Income from all buildings: +4% (local region)[/td]
 [td][previewicon=21641941;sizeOriginal,inline;battle_general_ability.png][/previewicon][previewicon=21641943;sizeOriginal,inline;campaign_agent.png][/previewicon]
 25%[/td]
-[td]*Win battle, while having negative income[/td]
+[td]*([u]Lord[/u])
+Win battle, while having negative income[/td]
 [/tr][tr]
 [td]Dreg[/td]
 [td]Income from post-battle loot: +10%[/td]
 [td][previewicon=21641941;sizeOriginal,inline;battle_general_ability.png][/previewicon][previewicon=21641943;sizeOriginal,inline;campaign_agent.png][/previewicon]
 20%[/td]
-[td]*Win battle, while having negative income[/td]
+[td]*([u]Lord[/u])
+Win battle, while having negative income[/td]
 [/tr][tr]
 [td]Treasurer[/td]
 [td]Income from Vampire Crypts and Vampire Keeps: +8% (local region)[/td]
 [td][previewicon=21641941;sizeOriginal,inline;battle_general_ability.png][/previewicon][previewicon=21641943;sizeOriginal,inline;campaign_agent.png][/previewicon]
 20%[/td]
-[td]*Win battle, while having less than 3000 in treasury[/td]
+[td]*([u]Lord[/u])
+Win battle, while having less than 3000 in treasury[/td]
 [/tr][tr]
 [td]Mortal Informer[/td]
 [td]Magic item drop chance: +4%[/td]
 [td][previewicon=21641941;sizeOriginal,inline;battle_general_ability.png][/previewicon][previewicon=21641943;sizeOriginal,inline;campaign_agent.png][/previewicon]
 13%[/td]
-[td]*(Lord; against: Empire, Bretonnia)
+[td]*([u]Lord[/u]; against: Empire, Bretonnia)
 Win battle as attacker;
-*(against: Empire, Bretonnia)
+*([u]Lord[/u]; against: Empire, Bretonnia)
 Complete battle as defender[/td]
 [/tr][/table]

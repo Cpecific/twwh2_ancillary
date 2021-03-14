@@ -41,5 +41,6 @@ Raze settlement[/td]
 Recruitment cost: -10% (Lord's army)[/td]
 [td][previewicon=21641941;sizeOriginal,inline;battle_general_ability.png][/previewicon][previewicon=21641943;sizeOriginal,inline;campaign_agent.png][/previewicon]
 4%[/td]
-[td]*Win battle[/td]
+[td]*([u]Lord[/u])
+Win battle[/td]
 [/tr][/table]

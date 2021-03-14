@@ -8,7 +8,8 @@
 [td]Income from all buildings: +10% (local region)[/td]
 [td][previewicon=21641941;sizeOriginal,inline;battle_general_ability.png][/previewicon][previewicon=21641943;sizeOriginal,inline;campaign_agent.png][/previewicon]
 25%[/td]
-[td]Loot settlement[/td]
+[td]([u]Lord[/u])
+Loot settlement[/td]
 [/tr][tr]
 [td]Charnel Valley Necrotect[/td]
 [td]Construction cost: -15% for Infrastructure buildings (local province)[/td]
@@ -27,9 +28,9 @@ Untainted: +2 (local province)[/td]
 [td]Rite cost: -5%[/td]
 [td][previewicon=21641941;sizeOriginal,inline;battle_general_ability.png][/previewicon][previewicon=21641943;sizeOriginal,inline;campaign_agent.png][/previewicon]
 20%[/td]
-[td]*(Lord; against: Tomb Kings)
+[td]*([u]Lord[/u]; against: Tomb Kings)
 Lose/draw battle as attacker;
-(against: Tomb Kings)
+([u]Lord[/u]; against: Tomb Kings)
 Complete battle as defender[/td]
 [/tr][tr]
 [td]High-Born of Khemri[/td]
@@ -56,14 +57,14 @@ Untainted: +1 (local province)[/td]
 [td]Construction cost: -25% for Province Capital/Settlement buildings (local province)[/td]
 [td][previewicon=21641941;sizeOriginal,inline;battle_general_ability.png][/previewicon][previewicon=21641943;sizeOriginal,inline;campaign_agent.png][/previewicon]
 25%[/td]
-[td](Lord)
+[td]([u]Lord[/u])
 Sack settlement[/td]
 [/tr][tr]
 [td]Tombfleet Taskmaster[/td]
 [td]Campaign movement range: +10%[/td]
 [td][previewicon=21641941;sizeOriginal,inline;battle_general_ability.png][/previewicon][previewicon=21641943;sizeOriginal,inline;campaign_agent.png][/previewicon]
 5%[/td]
-[td](Lord)
+[td]([u]Lord[/u])
 Post Battle: Release (Ransom) Captives[/td]
 [/tr][tr]
 [td]Ushabti Bodyguard[/td]

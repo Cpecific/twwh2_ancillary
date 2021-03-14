@@ -1,0 +1,59 @@
+
+0. GarrisonAttackedEvent (либо будет находиться после TriggerPostBattleAncillaries)
+// 0. CharacterCompletedBattle, CharacterParticipatedAsSecondaryGeneralInBattle, HeroCharacterParticipatedInBattle (for alive enemy armies)
+1. CharacterCompletedBattle (main general)
+2. HeroCharacterParticipatedInBattle (for each hero)
+for [...secondary armies] do
+	3. CharacterParticipatedAsSecondaryGeneralInBattle (secondary general)
+	4. HeroCharacterParticipatedInBattle (for each hero)
+end
+for [...armies, ...enemy armies (except garrison army)] do
+	for [...heroes] do
+		5. TriggerPostBattleAncillaries (for each hero, +secondary?) *failure
+	end
+	6.a) TriggerPostBattleAncillaries (main general) *success
+	6.b) TriggerPostBattleAncillaries (secondary general) *failure
+end
+
+
+CharacterPostBattleRelease (main general)
+CharacterPostBattleSlaughter (main general)
+CharacterPostBattleEnslave (main general)
+Occupy Settlement = {
+	0? GarrisonAttackedEvent (main general)
+	1. CharacterPerformsSettlementOccupationDecision (main general)
+	2. CharacterPostBattleSlaughter (main general)
+}
+Occupy Unopposed = {
+	0? GarrisonAttackedEvent (main general)
+	1. CharacterCapturedSettlementUnopposed (main general)
+	2. CharacterPerformsSettlementOccupationDecision (main general)
+}
+Loot Settlement = {
+	0? GarrisonAttackedEvent (main general)
+	1. CharacterLootedSettlement (main general)
+	2. CharacterPerformsSettlementOccupationDecision (main general)
+	3. CharacterPostBattleEnslave (main general)
+}
+Loot Unopposed = {
+	0? GarrisonAttackedEvent (main general)
+	1. CharacterCapturedSettlementUnopposed (main general)
+	2. CharacterLootedSettlement (main general)
+	3. CharacterPerformsSettlementOccupationDecision (main general)
+}
+Sacked Settlement = {
+	0? GarrisonAttackedEvent (main general)
+	1. CharacterLootedSettlement (main general)
+	2. CharacterSackedSettlement (main general)
+	3. CharacterPerformsSettlementOccupationDecision (main general)
+	4. CharacterPostBattleEnslave (main general)
+}
+Raze Settlement = {
+	0? GarrisonAttackedEvent (main general)
+	1. CharacterLootedSettlement (main general)
+	2. CharacterRazedSettlement (main general)
+	3. CharacterPerformsSettlementOccupationDecision (main general)
+	4. CharacterPostBattleSlaughter (main general)
+}
+
+mf:is_army() всегда true?

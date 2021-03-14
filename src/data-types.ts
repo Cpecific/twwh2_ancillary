@@ -499,6 +499,8 @@ export interface ICondition {
 	unique?: boolean;
 	/** В lua прямо прописано, что нельзя давать ancillary to AI */
 	onlyPlayer?: boolean;
+	/** Баг от CA. Только атакующий/защищающийся генерал вернёт true */
+	onlyMainLord?: boolean;
 	/** Для createTrigger with event = CharacterTurn and text with chain_or_superchain */
 	turnOwnRegion?: boolean;
 	// turnEnemy?: boolean;
