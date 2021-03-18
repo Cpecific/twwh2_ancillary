@@ -23,7 +23,7 @@ Speed: +5% for all Skin Wolf, Wolves & Warhound units (Lord's army)[/td]
 [td][/td]
 [td][/td]
 [td]5%[/td]
-[td]*(Lord)
+[td]*([u]Lord[/u])
 Raze settlement[/td]
 [/tr][tr]
 [td]Zealot[/td]
@@ -90,7 +90,7 @@ Leadership: +4 for Marauder Berserker units (Lord's army)[/td]
 [td][previewicon=21641941;sizeOriginal,inline;battle_general_ability.png][/previewicon][previewicon=21641943;sizeOriginal,inline;campaign_agent.png][/previewicon]
 10%[/td]
 [td]*([u]Lord[/u])
-Post Battle: Kill captives[/td]
+Post Battle: Kill Captives[/td]
 [/tr][tr]
 [td]Whalers[/td]
 [td](Norsca)

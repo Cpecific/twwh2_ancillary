@@ -8,11 +8,9 @@ for [...secondary armies] do
 	4. HeroCharacterParticipatedInBattle (for each hero)
 end
 for [...armies, ...enemy armies (except garrison army)] do
-	for [...heroes] do
-		5. TriggerPostBattleAncillaries (for each hero, +secondary?) *failure
-	end
-	6.a) TriggerPostBattleAncillaries (main general) *success
-	6.b) TriggerPostBattleAncillaries (secondary general) *failure
+	5. TriggerPostBattleAncillaries (for each hero) *ancillary failure
+	6.a) TriggerPostBattleAncillaries (main general) *ancillary success
+	6.b) TriggerPostBattleAncillaries (secondary general) *ancillary failure
 end
 
 
@@ -54,6 +52,13 @@ Raze Settlement = {
 	2. CharacterRazedSettlement (main general)
 	3. CharacterPerformsSettlementOccupationDecision (main general)
 	4. CharacterPostBattleSlaughter (main general)
+}
+Expand Under-Empire = {
+	0? GarrisonAttackedEvent (main general)
+	1. CharacterLootedSettlement (main general)
+	2. CharacterSackedSettlement (main general)
+	3. CharacterPerformsSettlementOccupationDecision (main general)
+	4. CharacterPostBattleEnslave (main general)
 }
 
 mf:is_army() всегда true?

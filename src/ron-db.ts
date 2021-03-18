@@ -35,13 +35,13 @@ interface ISchema {
 	name: string;
 	definitionList: IDefinition[];
 }
-function readString(opts: {
+const readString = (opts: {
 	buf: Buffer;
 	offset: number;
 	encoding: 'utf8' | 'utf16';// | 'test';
 	optional: boolean;
 	// debug?: boolean;
-}) {
+}) => {
 	let { buf, offset } = opts;
 	if (opts.optional && buf[offset++] === 0x00) {
 		return [
@@ -83,7 +83,7 @@ function readString(opts: {
 		dec.end(stringRaw),
 		offset,
 	] as const;
-}
+};
 export interface IEntry {
 	[K: string]: string | boolean | number | bigint | null;
 }
@@ -238,10 +238,15 @@ class Schema implements ISchema {
 				if (key.indexOf(substr) === 0) {
 					key = key.substr(substr.length);
 					// const entry = this.data.keyed[key] as unknown as IEntry;
-					const entry = this.data.raw.find(row => (
-						row[keyList[0]]!.toString() === key
-					));
-					if (typeof entry !== 'undefined') {
+					const entry = this.data.raw.find(row => {
+						let rowKey = keyList.map(keyColumn => {
+							const val = row[keyColumn];
+							if (!val) { return ''; }
+							return val.toString();
+						}).join('');
+						return rowKey === key
+					});
+					if (entry) {
 						entry[`@${locField.name}`] = localisation;
 					}
 					break;
@@ -283,7 +288,13 @@ class Schema implements ISchema {
 				if (initialVoid) { this.version = definition.version; }
 				break;
 			} catch (e) {
-				console.log(e);
+				// console.log(
+				// 	'// FAILED TO LOAD DEFINITION //',
+				// 	{
+				// 		table: this.table,
+				// 		definition,
+				// 	},
+				// 	e);
 			}
 		}
 		return this.data!;

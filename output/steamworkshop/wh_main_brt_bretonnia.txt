@@ -72,7 +72,7 @@ Lose/draw battle[/td]
 [td][previewicon=21641941;sizeOriginal,inline;battle_general_ability.png][/previewicon][previewicon=21641943;sizeOriginal,inline;campaign_agent.png][/previewicon]
 5%[/td]
 [td]*([u]Lord[/u])
-Post Battle: Kill captives[/td]
+Post Battle: Kill Captives[/td]
 [/tr][tr]
 [td]Servant[/td]
 [td]Enemy Hero action success chance: -10%[/td]

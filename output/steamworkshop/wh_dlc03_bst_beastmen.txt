@@ -21,13 +21,15 @@ Lose battle while unit “Chaos Warhounds” or “Chaos Warhounds (Poison)” i
 [td]Horde growth: +2 (Lord's army)[/td]
 [td][previewicon=21641941;sizeOriginal,inline;battle_general_ability.png][/previewicon]
 5%[/td]
-[td]Raze settlement[/td]
+[td]([u]Lord[/u])
+Raze settlement[/td]
 [/tr][tr]
 [td]Ungor Whelp[/td]
 [td]Bestial rage: +1 (Lord's army)[/td]
 [td][previewicon=21641941;sizeOriginal,inline;battle_general_ability.png][/previewicon]
 3%[/td]
-[td]Raze settlement and your character has won 6 battles
+[td]([u]Lord[/u])
+Raze settlement and your character has won 6 battles
 (faction unique in lua)[/td]
 [/tr][tr]
 [td]Mannish Thrall[/td]

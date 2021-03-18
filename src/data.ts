@@ -1,5 +1,5 @@
 import { ITrigger, Events } from './data-types';
-import { building_exists, chain_or_superchain, region, technology, unit, agent } from './build-data';
+import { building_exists, chain_or_superchain, region, technology, unit, agent, post_battle_captive_option } from './build-data';
 
 const alwaysFalse = true;
 const careful = true;
@@ -131,7 +131,8 @@ export const data: ITrigger[] = [
 		condition: [{
 			allowed: { agent: ['general'] },
 			prevent,
-			text: () => `Post Battle: Release (Ransom) Captives`
+			// Release (Ransom) Captives
+			text: () => `Post Battle: ${post_battle_captive_option('release')}`
 		}],
 		ancillaryList: [{
 			chance: 5,
@@ -1273,7 +1274,8 @@ export const data: ITrigger[] = [
 		condition: [{
 			allowed: { agent: ['general'] },
 			forbid: { agent_subtype: ['dlc07_brt_green_knight'] },
-			text: () => `Post Battle: Kill captives`
+			// Kill captives
+			text: () => `Post Battle: ${post_battle_captive_option('kill')}`
 		}],
 		ancillaryList: [{
 			chance: 5,

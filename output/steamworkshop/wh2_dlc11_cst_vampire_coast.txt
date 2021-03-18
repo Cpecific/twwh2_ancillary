@@ -27,7 +27,7 @@ Win/draw battle as defender[/td]
 [td]Casualty replenishment rate: +5% (Lord's army)[/td]
 [td][previewicon=21641941;sizeOriginal,inline;battle_general_ability.png][/previewicon][previewicon=21641943;sizeOriginal,inline;campaign_agent.png][/previewicon]
 15%[/td]
-[td]*(Lord)
+[td]*([u]Lord[/u])
 Raze settlement[/td]
 [/tr][tr]
 [td]Siren[/td]

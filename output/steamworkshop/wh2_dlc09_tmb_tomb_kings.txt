@@ -65,7 +65,7 @@ Sack settlement[/td]
 [td][previewicon=21641941;sizeOriginal,inline;battle_general_ability.png][/previewicon][previewicon=21641943;sizeOriginal,inline;campaign_agent.png][/previewicon]
 5%[/td]
 [td]([u]Lord[/u])
-Post Battle: Release (Ransom) Captives[/td]
+Post Battle: Endless March[/td]
 [/tr][tr]
 [td]Ushabti Bodyguard[/td]
 [td]Enemy Hero action success chance: -8%[/td]

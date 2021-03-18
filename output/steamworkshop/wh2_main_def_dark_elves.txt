@@ -125,7 +125,7 @@ Casualties captured post-battle: +15%[/td]
 [td][previewicon=21641941;sizeOriginal,inline;battle_general_ability.png][/previewicon][previewicon=21642086;sizeOriginal,inline;character_agent.png][/previewicon]
 5%[/td]
 [td]*([u]Lord[/u])
-Post Battle: Kill captives[/td]
+Post Battle: Kill Captives[/td]
 [/tr][tr]
 [td]Fimir Balefiend[/td]
 [td](Sorceress)
@@ -134,7 +134,7 @@ Post battle chance of stealing a magic item: +10%[/td]
 [td][previewicon=21642086;sizeOriginal,inline;character_agent.png][/previewicon]
 5%[/td]
 [td]*([u]Lord[/u])
-Post Battle: Kill captives[/td]
+Post Battle: Kill Captives[/td]
 [/tr][tr]
 [td]Factor[/td]
 [td]Income from trade: +5% (factionwide)[/td]

@@ -43,6 +43,9 @@ export const DB = {
 	ancillary_to_included_agents: schema['ancillary_to_included_agents'].getData(),
 	ancillary_types: schema['ancillary_types'].getData(),
 	campaign_effect_scopes: schema['campaign_effect_scopes'].getData(),
+	campaign_group_members: schema['campaign_group_members'].getData(),
+	campaign_group_member_criteria_originating_cultures: schema['campaign_group_member_criteria_originating_cultures'].getData(),
+	campaign_post_battle_captive_options: schema['campaign_post_battle_captive_options'].getData(),
 	cultures: schema['cultures'].getData(),
 	culture_packs: schema['culture_packs'].getData(),
 	cultures_subcultures: schema['cultures_subcultures'].getData(),
@@ -330,6 +333,7 @@ const ctx_getEventData = () => {
 		case Events.CharacterCompletedBattle:
 		case Events.CharacterLootedSettlement:
 		case Events.CharacterSackedSettlement:
+		case Events.CharacterRazedSettlement:
 		case Events.CharacterPostBattleRelease:
 		case Events.CharacterPostBattleSlaughter:
 		case Events.CharacterPostBattleEnslave:
@@ -690,7 +694,7 @@ const buildTriggerDesc = () => {
 			node.type = 'onlyMainLord';
 			allowed.unshift(node);
 		}
-		 // !prepend
+		// !prepend
 		if (typeof c.allowed !== 'undefined') {
 			if (typeof c.allowed.pooled_resource !== 'undefined') {
 				const pooled_resource = c.allowed.pooled_resource.slice();
@@ -1197,4 +1201,26 @@ export const agent = (keyList: AgentType[], hideCaption?: boolean) => {
 		output.push(`“${row.name}”`);
 	}
 	return `${hideCaption ? '' : 'agent '}${typical_output(output)}`;
+};
+export const post_battle_captive_option = (captive_option: 'enslave' | 'kill' | 'release') => {
+	const defaultText = {
+		'enslave': 'Enslave Captives',
+		'kill': 'Kill Captives',
+		'release': 'Release Captives',
+	}[captive_option];
+	const { group: { cultureKey } } = context;
+	let row = DB.campaign_group_member_criteria_originating_cultures.raw.find(row => (
+		row['culture'] === cultureKey
+	));
+	if (!row) { return defaultText; }
+
+	const member = row['member'] as string;
+	const member_row = DB.campaign_group_members.getEntry([member]);
+	if (!member_row) { return defaultText; }
+
+	const group = member_row['group'] as string;
+	const captive_row = DB.campaign_post_battle_captive_options.getEntry([captive_option, group]);
+	if (!captive_row) { return defaultText; }
+
+	return captive_row['@onscreen_name'];
 };
