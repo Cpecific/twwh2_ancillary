@@ -699,8 +699,8 @@ end
 events.CharacterCompletedBattle[#events.CharacterCompletedBattle+1] =
 function (context)
 	if wh2_main_trig_character_won_battle_against_dwarfs_impl(context) then
-		effect.ancillary("wh2_main_anc_follower_hef_beard_weaver", 50,  context)
 		effect.ancillary("wh2_main_anc_follower_skv_sacrificial_victim_dwarf", 11,  context)
+		effect.ancillary("wh2_main_anc_follower_hef_beard_weaver", 50,  context)
 	end
 end
 
@@ -895,9 +895,9 @@ end
 events.HeroCharacterParticipatedInBattle[#events.HeroCharacterParticipatedInBattle+1] =
 function (context)
 	if wh_dlc03_trig_hero_won_battle_against_men_impl(context) then
-		effect.ancillary("wh2_dlc11_anc_follower_cst_shipwright", 15,  context)
-		effect.ancillary("wh2_dlc11_anc_follower_cst_sartosa_navigator", 15,  context)
 		effect.ancillary("wh_dlc03_anc_follower_beastmen_mannish_thrall", 8,  context)
+		effect.ancillary("wh2_dlc11_anc_follower_cst_sartosa_navigator", 15,  context)
+		effect.ancillary("wh2_dlc11_anc_follower_cst_shipwright", 15,  context)
 	end
 end
 
@@ -936,8 +936,8 @@ end
 events.CharacterRazedSettlement[#events.CharacterRazedSettlement+1] =
 function (context)
 	if wh_dlc08_trig_general_razed_settlement_impl(context) then
-		effect.ancillary("wh_dlc08_anc_follower_baernsonlings_werekin", 5,  context)
 		effect.ancillary("wh2_dlc11_anc_follower_cst_drawn_chef", 15,  context)
+		effect.ancillary("wh_dlc08_anc_follower_baernsonlings_werekin", 5,  context)
 	end
 end
 
@@ -950,10 +950,10 @@ end
 events.CharacterRankUp[#events.CharacterRankUp+1] =
 function (context)
 	if wh_main_character_rank_up_untainted_region_impl(context) then
-		effect.ancillary("wh_dlc01_anc_follower_chaos_zealot", 3,  context)
-		effect.ancillary("wh_dlc03_anc_follower_beastmen_herdstone_keeper", 3,  context)
 		effect.ancillary("wh_main_anc_follower_undead_carrion", 3,  context)
 		effect.ancillary("wh_dlc01_anc_follower_chaos_cultist", 3,  context)
+		effect.ancillary("wh_dlc01_anc_follower_chaos_zealot", 3,  context)
+		effect.ancillary("wh_dlc03_anc_follower_beastmen_herdstone_keeper", 3,  context)
 	end
 end
 
@@ -978,13 +978,13 @@ end
 events.CharacterCharacterTargetAction[#events.CharacterCharacterTargetAction+1] =
 function (context)
 	if wh_main_trig_character_assassinated_character_impl(context) then
-		effect.ancillary("wh_main_anc_follower_greenskins_dog_boy_scout", 10,  context)
 		effect.ancillary("wh2_main_anc_follower_def_gravedigger", 8,  context)
-		effect.ancillary("wh2_main_anc_follower_def_organ_merchant", 5,  context)
-		effect.ancillary("wh_dlc01_anc_follower_chaos_huscarl", 5,  context)
-		effect.ancillary("wh2_main_anc_follower_skv_pet_wolf_rat", 10,  context)
 		effect.ancillary("wh_main_anc_follower_undead_flesh_golem", 5,  context)
 		effect.ancillary("wh2_main_anc_follower_hef_assassin", 5,  context)
+		effect.ancillary("wh_dlc01_anc_follower_chaos_huscarl", 5,  context)
+		effect.ancillary("wh2_main_anc_follower_skv_pet_wolf_rat", 10,  context)
+		effect.ancillary("wh_main_anc_follower_greenskins_dog_boy_scout", 10,  context)
+		effect.ancillary("wh2_main_anc_follower_def_organ_merchant", 5,  context)
 	end
 end
 
@@ -997,11 +997,11 @@ end
 events.CharacterCharacterTargetAction[#events.CharacterCharacterTargetAction+1] =
 function (context)
 	if wh_main_trig_character_assassinated_character_failure_impl(context) then
-		effect.ancillary("wh_main_anc_follower_dwarfs_candle_maker", 5,  context)
-		effect.ancillary("wh_main_anc_follower_all_men_bodyguard", 13,  context)
-		effect.ancillary("wh2_main_anc_follower_skv_bodyguard", 15,  context)
 		effect.ancillary("wh2_main_anc_follower_hef_counterspy", 25,  context)
+		effect.ancillary("wh_main_anc_follower_all_men_bodyguard", 13,  context)
 		effect.ancillary("wh_main_anc_follower_undead_possessed_mirror", 10,  context)
+		effect.ancillary("wh_main_anc_follower_dwarfs_candle_maker", 5,  context)
+		effect.ancillary("wh2_main_anc_follower_skv_bodyguard", 15,  context)
 	end
 end
 
@@ -1093,8 +1093,8 @@ end
 events.CharacterLootedSettlement[#events.CharacterLootedSettlement+1] =
 function (context)
 	if wh_main_trig_character_looted_settlement_impl(context) then
-		effect.ancillary("wh_main_anc_follower_dwarfs_treasure_hunter", 5,  context)
 		effect.ancillary("wh_main_anc_follower_greenskins_serial_loota", 15,  context)
+		effect.ancillary("wh_main_anc_follower_dwarfs_treasure_hunter", 5,  context)
 	end
 end
 
@@ -1107,10 +1107,10 @@ end
 events.CharacterLootedSettlement[#events.CharacterLootedSettlement+1] =
 function (context)
 	if wh_main_trig_character_looted_settlement_belonging_to_emp_impl(context) then
-		effect.ancillary("wh_main_anc_follower_empire_jailer", 13,  context)
-		effect.ancillary("wh_dlc08_anc_follower_kurgan_slave_merchant", 10,  context)
-		effect.ancillary("wh_dlc08_anc_follower_skaeling_trader", 10,  context)
 		effect.ancillary("wh_main_anc_follower_undead_manservant", 13,  context)
+		effect.ancillary("wh_main_anc_follower_empire_jailer", 13,  context)
+		effect.ancillary("wh_dlc08_anc_follower_skaeling_trader", 10,  context)
+		effect.ancillary("wh_dlc08_anc_follower_kurgan_slave_merchant", 10,  context)
 	end
 end
 
@@ -1163,10 +1163,10 @@ end
 events.CharacterCompletedBattle[#events.CharacterCompletedBattle+1] =
 function (context)
 	if wh_main_trig_character_lost_battle_impl(context) then
-		effect.ancillary("wh_main_anc_follower_all_men_mercenary", 8,  context)
-		effect.ancillary("wh_dlc01_anc_follower_chaos_mutant", 6,  context)
 		effect.ancillary("wh_main_anc_follower_all_men_protagonist", 4,  context)
+		effect.ancillary("wh_dlc01_anc_follower_chaos_mutant", 6,  context)
 		effect.ancillary("wh_main_anc_follower_all_men_soldier", 2,  context)
+		effect.ancillary("wh_main_anc_follower_all_men_mercenary", 8,  context)
 	end
 end
 
@@ -1180,9 +1180,9 @@ events.CharacterCompletedBattle[#events.CharacterCompletedBattle+1] =
 function (context)
 	if wh_main_trig_character_participated_in_ambush_battle_impl(context) then
 		effect.ancillary("wh2_main_anc_follower_hef_scout", 25,  context)
-		effect.ancillary("wh_main_anc_follower_undead_warlock", 25,  context)
 		effect.ancillary("wh_dlc05_anc_follower_dryad_spy", 5,  context)
 		effect.ancillary("wh2_main_anc_follower_lzd_army_beast_hunter", 25,  context)
+		effect.ancillary("wh_main_anc_follower_undead_warlock", 25,  context)
 		effect.ancillary("wh_main_anc_follower_empire_road_warden", 25,  context)
 	end
 end
@@ -1196,11 +1196,11 @@ end
 events.CharacterPostBattleSlaughter[#events.CharacterPostBattleSlaughter+1] =
 function (context)
 	if wh_main_trig_character_post_battle_slaughter_impl(context) then
-		effect.ancillary("wh2_main_anc_follower_def_slave_trader", 5,  context)
 		effect.ancillary("wh2_main_anc_follower_def_fimir_balefiend", 5,  context)
-		effect.ancillary("wh_dlc05_anc_follower_forest_spirit", 5,  context)
+		effect.ancillary("wh2_main_anc_follower_def_slave_trader", 5,  context)
 		effect.ancillary("wh_main_anc_follower_all_men_ogres_pit_fighter", 5,  context)
 		effect.ancillary("wh2_main_anc_follower_hef_raven_keeper", 5,  context)
+		effect.ancillary("wh_dlc05_anc_follower_forest_spirit", 5,  context)
 		effect.ancillary("wh_dlc08_anc_follower_baernsonlings_berserker", 10,  context)
 	end
 end
@@ -1214,10 +1214,10 @@ end
 events.CharacterRankUp[#events.CharacterRankUp+1] =
 function (context)
 	if wh_main_trig_character_rank_up_at_sea_impl(context) then
-		effect.ancillary("wh_dlc08_anc_follower_whalers", 10,  context)
 		effect.ancillary("wh_dlc01_anc_follower_chaos_oar_slave", 12,  context)
-		effect.ancillary("wh2_dlc11_anc_follower_cst_siren", 10,  context)
 		effect.ancillary("wh_main_anc_follower_dwarfs_shipwright", 15,  context)
+		effect.ancillary("wh2_dlc11_anc_follower_cst_siren", 10,  context)
+		effect.ancillary("wh_dlc08_anc_follower_whalers", 10,  context)
 	end
 end
 
@@ -1399,11 +1399,11 @@ end
 events.CharacterRankUp[#events.CharacterRankUp+1] =
 function (context)
 	if wh_main_trig_character_rank_up_high_impl(context) then
-		effect.ancillary("wh_dlc05_anc_follower_eternal_guard_commander", 10,  context)
-		effect.ancillary("wh_main_anc_follower_all_men_servant", 5,  context)
 		effect.ancillary("wh_main_anc_follower_all_men_vagabond", 5,  context)
-		effect.ancillary("wh_dlc08_anc_follower_marauder_champion", 10,  context)
+		effect.ancillary("wh_dlc05_anc_follower_eternal_guard_commander", 10,  context)
 		effect.ancillary("wh_dlc05_anc_follower_elder_scout", 10,  context)
+		effect.ancillary("wh_dlc08_anc_follower_marauder_champion", 10,  context)
+		effect.ancillary("wh_main_anc_follower_all_men_servant", 5,  context)
 	end
 end
 
@@ -1416,12 +1416,12 @@ end
 events.CharacterRankUp[#events.CharacterRankUp+1] =
 function (context)
 	if wh_main_trig_character_rank_up_high_trade_impl(context) then
-		effect.ancillary("wh_main_anc_follower_empire_ferryman", 10,  context)
-		effect.ancillary("wh_main_anc_follower_empire_tradesman", 3,  context)
-		effect.ancillary("wh2_main_anc_follower_def_merchant", 10,  context)
 		effect.ancillary("wh_main_anc_follower_empire_coachman", 7,  context)
-		effect.ancillary("wh2_main_anc_follower_hef_wine_merchant", 10,  context)
+		effect.ancillary("wh_main_anc_follower_empire_ferryman", 10,  context)
 		effect.ancillary("wh_main_anc_follower_dwarfs_guildmaster", 10,  context)
+		effect.ancillary("wh2_main_anc_follower_hef_wine_merchant", 10,  context)
+		effect.ancillary("wh2_main_anc_follower_def_merchant", 10,  context)
+		effect.ancillary("wh_main_anc_follower_empire_tradesman", 3,  context)
 		effect.ancillary("wh2_main_anc_follower_lzd_archivist", 10,  context)
 	end
 end
@@ -1461,8 +1461,8 @@ end
 events.CharacterRankUp[#events.CharacterRankUp+1] =
 function (context)
 	if wh_main_trig_character_rank_up_in_enemy_territory_impl(context) then
-		effect.ancillary("wh_main_anc_follower_empire_rat_catcher", 13,  context)
 		effect.ancillary("wh2_main_anc_follower_lzd_zoat", 25,  context)
+		effect.ancillary("wh_main_anc_follower_empire_rat_catcher", 13,  context)
 	end
 end
 
@@ -1488,8 +1488,8 @@ end
 events.CharacterRankUp[#events.CharacterRankUp+1] =
 function (context)
 	if wh_main_trig_character_rank_up_in_marienburg_impl(context) then
-		effect.ancillary("wh_main_anc_follower_all_men_fisherman", 8,  context)
 		effect.ancillary("wh_main_anc_follower_empire_seaman", 5,  context)
+		effect.ancillary("wh_main_anc_follower_all_men_fisherman", 8,  context)
 	end
 end
 
@@ -1516,8 +1516,8 @@ end
 events.CharacterRankUp[#events.CharacterRankUp+1] =
 function (context)
 	if wh_main_trig_character_rank_up_in_vampire_count_territory_impl(context) then
-		effect.ancillary("wh_main_anc_follower_all_men_zealot", 5,  context)
 		effect.ancillary("wh_main_anc_follower_all_men_initiate", 5,  context)
+		effect.ancillary("wh_main_anc_follower_all_men_zealot", 5,  context)
 		effect.ancillary("wh_main_anc_follower_empire_bone_picker", 7,  context)
 	end
 end
@@ -1531,11 +1531,11 @@ end
 events.CharacterRankUp[#events.CharacterRankUp+1] =
 function (context)
 	if wh_main_trig_character_rank_up_low_impl(context) then
-		effect.ancillary("wh_main_anc_follower_all_men_tollkeeper", 1,  context)
 		effect.ancillary("wh_dlc03_anc_follower_beastmen_flying_spy", 2,  context)
 		effect.ancillary("wh_dlc05_anc_follower_young_stag", 5,  context)
-		effect.ancillary("wh_dlc05_anc_follower_hawk_companion", 5,  context)
+		effect.ancillary("wh_main_anc_follower_all_men_tollkeeper", 1,  context)
 		effect.ancillary("wh_dlc08_anc_follower_mountain_scout", 5,  context)
+		effect.ancillary("wh_dlc05_anc_follower_hawk_companion", 5,  context)
 	end
 end
 
@@ -1548,19 +1548,19 @@ end
 events.CharacterRankUp[#events.CharacterRankUp+1] =
 function (context)
 	if wh_main_trig_character_rank_up_low_public_order_impl(context) then
+		effect.ancillary("wh_main_anc_follower_undead_black_cat", 20,  context)
+		effect.ancillary("wh2_main_anc_follower_skv_saboteur", 10,  context)
+		effect.ancillary("wh_dlc08_anc_follower_cathy_slave_dancers", 10,  context)
 		effect.ancillary("wh_main_anc_follower_greenskins_idol_carva", 10,  context)
+		effect.ancillary("wh_main_anc_follower_dwarfs_choir_master", 12,  context)
+		effect.ancillary("wh_main_anc_follower_empire_agitator", 13,  context)
+		effect.ancillary("wh_main_anc_follower_undead_poltergeist", 15,  context)
+		effect.ancillary("wh_main_anc_follower_empire_burgher", 12,  context)
 		effect.ancillary("wh_main_anc_follower_dwarfs_teller_of_tales", 10,  context)
 		effect.ancillary("wh_main_anc_follower_all_men_bailiff", 8,  context)
-		effect.ancillary("wh2_main_anc_follower_skv_saboteur", 10,  context)
 		effect.ancillary("wh2_main_anc_follower_def_bodyguard", 15,  context)
-		effect.ancillary("wh_main_anc_follower_empire_burgher", 12,  context)
-		effect.ancillary("wh_main_anc_follower_undead_poltergeist", 15,  context)
 		effect.ancillary("wh2_main_anc_follower_hef_food_taster", 15,  context)
-		effect.ancillary("wh_main_anc_follower_empire_agitator", 13,  context)
-		effect.ancillary("wh_main_anc_follower_dwarfs_choir_master", 12,  context)
-		effect.ancillary("wh_main_anc_follower_undead_black_cat", 20,  context)
 		effect.ancillary("wh2_main_anc_follower_lzd_attendant", 15,  context)
-		effect.ancillary("wh_dlc08_anc_follower_cathy_slave_dancers", 10,  context)
 	end
 end
 
@@ -1599,8 +1599,8 @@ end
 events.CharacterRankUp[#events.CharacterRankUp+1] =
 function (context)
 	if wh_main_trig_character_rank_up_night_goblin_shaman_impl(context) then
-		effect.ancillary("wh_main_anc_follower_greenskins_shroom_gathera", 10,  context)
 		effect.ancillary("wh_main_anc_follower_greenskins_squig_mascot", 4,  context)
+		effect.ancillary("wh_main_anc_follower_greenskins_shroom_gathera", 10,  context)
 	end
 end
 
@@ -1628,9 +1628,9 @@ events.CharacterRankUp[#events.CharacterRankUp+1] =
 function (context)
 	if wh_main_trig_character_rank_up_raiding_impl(context) then
 		effect.ancillary("wh_main_anc_follower_empire_thief", 13,  context)
+		effect.ancillary("wh_dlc08_anc_follower_dragonbone_raiders", 20,  context)
 		effect.ancillary("wh_main_anc_follower_greenskins_bat-winged_loony", 20,  context)
 		effect.ancillary("wh_main_anc_follower_all_men_outlaw", 8,  context)
-		effect.ancillary("wh_dlc08_anc_follower_dragonbone_raiders", 20,  context)
 	end
 end
 
@@ -1695,9 +1695,9 @@ end
 events.CharacterRankUp[#events.CharacterRankUp+1] =
 function (context)
 	if wh_main_trig_character_rank_up_region_high_corruption_impl(context) then
-		effect.ancillary("wh_main_anc_follower_dwarfs_dwarfen_tattooist", 10,  context)
 		effect.ancillary("wh_main_anc_follower_greenskins_gobbo_ranta", 10,  context)
 		effect.ancillary("wh_main_anc_follower_bretonnia_court_jester", 10,  context)
+		effect.ancillary("wh_main_anc_follower_dwarfs_dwarfen_tattooist", 10,  context)
 		effect.ancillary("wh_main_anc_follower_empire_light_college_acolyte", 5,  context)
 	end
 end
@@ -1724,12 +1724,12 @@ end
 events.CharacterRankUp[#events.CharacterRankUp+1] =
 function (context)
 	if wh_main_trig_character_rank_up_started_war_impl(context) then
+		effect.ancillary("wh_dlc08_anc_follower_marauder_champion", 10,  context)
+		effect.ancillary("wh_dlc03_anc_follower_beastmen_flayer", 10,  context)
 		effect.ancillary("wh_main_anc_follower_all_men_outrider", 14,  context)
+		effect.ancillary("wh_dlc01_anc_follower_chaos_barbarian", 18,  context)
 		effect.ancillary("wh2_main_anc_follower_def_diplomat", 8,  context)
 		effect.ancillary("wh_main_anc_follower_greenskins_backstabba", 50,  context)
-		effect.ancillary("wh_dlc01_anc_follower_chaos_barbarian", 18,  context)
-		effect.ancillary("wh_dlc03_anc_follower_beastmen_flayer", 10,  context)
-		effect.ancillary("wh_dlc08_anc_follower_marauder_champion", 10,  context)
 	end
 end
 
@@ -1768,8 +1768,8 @@ end
 events.CharacterRankUp[#events.CharacterRankUp+1] =
 function (context)
 	if wh_main_trig_character_rank_up_wizard_alone_impl(context) then
-		effect.ancillary("wh_dlc08_anc_follower_seer", 10,  context)
 		effect.ancillary("wh_main_anc_follower_greenskins_shamans_lacky", 20,  context)
+		effect.ancillary("wh_dlc08_anc_follower_seer", 10,  context)
 	end
 end
 
@@ -1782,12 +1782,12 @@ end
 events.CharacterRankUp[#events.CharacterRankUp+1] =
 function (context)
 	if wh_main_trig_character_rank_up_won_offensive_battles_impl(context) then
-		effect.ancillary("wh_main_anc_follower_all_men_valet", 5,  context)
-		effect.ancillary("wh_main_anc_follower_greenskins_pit_boss", 10,  context)
-		effect.ancillary("wh_dlc01_anc_follower_chaos_magister", 5,  context)
-		effect.ancillary("wh_dlc05_anc_follower_hunting_hound", 5,  context)
-		effect.ancillary("wh2_main_anc_follower_hef_bard", 8,  context)
 		effect.ancillary("wh_main_anc_follower_dwarfs_dwarf_bride", 8,  context)
+		effect.ancillary("wh_dlc01_anc_follower_chaos_magister", 5,  context)
+		effect.ancillary("wh2_main_anc_follower_hef_bard", 8,  context)
+		effect.ancillary("wh_dlc05_anc_follower_hunting_hound", 5,  context)
+		effect.ancillary("wh_main_anc_follower_greenskins_pit_boss", 10,  context)
+		effect.ancillary("wh_main_anc_follower_all_men_valet", 5,  context)
 	end
 end
 
@@ -1800,17 +1800,17 @@ end
 events.CharacterSackedSettlement[#events.CharacterSackedSettlement+1] =
 function (context)
 	if wh_main_trig_character_sacked_settlement_impl(context) then
-		effect.ancillary("wh2_main_anc_follower_skv_artefact_hunter", 25,  context)
-		effect.ancillary("wh_dlc01_anc_follower_chaos_kurgan_chieftain", 5,  context)
 		effect.ancillary("wh2_main_anc_follower_def_slave", 30,  context)
-		effect.ancillary("wh_dlc01_anc_follower_chaos_collector", 5,  context)
-		effect.ancillary("wh_dlc08_anc_follower_slave_worker", 10,  context)
+		effect.ancillary("wh_dlc01_anc_follower_chaos_kurgan_chieftain", 5,  context)
+		effect.ancillary("wh_dlc01_anc_follower_chaos_darksoul", 6,  context)
+		effect.ancillary("wh2_main_anc_follower_skv_artefact_hunter", 25,  context)
+		effect.ancillary("wh_main_anc_follower_dwarfs_prospector", 5,  context)
 		effect.ancillary("wh_dlc08_anc_follower_slave_worker", 10,  context)
 		effect.ancillary("wh_main_anc_follower_greenskins_bully", 20,  context)
+		effect.ancillary("wh_dlc08_anc_follower_slave_worker", 10,  context)
 		effect.ancillary("wh_dlc08_anc_follower_kurgan_slave_merchant", 10,  context)
 		effect.ancillary("wh2_main_anc_follower_lzd_artefact_hunter", 25,  context)
-		effect.ancillary("wh_dlc01_anc_follower_chaos_darksoul", 6,  context)
-		effect.ancillary("wh_main_anc_follower_dwarfs_prospector", 5,  context)
+		effect.ancillary("wh_dlc01_anc_follower_chaos_collector", 5,  context)
 	end
 end
 
@@ -1862,15 +1862,15 @@ end
 events.CharacterCompletedBattle[#events.CharacterCompletedBattle+1] =
 function (context)
 	if wh_main_trig_character_won_battle_impl(context) then
+		effect.ancillary("wh2_dlc11_anc_follower_cst_travelling_necromancer", 4,  context)
+		effect.ancillary("wh_main_anc_follower_norsca_berserker", 3,  context)
+		effect.ancillary("wh_main_anc_follower_empire_apprentice_wizard", 4,  context)
 		effect.ancillary("wh_main_anc_follower_undead_corpse_thief", 3,  context)
+		effect.ancillary("wh_dlc05_anc_follower_wardancer_drummer", 5,  context)
+		effect.ancillary("wh_main_anc_follower_empire_camp_follower", 6,  context)
 		effect.ancillary("wh_dlc08_anc_follower_mammoth", 5,  context)
 		effect.ancillary("wh_main_anc_follower_empire_hunter", 5,  context)
 		effect.ancillary("wh_dlc08_anc_follower_beserker", 5,  context)
-		effect.ancillary("wh2_dlc11_anc_follower_cst_travelling_necromancer", 4,  context)
-		effect.ancillary("wh_main_anc_follower_empire_camp_follower", 6,  context)
-		effect.ancillary("wh_main_anc_follower_empire_apprentice_wizard", 4,  context)
-		effect.ancillary("wh_main_anc_follower_norsca_berserker", 3,  context)
-		effect.ancillary("wh_dlc05_anc_follower_wardancer_drummer", 5,  context)
 	end
 end
 
@@ -1883,9 +1883,9 @@ end
 events.CharacterCompletedBattle[#events.CharacterCompletedBattle+1] =
 function (context)
 	if wh_main_trig_character_won_battle_5_mul_impl(context) then
-		effect.ancillary("wh_dlc05_anc_follower_royal_standard_bearer", 5,  context)
 		effect.ancillary("wh_dlc03_anc_follower_beastmen_pox_carrier", 4,  context)
 		effect.ancillary("wh_main_anc_follower_empire_charcoal_burner", 8,  context)
+		effect.ancillary("wh_dlc05_anc_follower_royal_standard_bearer", 5,  context)
 	end
 end
 
@@ -1911,10 +1911,10 @@ end
 events.CharacterCompletedBattle[#events.CharacterCompletedBattle+1] =
 function (context)
 	if wh_main_trig_character_won_battle_losing_money_impl(context) then
-		effect.ancillary("wh_main_anc_follower_greenskins_swindla", 40,  context)
-		effect.ancillary("wh_main_anc_follower_undead_warp_stone_hunter", 25,  context)
-		effect.ancillary("wh_main_anc_follower_undead_dreg", 20,  context)
 		effect.ancillary("wh_main_anc_follower_empire_peasant", 25,  context)
+		effect.ancillary("wh_main_anc_follower_greenskins_swindla", 40,  context)
+		effect.ancillary("wh_main_anc_follower_undead_dreg", 20,  context)
+		effect.ancillary("wh_main_anc_follower_undead_warp_stone_hunter", 25,  context)
 	end
 end
 
@@ -1940,11 +1940,11 @@ end
 events.CharacterCompletedBattle[#events.CharacterCompletedBattle+1] =
 function (context)
 	if wh_main_trig_character_won_battle_poor_impl(context) then
-		effect.ancillary("wh_main_anc_follower_dwarfs_cooper", 15,  context)
-		effect.ancillary("wh_dlc01_anc_follower_chaos_demagogue", 15,  context)
-		effect.ancillary("wh_main_anc_follower_empire_entertainer", 20,  context)
-		effect.ancillary("wh_dlc08_anc_follower_skaeling_trader", 10,  context)
 		effect.ancillary("wh_main_anc_follower_undead_treasurer", 20,  context)
+		effect.ancillary("wh_main_anc_follower_dwarfs_cooper", 15,  context)
+		effect.ancillary("wh_dlc08_anc_follower_skaeling_trader", 10,  context)
+		effect.ancillary("wh_main_anc_follower_empire_entertainer", 20,  context)
+		effect.ancillary("wh_dlc01_anc_follower_chaos_demagogue", 15,  context)
 	end
 end
 
@@ -1998,11 +1998,11 @@ end
 events.CharacterCompletedBattle[#events.CharacterCompletedBattle+1] =
 function (context)
 	if wh_main_trig_general_won_battle_against_men_impl(context) then
-		effect.ancillary("wh2_main_anc_follower_skv_slave_human", 33,  context)
 		effect.ancillary("wh2_main_anc_follower_lzd_sacrificial_victim_human", 50,  context)
 		effect.ancillary("wh_main_anc_follower_dwarfs_reckoner", 10,  context)
-		effect.ancillary("wh_main_anc_follower_undead_mortal_informer", 13,  context)
+		effect.ancillary("wh2_main_anc_follower_skv_slave_human", 33,  context)
 		effect.ancillary("wh_main_anc_follower_bretonnia_squire", 8,  context)
+		effect.ancillary("wh_main_anc_follower_undead_mortal_informer", 13,  context)
 	end
 end
 
@@ -2028,8 +2028,8 @@ end
 events.HeroCharacterParticipatedInBattle[#events.HeroCharacterParticipatedInBattle+1] =
 function (context)
 	if wh_main_trig_hero_won_battle_losing_money_impl(context) then
-		effect.ancillary("wh_main_anc_follower_greenskins_swindla", 40,  context)
 		effect.ancillary("wh_main_anc_follower_greenskins_snotling_scavengers", 20,  context)
+		effect.ancillary("wh_main_anc_follower_greenskins_swindla", 40,  context)
 	end
 end
 
@@ -2042,8 +2042,8 @@ end
 events.HeroCharacterParticipatedInBattle[#events.HeroCharacterParticipatedInBattle+1] =
 function (context)
 	if wh_main_trig_hero_won_battle_wizard_impl(context) then
-		effect.ancillary("wh_main_anc_follower_all_hedge_wizard", 20,  context)
 		effect.ancillary("wh_dlc03_anc_follower_beastmen_bray_shamans_familiar", 15,  context)
+		effect.ancillary("wh_main_anc_follower_all_hedge_wizard", 20,  context)
 	end
 end
 

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<dataroot xmlns:od="urn:schemas-microsoft-com:officedata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="start_pos_factions.xsd" export_time="Thu Aug 27 13:10:29 2020" revision="457" export_branch="C:/Users/Nicolas.Graber/AppData/Roaming/TWDaemon/2051/dave" export_user="bob">
-<edit_uuid>861e1c08-5ce5-42d6-bb95-3bac94fb958d</edit_uuid>
+<dataroot xmlns:od="urn:schemas-microsoft-com:officedata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="start_pos_factions.xsd" export_time="Thu Jan 14 12:19:25 2021" revision="461" export_branch="C:/Users/william.wright/AppData/Roaming/TWDaemon/2329/dave" export_user="bob">
+<edit_uuid>bea2a58b-6d7a-4af7-916a-004c0c7ab4b4</edit_uuid>
 <start_pos_factions record_uuid="{fcac712b-5b87-4d3b-83ee-07f5ff1c890c}" record_timestamp="1533031380364" record_key="1006495099">
 <ID>1006495099</ID>
 <ai_manager>default</ai_manager>
@@ -813,6 +813,30 @@
 <prestige_enlightenment>0</prestige_enlightenment>
 <prestige_navy>0</prestige_navy>
 <starting_order>999</starting_order>
+<state_religion>wh_main_religion_untainted</state_religion>
+<treasury>5000</treasury>
+<unique>0</unique>
+</start_pos_factions>
+<start_pos_factions record_uuid="{770f5ea4-94ae-4c8e-88b1-d5a8bf2d2751}" record_timestamp="1606734788685" record_key="1213271860">
+<ID>1213271860</ID>
+<ai_manager>default</ai_manager>
+<cai_personality_group>wh2_group_darkelf_default</cai_personality_group>
+<cai_starting_personality></cai_starting_personality>
+<campaign>wh2_main_great_vortex</campaign>
+<can_ever_convert_religion>0</can_ever_convert_religion>
+<cdir_military_generator_config>WH_Dark_Elves</cdir_military_generator_config>
+<description state="HIDDEN" last_approved_text="" last_edit_user="bob">PLACEHOLDER</description>
+<faction>wh2_twa03_def_rakarth_separatists</faction>
+<government_type>gov_absolute_monarchy</government_type>
+<honour>50</honour>
+<is_major>0</is_major>
+<long_description state="HIDDEN" last_approved_text="" last_edit_user="bob">PLACEHOLDER</long_description>
+<playable>0</playable>
+<prestige_army>0</prestige_army>
+<prestige_economy>0</prestige_economy>
+<prestige_enlightenment>0</prestige_enlightenment>
+<prestige_navy>0</prestige_navy>
+<starting_order>900</starting_order>
 <state_religion>wh_main_religion_untainted</state_religion>
 <treasury>5000</treasury>
 <unique>0</unique>
@@ -3457,6 +3481,30 @@
 <treasury>5000</treasury>
 <unique>0</unique>
 </start_pos_factions>
+<start_pos_factions record_uuid="{dd325da1-73c5-4817-ab69-0cdf784fbc00}" record_timestamp="1606734788686" record_key="1814975513">
+<ID>1814975513</ID>
+<ai_manager>default</ai_manager>
+<cai_personality_group>wh_group_empire_separatist_default</cai_personality_group>
+<cai_starting_personality></cai_starting_personality>
+<campaign>main_warhammer</campaign>
+<can_ever_convert_religion>0</can_ever_convert_religion>
+<cdir_military_generator_config>WH_Dark_Elves</cdir_military_generator_config>
+<description state="HIDDEN" last_approved_text="" last_edit_user="bob">PLACEHOLDER</description>
+<faction>wh2_twa03_def_rakarth_separatists</faction>
+<government_type>gov_absolute_monarchy</government_type>
+<honour>50</honour>
+<is_major>0</is_major>
+<long_description state="HIDDEN" last_approved_text="" last_edit_user="bob">PLACEHOLDER</long_description>
+<playable>0</playable>
+<prestige_army>0</prestige_army>
+<prestige_economy>0</prestige_economy>
+<prestige_enlightenment>0</prestige_enlightenment>
+<prestige_navy>0</prestige_navy>
+<starting_order>991</starting_order>
+<state_religion>wh_main_religion_untainted</state_religion>
+<treasury>5000</treasury>
+<unique>0</unique>
+</start_pos_factions>
 <start_pos_factions record_uuid="{db0a2b7f-fce8-42a0-b572-467eaa7d4e4a}" record_timestamp="1594831549231" record_key="1817001595">
 <ID>1817001595</ID>
 <ai_manager>default</ai_manager>
@@ -4029,6 +4077,30 @@
 <prestige_enlightenment>0</prestige_enlightenment>
 <prestige_navy>0</prestige_navy>
 <starting_order>15</starting_order>
+<state_religion>wh_main_religion_untainted</state_religion>
+<treasury>5000</treasury>
+<unique>0</unique>
+</start_pos_factions>
+<start_pos_factions record_uuid="{2f08977a-6d3b-41fb-a971-2992ce80311c}" record_timestamp="1607684557504" record_key="1953273264">
+<ID>1953273264</ID>
+<ai_manager>default</ai_manager>
+<cai_personality_group>wh2_group_darkelf_major_secondary</cai_personality_group>
+<cai_starting_personality></cai_starting_personality>
+<campaign>main_warhammer</campaign>
+<can_ever_convert_religion>0</can_ever_convert_religion>
+<cdir_military_generator_config>WH_Dark_Elves</cdir_military_generator_config>
+<description state="HIDDEN" last_approved_text="" last_edit_user="bob">PLACEHOLDER</description>
+<faction>wh2_twa03_def_rakarth</faction>
+<government_type>gov_absolute_monarchy</government_type>
+<honour>50</honour>
+<is_major>1</is_major>
+<long_description state="HIDDEN" last_approved_text="" last_edit_user="bob">PLACEHOLDER</long_description>
+<playable>1</playable>
+<prestige_army>0</prestige_army>
+<prestige_economy>0</prestige_economy>
+<prestige_enlightenment>0</prestige_enlightenment>
+<prestige_navy>0</prestige_navy>
+<starting_order>26</starting_order>
 <state_religion>wh_main_religion_untainted</state_religion>
 <treasury>5000</treasury>
 <unique>0</unique>
@@ -6460,7 +6532,7 @@
 <start_pos_factions record_uuid="{9220af59-95f4-4097-9908-2ec27ffcf3b3}" record_timestamp="1475576046240" record_key="2120137290">
 <ID>2120137290</ID>
 <ai_manager>default</ai_manager>
-<cai_personality_group>wh_group_norsca_emerged_default</cai_personality_group>
+<cai_personality_group>wh2_group_norsca_default</cai_personality_group>
 <cai_starting_personality></cai_starting_personality>
 <campaign>main_warhammer</campaign>
 <can_ever_convert_religion>0</can_ever_convert_religion>
@@ -7396,7 +7468,7 @@
 <start_pos_factions record_uuid="{a298fb5e-948e-471d-afcc-10884e45da0e}" record_timestamp="1500901506339" record_key="2120137924">
 <ID>2120137924</ID>
 <ai_manager>default</ai_manager>
-<cai_personality_group>wh2_group_norsca_default</cai_personality_group>
+<cai_personality_group>wh2_group_norsca_aggressive_at_start</cai_personality_group>
 <cai_starting_personality></cai_starting_personality>
 <campaign>wh2_main_great_vortex</campaign>
 <can_ever_convert_religion>0</can_ever_convert_religion>
@@ -12505,6 +12577,30 @@
 <treasury>5000</treasury>
 <unique>0</unique>
 </start_pos_factions>
+<start_pos_factions record_uuid="{a3ca36bf-2fc1-4558-ab5d-5da047b3991f}" record_timestamp="1607684557504" record_key="620154969">
+<ID>620154969</ID>
+<ai_manager>default</ai_manager>
+<cai_personality_group>wh2_group_darkelf_major_secondary</cai_personality_group>
+<cai_starting_personality></cai_starting_personality>
+<campaign>wh2_main_great_vortex</campaign>
+<can_ever_convert_religion>0</can_ever_convert_religion>
+<cdir_military_generator_config>WH_Dark_Elves</cdir_military_generator_config>
+<description state="HIDDEN" last_approved_text="" last_edit_user="bob">PLACEHOLDER</description>
+<faction>wh2_twa03_def_rakarth</faction>
+<government_type>gov_absolute_monarchy</government_type>
+<honour>50</honour>
+<is_major>1</is_major>
+<long_description state="HIDDEN" last_approved_text="" last_edit_user="bob">PLACEHOLDER</long_description>
+<playable>1</playable>
+<prestige_army>0</prestige_army>
+<prestige_economy>0</prestige_economy>
+<prestige_enlightenment>0</prestige_enlightenment>
+<prestige_navy>0</prestige_navy>
+<starting_order>26</starting_order>
+<state_religion>wh_main_religion_untainted</state_religion>
+<treasury>5000</treasury>
+<unique>0</unique>
+</start_pos_factions>
 <start_pos_factions record_uuid="{589d4b93-92cf-4e09-b59d-786902c50357}" record_timestamp="1509383556624" record_key="624631014">
 <ID>624631014</ID>
 <ai_manager>default</ai_manager>
@@ -13036,7 +13132,7 @@
 <start_pos_factions record_uuid="{d53d1e2e-bba3-4649-95ec-599a5037642c}" record_timestamp="1516016619641" record_key="77691339">
 <ID>77691339</ID>
 <ai_manager>default</ai_manager>
-<cai_personality_group>wh_group_norsca_default</cai_personality_group>
+<cai_personality_group>wh2_group_norsca_aggressive_at_start</cai_personality_group>
 <cai_starting_personality></cai_starting_personality>
 <campaign>main_warhammer</campaign>
 <can_ever_convert_religion>0</can_ever_convert_religion>

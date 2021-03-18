@@ -4,8 +4,9 @@
 [th]////////[/th]
 [th]///////////////////////////////////////////////////////////[/th]
 [/tr][tr]
-[td]Boy Seaman[/td]
-[td]Construction cost: -7% for all buildings (local region)[/td]
+[td]Sartosan Mapwright[/td]
+[td]Campaign movement range: +5%
+Post battle chance of stealing a magic item: +10%[/td]
 [td][previewicon=21641941;sizeOriginal,inline;battle_general_ability.png][/previewicon][previewicon=21641943;sizeOriginal,inline;campaign_agent.png][/previewicon]
 15%[/td]
 [td]*(Hero; against: Empire, Bretonnia)
@@ -13,9 +14,8 @@ Win battle as attacker;
 *(Hero; against: Empire, Bretonnia)
 Win/draw battle as defender[/td]
 [/tr][tr]
-[td]Sartosan Mapwright[/td]
-[td]Campaign movement range: +5%
-Post battle chance of stealing a magic item: +10%[/td]
+[td]Boy Seaman[/td]
+[td]Construction cost: -7% for all buildings (local region)[/td]
 [td][previewicon=21641941;sizeOriginal,inline;battle_general_ability.png][/previewicon][previewicon=21641943;sizeOriginal,inline;campaign_agent.png][/previewicon]
 15%[/td]
 [td]*(Hero; against: Empire, Bretonnia)

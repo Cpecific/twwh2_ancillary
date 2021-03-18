@@ -123,7 +123,7 @@ Loot settlement and have more than 10 units in your army[/td]
 [/tr][tr]
 [td]Clan Skryre Saboteur[/td]
 [td](Assassin)
-Income from sacking settlements: +10% (own army)[/td]
+Income from sacking settlements: +10% (accompanying Lord)[/td]
 [td][previewicon=21642086;sizeOriginal,inline;character_agent.png][/previewicon]
 10%[/td]
 [td]*Rank Up in region (1 turn own) with less than -20 public order[/td]

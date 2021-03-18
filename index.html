@@ -1342,15 +1342,14 @@ data = {
 				]
 			],
 			[
-				"output/html/game/ui/campaign ui/ancillaries/wh2_main_anc_def_slaver.png",
-				"Slaver",
+				"output/html/game/ui/campaign ui/ancillaries/wh2_main_anc_def_fimir_balefiend.png",
+				"Fimir Balefiend",
 				[
-					"(Master, Death Hag)",
-					"Income from Slave Pens and Slave Markets: +5% (all provinces)",
-					"Casualties captured post-battle: +15%"
+					"(Sorceress)",
+					"Hero action success chance: +10% for Sorceresses",
+					"Post battle chance of stealing a magic item: +10%"
 				],
 				[
-					"battle_general_ability.png",
 					"character_agent.png"
 				],
 				[
@@ -1366,14 +1365,15 @@ data = {
 				]
 			],
 			[
-				"output/html/game/ui/campaign ui/ancillaries/wh2_main_anc_def_fimir_balefiend.png",
-				"Fimir Balefiend",
+				"output/html/game/ui/campaign ui/ancillaries/wh2_main_anc_def_slaver.png",
+				"Slaver",
 				[
-					"(Sorceress)",
-					"Hero action success chance: +10% for Sorceresses",
-					"Post battle chance of stealing a magic item: +10%"
+					"(Master, Death Hag)",
+					"Income from Slave Pens and Slave Markets: +5% (all provinces)",
+					"Casualties captured post-battle: +15%"
 				],
 				[
+					"battle_general_ability.png",
 					"character_agent.png"
 				],
 				[
@@ -1854,7 +1854,7 @@ data = {
 				"Clan Skryre Saboteur",
 				[
 					"(Assassin)",
-					"Income from sacking settlements: +10% (own army)"
+					"Income from sacking settlements: +10% (accompanying <img src=\"output/html/game/ui/campaign ui/effect_bundles/general.png\" icon=\"icon_general\" />Lord)"
 				],
 				[
 					"character_agent.png"
@@ -1947,10 +1947,11 @@ data = {
 		"title": "Vampire Coast",
 		"ancillaryList": [
 			[
-				"output/html/game/ui/campaign ui/ancillaries/wh2_dlc11_anc_follower_zombie.png",
-				"Boy Seaman",
+				"output/html/game/ui/campaign ui/ancillaries/wh2_dlc11_anc_follower_sailor_man.png",
+				"Sartosan Mapwright",
 				[
-					"Construction cost: -7% for all buildings (local region)"
+					"Campaign movement range: +5%",
+					"Post battle chance of stealing a magic item: +10%"
 				],
 				[
 					"battle_general_ability.png",
@@ -1973,11 +1974,10 @@ data = {
 				]
 			],
 			[
-				"output/html/game/ui/campaign ui/ancillaries/wh2_dlc11_anc_follower_sailor_man.png",
-				"Sartosan Mapwright",
+				"output/html/game/ui/campaign ui/ancillaries/wh2_dlc11_anc_follower_zombie.png",
+				"Boy Seaman",
 				[
-					"Campaign movement range: +5%",
-					"Post battle chance of stealing a magic item: +10%"
+					"Construction cost: -7% for all buildings (local region)"
 				],
 				[
 					"battle_general_ability.png",
@@ -2544,27 +2544,6 @@ data = {
 				]
 			],
 			[
-				"output/html/game/ui/campaign ui/ancillaries/wh_main_anc_human_man.png",
-				"Mercenary",
-				[
-					"Casualty replenishment rate: +5% (<img src=\"output/html/game/ui/campaign ui/effect_bundles/general.png\" icon=\"icon_general\" />Lord's army)"
-				],
-				[
-					"battle_general_ability.png"
-				],
-				[
-					[
-						8,
-						[
-							[
-								"*(<u title=\"Main Lord - the one, who leads the attack/defense\">Lord</u>)\nLose/draw battle",
-								false
-							]
-						]
-					]
-				]
-			],
-			[
 				"output/html/game/ui/campaign ui/ancillaries/wh_main_anc_human_old_man.png",
 				"Antagonist",
 				[
@@ -2598,6 +2577,27 @@ data = {
 				[
 					[
 						2,
+						[
+							[
+								"*(<u title=\"Main Lord - the one, who leads the attack/defense\">Lord</u>)\nLose/draw battle",
+								false
+							]
+						]
+					]
+				]
+			],
+			[
+				"output/html/game/ui/campaign ui/ancillaries/wh_main_anc_human_man.png",
+				"Mercenary",
+				[
+					"Casualty replenishment rate: +5% (<img src=\"output/html/game/ui/campaign ui/effect_bundles/general.png\" icon=\"icon_general\" />Lord's army)"
+				],
+				[
+					"battle_general_ability.png"
+				],
+				[
+					[
+						8,
 						[
 							[
 								"*(<u title=\"Main Lord - the one, who leads the attack/defense\">Lord</u>)\nLose/draw battle",
@@ -2653,6 +2653,27 @@ data = {
 			],
 			[
 				"output/html/game/ui/campaign ui/ancillaries/wh_main_anc_human_man.png",
+				"Vagabond",
+				[
+					"Campaign line of sight: +7%"
+				],
+				[
+					"campaign_agent.png"
+				],
+				[
+					[
+						5,
+						[
+							[
+								"*Rank Up after 21th level",
+								false
+							]
+						]
+					]
+				]
+			],
+			[
+				"output/html/game/ui/campaign ui/ancillaries/wh_main_anc_human_man.png",
 				"Servant",
 				[
 					"Enemy Hero action success chance: -10%"
@@ -2675,19 +2696,20 @@ data = {
 			],
 			[
 				"output/html/game/ui/campaign ui/ancillaries/wh_main_anc_human_man.png",
-				"Vagabond",
+				"Coachman",
 				[
-					"Campaign line of sight: +7%"
+					"Income from trade: +6% (factionwide)"
 				],
 				[
+					"battle_general_ability.png",
 					"campaign_agent.png"
 				],
 				[
 					[
-						5,
+						7,
 						[
 							[
-								"*Rank Up after 21th level",
+								"*Rank Up and faction has 40% trade after 5th turn (every 5th turn)",
 								false
 							]
 						]
@@ -2728,28 +2750,6 @@ data = {
 				[
 					[
 						3,
-						[
-							[
-								"*Rank Up and faction has 40% trade after 5th turn (every 5th turn)",
-								false
-							]
-						]
-					]
-				]
-			],
-			[
-				"output/html/game/ui/campaign ui/ancillaries/wh_main_anc_human_man.png",
-				"Coachman",
-				[
-					"Income from trade: +6% (factionwide)"
-				],
-				[
-					"battle_general_ability.png",
-					"campaign_agent.png"
-				],
-				[
-					[
-						7,
 						[
 							[
 								"*Rank Up and faction has 40% trade after 5th turn (every 5th turn)",
@@ -2846,27 +2846,6 @@ data = {
 				]
 			],
 			[
-				"output/html/game/ui/campaign ui/ancillaries/wh_main_anc_human_old_man.png",
-				"Fisherman",
-				[
-					"Income from trade: +5% (factionwide)"
-				],
-				[
-					"campaign_agent.png"
-				],
-				[
-					[
-						8,
-						[
-							[
-								"*Rank Up in region “Marienburg”",
-								false
-							]
-						]
-					]
-				]
-			],
-			[
 				"output/html/game/ui/campaign ui/ancillaries/wh_main_anc_human_man.png",
 				"Seaman",
 				[
@@ -2878,6 +2857,27 @@ data = {
 				[
 					[
 						5,
+						[
+							[
+								"*Rank Up in region “Marienburg”",
+								false
+							]
+						]
+					]
+				]
+			],
+			[
+				"output/html/game/ui/campaign ui/ancillaries/wh_main_anc_human_old_man.png",
+				"Fisherman",
+				[
+					"Income from trade: +5% (factionwide)"
+				],
+				[
+					"campaign_agent.png"
+				],
+				[
+					[
+						8,
 						[
 							[
 								"*Rank Up in region “Marienburg”",
@@ -2931,13 +2931,13 @@ data = {
 				]
 			],
 			[
-				"output/html/game/ui/campaign ui/ancillaries/wh_main_anc_human_old_man.png",
-				"Zealot",
+				"output/html/game/ui/campaign ui/ancillaries/wh_main_anc_human_man.png",
+				"Initiate",
 				[
 					"Untainted: +3 (local province)"
 				],
 				[
-					"battle_general_ability.png"
+					"campaign_agent.png"
 				],
 				[
 					[
@@ -2952,13 +2952,13 @@ data = {
 				]
 			],
 			[
-				"output/html/game/ui/campaign ui/ancillaries/wh_main_anc_human_man.png",
-				"Initiate",
+				"output/html/game/ui/campaign ui/ancillaries/wh_main_anc_human_old_man.png",
+				"Zealot",
 				[
 					"Untainted: +3 (local province)"
 				],
 				[
-					"campaign_agent.png"
+					"battle_general_ability.png"
 				],
 				[
 					[
@@ -3016,16 +3016,16 @@ data = {
 			],
 			[
 				"output/html/game/ui/campaign ui/ancillaries/wh_main_anc_human_man.png",
-				"Bailiff",
+				"Agitator",
 				[
 					"Public order: +1 (local province)"
 				],
 				[
-					"battle_general_ability.png"
+					"campaign_agent.png"
 				],
 				[
 					[
-						8,
+						13,
 						[
 							[
 								"*Rank Up in region (1 turn own) with less than -20 public order",
@@ -3058,16 +3058,16 @@ data = {
 			],
 			[
 				"output/html/game/ui/campaign ui/ancillaries/wh_main_anc_human_man.png",
-				"Agitator",
+				"Bailiff",
 				[
 					"Public order: +1 (local province)"
 				],
 				[
-					"campaign_agent.png"
+					"battle_general_ability.png"
 				],
 				[
 					[
-						13,
+						8,
 						[
 							[
 								"*Rank Up in region (1 turn own) with less than -20 public order",
@@ -3249,17 +3249,18 @@ data = {
 				]
 			],
 			[
-				"output/html/game/ui/campaign ui/ancillaries/wh_main_anc_human_man.png",
-				"Hunter",
+				"output/html/game/ui/campaign ui/ancillaries/wh_main_anc_human_old_man.png",
+				"Apprentice Wizard",
 				[
-					"Ambush success chance: +10% (<img src=\"output/html/game/ui/common ui/unit_category_icons/hero.png\" icon=\"icon_hero\" />Hero's army)"
+					"Winds of Magic power reserve: +20"
 				],
 				[
+					"battle_general_ability.png",
 					"campaign_agent.png"
 				],
 				[
 					[
-						5,
+						4,
 						[
 							[
 								"*(<u title=\"Main Lord - the one, who leads the attack/defense\">Lord</u>)\nWin battle",
@@ -3291,18 +3292,17 @@ data = {
 				]
 			],
 			[
-				"output/html/game/ui/campaign ui/ancillaries/wh_main_anc_human_old_man.png",
-				"Apprentice Wizard",
+				"output/html/game/ui/campaign ui/ancillaries/wh_main_anc_human_man.png",
+				"Hunter",
 				[
-					"Winds of Magic power reserve: +20"
+					"Ambush success chance: +10% (<img src=\"output/html/game/ui/common ui/unit_category_icons/hero.png\" icon=\"icon_hero\" />Hero's army)"
 				],
 				[
-					"battle_general_ability.png",
 					"campaign_agent.png"
 				],
 				[
 					[
-						4,
+						5,
 						[
 							[
 								"*(<u title=\"Main Lord - the one, who leads the attack/defense\">Lord</u>)\nWin battle",
@@ -3632,27 +3632,6 @@ data = {
 				]
 			],
 			[
-				"output/html/game/ui/campaign ui/ancillaries/wh_main_anc_human_man.png",
-				"Mercenary",
-				[
-					"Casualty replenishment rate: +5% (<img src=\"output/html/game/ui/campaign ui/effect_bundles/general.png\" icon=\"icon_general\" />Lord's army)"
-				],
-				[
-					"battle_general_ability.png"
-				],
-				[
-					[
-						8,
-						[
-							[
-								"*(<u title=\"Main Lord - the one, who leads the attack/defense\">Lord</u>)\nLose/draw battle",
-								false
-							]
-						]
-					]
-				]
-			],
-			[
 				"output/html/game/ui/campaign ui/ancillaries/wh_main_anc_human_old_man.png",
 				"Antagonist",
 				[
@@ -3697,6 +3676,27 @@ data = {
 			],
 			[
 				"output/html/game/ui/campaign ui/ancillaries/wh_main_anc_human_man.png",
+				"Mercenary",
+				[
+					"Casualty replenishment rate: +5% (<img src=\"output/html/game/ui/campaign ui/effect_bundles/general.png\" icon=\"icon_general\" />Lord's army)"
+				],
+				[
+					"battle_general_ability.png"
+				],
+				[
+					[
+						8,
+						[
+							[
+								"*(<u title=\"Main Lord - the one, who leads the attack/defense\">Lord</u>)\nLose/draw battle",
+								false
+							]
+						]
+					]
+				]
+			],
+			[
+				"output/html/game/ui/campaign ui/ancillaries/wh_main_anc_human_man.png",
 				"Pit Fighter",
 				[
 					"Casualties captured post-battle: +10%"
@@ -3719,12 +3719,11 @@ data = {
 			],
 			[
 				"output/html/game/ui/campaign ui/ancillaries/wh_main_anc_human_man.png",
-				"Servant",
+				"Vagabond",
 				[
-					"Enemy Hero action success chance: -10%"
+					"Campaign line of sight: +7%"
 				],
 				[
-					"battle_general_ability.png",
 					"campaign_agent.png"
 				],
 				[
@@ -3741,11 +3740,12 @@ data = {
 			],
 			[
 				"output/html/game/ui/campaign ui/ancillaries/wh_main_anc_human_man.png",
-				"Vagabond",
+				"Servant",
 				[
-					"Campaign line of sight: +7%"
+					"Enemy Hero action success chance: -10%"
 				],
 				[
+					"battle_general_ability.png",
 					"campaign_agent.png"
 				],
 				[
@@ -3826,13 +3826,13 @@ data = {
 				]
 			],
 			[
-				"output/html/game/ui/campaign ui/ancillaries/wh_main_anc_human_old_man.png",
-				"Zealot",
+				"output/html/game/ui/campaign ui/ancillaries/wh_main_anc_human_man.png",
+				"Initiate",
 				[
 					"Untainted: +3 (local province)"
 				],
 				[
-					"battle_general_ability.png"
+					"campaign_agent.png"
 				],
 				[
 					[
@@ -3847,13 +3847,13 @@ data = {
 				]
 			],
 			[
-				"output/html/game/ui/campaign ui/ancillaries/wh_main_anc_human_man.png",
-				"Initiate",
+				"output/html/game/ui/campaign ui/ancillaries/wh_main_anc_human_old_man.png",
+				"Zealot",
 				[
 					"Untainted: +3 (local province)"
 				],
 				[
-					"campaign_agent.png"
+					"battle_general_ability.png"
 				],
 				[
 					[
@@ -4206,27 +4206,6 @@ data = {
 				]
 			],
 			[
-				"output/html/game/ui/campaign ui/ancillaries/wh_main_anc_human_man.png",
-				"Mercenary",
-				[
-					"Casualty replenishment rate: +5% (<img src=\"output/html/game/ui/campaign ui/effect_bundles/general.png\" icon=\"icon_general\" />Lord's army)"
-				],
-				[
-					"battle_general_ability.png"
-				],
-				[
-					[
-						8,
-						[
-							[
-								"*(<u title=\"Main Lord - the one, who leads the attack/defense\">Lord</u>)\nLose/draw battle",
-								false
-							]
-						]
-					]
-				]
-			],
-			[
 				"output/html/game/ui/campaign ui/ancillaries/wh_main_anc_human_old_man.png",
 				"Antagonist",
 				[
@@ -4271,6 +4250,27 @@ data = {
 			],
 			[
 				"output/html/game/ui/campaign ui/ancillaries/wh_main_anc_human_man.png",
+				"Mercenary",
+				[
+					"Casualty replenishment rate: +5% (<img src=\"output/html/game/ui/campaign ui/effect_bundles/general.png\" icon=\"icon_general\" />Lord's army)"
+				],
+				[
+					"battle_general_ability.png"
+				],
+				[
+					[
+						8,
+						[
+							[
+								"*(<u title=\"Main Lord - the one, who leads the attack/defense\">Lord</u>)\nLose/draw battle",
+								false
+							]
+						]
+					]
+				]
+			],
+			[
+				"output/html/game/ui/campaign ui/ancillaries/wh_main_anc_human_man.png",
 				"Pit Fighter",
 				[
 					"Casualties captured post-battle: +10%"
@@ -4293,12 +4293,11 @@ data = {
 			],
 			[
 				"output/html/game/ui/campaign ui/ancillaries/wh_main_anc_human_man.png",
-				"Servant",
+				"Vagabond",
 				[
-					"Enemy Hero action success chance: -10%"
+					"Campaign line of sight: +7%"
 				],
 				[
-					"battle_general_ability.png",
 					"campaign_agent.png"
 				],
 				[
@@ -4315,11 +4314,12 @@ data = {
 			],
 			[
 				"output/html/game/ui/campaign ui/ancillaries/wh_main_anc_human_man.png",
-				"Vagabond",
+				"Servant",
 				[
-					"Campaign line of sight: +7%"
+					"Enemy Hero action success chance: -10%"
 				],
 				[
+					"battle_general_ability.png",
 					"campaign_agent.png"
 				],
 				[
@@ -4400,13 +4400,13 @@ data = {
 				]
 			],
 			[
-				"output/html/game/ui/campaign ui/ancillaries/wh_main_anc_human_old_man.png",
-				"Zealot",
+				"output/html/game/ui/campaign ui/ancillaries/wh_main_anc_human_man.png",
+				"Initiate",
 				[
 					"Untainted: +3 (local province)"
 				],
 				[
-					"battle_general_ability.png"
+					"campaign_agent.png"
 				],
 				[
 					[
@@ -4421,13 +4421,13 @@ data = {
 				]
 			],
 			[
-				"output/html/game/ui/campaign ui/ancillaries/wh_main_anc_human_man.png",
-				"Initiate",
+				"output/html/game/ui/campaign ui/ancillaries/wh_main_anc_human_old_man.png",
+				"Zealot",
 				[
 					"Untainted: +3 (local province)"
 				],
 				[
-					"campaign_agent.png"
+					"battle_general_ability.png"
 				],
 				[
 					[
@@ -4820,29 +4820,6 @@ data = {
 			],
 			[
 				"output/html/game/ui/campaign ui/ancillaries/wh_main_anc_dwarfs_dwarf.png",
-				"Teller of Tales",
-				[
-					"Public order: +1 (local province)",
-					"Untainted: +2 (local province)"
-				],
-				[
-					"battle_general_ability.png",
-					"campaign_agent.png"
-				],
-				[
-					[
-						10,
-						[
-							[
-								"*Rank Up in region (1 turn own) with less than -20 public order",
-								false
-							]
-						]
-					]
-				]
-			],
-			[
-				"output/html/game/ui/campaign ui/ancillaries/wh_main_anc_dwarfs_dwarf.png",
 				"Choir Master",
 				[
 					"Public order: +1 (local province)",
@@ -4855,6 +4832,29 @@ data = {
 				[
 					[
 						12,
+						[
+							[
+								"*Rank Up in region (1 turn own) with less than -20 public order",
+								false
+							]
+						]
+					]
+				]
+			],
+			[
+				"output/html/game/ui/campaign ui/ancillaries/wh_main_anc_dwarfs_dwarf.png",
+				"Teller of Tales",
+				[
+					"Public order: +1 (local province)",
+					"Untainted: +2 (local province)"
+				],
+				[
+					"battle_general_ability.png",
+					"campaign_agent.png"
+				],
+				[
+					[
+						10,
 						[
 							[
 								"*Rank Up in region (1 turn own) with less than -20 public order",
@@ -6246,28 +6246,6 @@ data = {
 				]
 			],
 			[
-				"output/html/game/ui/campaign ui/ancillaries/wh_main_anc_vampire_counts_necromancer.png",
-				"Restless Spirit",
-				[
-					"Public order: +1 (local province)"
-				],
-				[
-					"battle_general_ability.png",
-					"campaign_agent.png"
-				],
-				[
-					[
-						15,
-						[
-							[
-								"*Rank Up in region (1 turn own) with less than -20 public order",
-								false
-							]
-						]
-					]
-				]
-			],
-			[
 				"output/html/game/ui/campaign ui/ancillaries/wh_main_anc_vampire_counts_black_cat.png",
 				"Black Cat",
 				[
@@ -6280,6 +6258,28 @@ data = {
 				[
 					[
 						20,
+						[
+							[
+								"*Rank Up in region (1 turn own) with less than -20 public order",
+								false
+							]
+						]
+					]
+				]
+			],
+			[
+				"output/html/game/ui/campaign ui/ancillaries/wh_main_anc_vampire_counts_necromancer.png",
+				"Restless Spirit",
+				[
+					"Public order: +1 (local province)"
+				],
+				[
+					"battle_general_ability.png",
+					"campaign_agent.png"
+				],
+				[
+					[
+						15,
 						[
 							[
 								"*Rank Up in region (1 turn own) with less than -20 public order",
@@ -6355,28 +6355,6 @@ data = {
 				]
 			],
 			[
-				"output/html/game/ui/campaign ui/ancillaries/wh_main_anc_vampire_counts_male.png",
-				"Warpstone Hunter",
-				[
-					"Income from all buildings: +4% (local region)"
-				],
-				[
-					"battle_general_ability.png",
-					"campaign_agent.png"
-				],
-				[
-					[
-						25,
-						[
-							[
-								"*(<u title=\"Main Lord - the one, who leads the attack/defense\">Lord</u>)\nWin battle, while having negative income",
-								false
-							]
-						]
-					]
-				]
-			],
-			[
 				"output/html/game/ui/campaign ui/ancillaries/wh_main_anc_vampire_counts_necromancer.png",
 				"Dreg",
 				[
@@ -6389,6 +6367,28 @@ data = {
 				[
 					[
 						20,
+						[
+							[
+								"*(<u title=\"Main Lord - the one, who leads the attack/defense\">Lord</u>)\nWin battle, while having negative income",
+								false
+							]
+						]
+					]
+				]
+			],
+			[
+				"output/html/game/ui/campaign ui/ancillaries/wh_main_anc_vampire_counts_male.png",
+				"Warpstone Hunter",
+				[
+					"Income from all buildings: +4% (local region)"
+				],
+				[
+					"battle_general_ability.png",
+					"campaign_agent.png"
+				],
+				[
+					[
+						25,
 						[
 							[
 								"*(<u title=\"Main Lord - the one, who leads the attack/defense\">Lord</u>)\nWin battle, while having negative income",
@@ -6506,8 +6506,8 @@ data = {
 				]
 			],
 			[
-				"output/html/game/ui/campaign ui/ancillaries/wh_main_anc_chaos_warrior.png",
-				"Zealot",
+				"output/html/game/ui/campaign ui/ancillaries/wh_main_anc_chaos_human.png",
+				"Cultist ",
 				[
 					"Chaos corruption: +1 (local province)"
 				],
@@ -6528,8 +6528,8 @@ data = {
 				]
 			],
 			[
-				"output/html/game/ui/campaign ui/ancillaries/wh_main_anc_chaos_human.png",
-				"Cultist ",
+				"output/html/game/ui/campaign ui/ancillaries/wh_main_anc_chaos_warrior.png",
+				"Zealot",
 				[
 					"Chaos corruption: +1 (local province)"
 				],
@@ -6577,6 +6577,37 @@ data = {
 			],
 			[
 				"output/html/game/ui/campaign ui/ancillaries/wh_dlc08_anc_norsca_man.png",
+				"Skaeling Trader",
+				[
+					"Income from all buildings: +7% (local region)"
+				],
+				[
+					"battle_general_ability.png",
+					"campaign_agent.png"
+				],
+				[
+					[
+						10,
+						[
+							[
+								"*(<u title=\"Main Lord - the one, who leads the attack/defense\">Lord</u>; against: Empire)\nLoot settlement",
+								false
+							]
+						]
+					],
+					[
+						10,
+						[
+							[
+								"*(<u title=\"Main Lord - the one, who leads the attack/defense\">Lord</u>)\nWin battle, while having less than 3000 in treasury",
+								false
+							]
+						]
+					]
+				]
+			],
+			[
+				"output/html/game/ui/campaign ui/ancillaries/wh_dlc08_anc_norsca_man.png",
 				"Kurgan Slave Merchant",
 				[
 					"Income from post-battle loot: +10%",
@@ -6601,37 +6632,6 @@ data = {
 						[
 							[
 								"*(<u title=\"Main Lord - the one, who leads the attack/defense\">Lord</u>)\nSack settlement",
-								false
-							]
-						]
-					]
-				]
-			],
-			[
-				"output/html/game/ui/campaign ui/ancillaries/wh_dlc08_anc_norsca_man.png",
-				"Skaeling Trader",
-				[
-					"Income from all buildings: +7% (local region)"
-				],
-				[
-					"battle_general_ability.png",
-					"campaign_agent.png"
-				],
-				[
-					[
-						10,
-						[
-							[
-								"*(<u title=\"Main Lord - the one, who leads the attack/defense\">Lord</u>; against: Empire)\nLoot settlement",
-								false
-							]
-						]
-					],
-					[
-						10,
-						[
-							[
-								"*(<u title=\"Main Lord - the one, who leads the attack/defense\">Lord</u>)\nWin battle, while having less than 3000 in treasury",
 								false
 							]
 						]
@@ -6684,6 +6684,27 @@ data = {
 				]
 			],
 			[
+				"output/html/game/ui/campaign ui/ancillaries/wh_main_anc_chaos_human.png",
+				"Oar Slave ",
+				[
+					"Melee attack: +8 when attacking at sea (<img src=\"output/html/game/ui/campaign ui/effect_bundles/general.png\" icon=\"icon_general\" />Lord's army)"
+				],
+				[
+					"battle_general_ability.png"
+				],
+				[
+					[
+						12,
+						[
+							[
+								"*Rank Up on sea",
+								false
+							]
+						]
+					]
+				]
+			],
+			[
 				"output/html/game/ui/campaign ui/ancillaries/wh_dlc08_anc_norsca_man.png",
 				"Whalers",
 				[
@@ -6696,27 +6717,6 @@ data = {
 				[
 					[
 						10,
-						[
-							[
-								"*Rank Up on sea",
-								false
-							]
-						]
-					]
-				]
-			],
-			[
-				"output/html/game/ui/campaign ui/ancillaries/wh_main_anc_chaos_human.png",
-				"Oar Slave ",
-				[
-					"Melee attack: +8 when attacking at sea (<img src=\"output/html/game/ui/campaign ui/effect_bundles/general.png\" icon=\"icon_general\" />Lord's army)"
-				],
-				[
-					"battle_general_ability.png"
-				],
-				[
-					[
-						12,
 						[
 							[
 								"*Rank Up on sea",
@@ -6957,28 +6957,6 @@ data = {
 				]
 			],
 			[
-				"output/html/game/ui/campaign ui/ancillaries/wh_main_anc_chaos_human.png",
-				"Collector",
-				[
-					"Income from sacking settlements: +6%"
-				],
-				[
-					"battle_general_ability.png",
-					"campaign_agent.png"
-				],
-				[
-					[
-						5,
-						[
-							[
-								"*(<u title=\"Main Lord - the one, who leads the attack/defense\">Lord</u>)\nSack settlement",
-								false
-							]
-						]
-					]
-				]
-			],
-			[
 				"output/html/game/ui/campaign ui/ancillaries/wh_dlc08_anc_norsca_slave_male.png",
 				"Slave Worker",
 				[
@@ -6991,6 +6969,28 @@ data = {
 				[
 					[
 						10,
+						[
+							[
+								"*(<u title=\"Main Lord - the one, who leads the attack/defense\">Lord</u>)\nSack settlement",
+								false
+							]
+						]
+					]
+				]
+			],
+			[
+				"output/html/game/ui/campaign ui/ancillaries/wh_main_anc_chaos_human.png",
+				"Collector",
+				[
+					"Income from sacking settlements: +6%"
+				],
+				[
+					"battle_general_ability.png",
+					"campaign_agent.png"
+				],
+				[
+					[
+						5,
 						[
 							[
 								"*(<u title=\"Main Lord - the one, who leads the attack/defense\">Lord</u>)\nSack settlement",
@@ -7015,6 +7015,27 @@ data = {
 						[
 							[
 								"*(<u title=\"Main Lord - the one, who leads the attack/defense\">Lord</u>)\nDeclare war this turn and sack settlement",
+								false
+							]
+						]
+					]
+				]
+			],
+			[
+				"output/html/game/ui/campaign ui/ancillaries/wh_main_anc_chaos_warrior.png",
+				"Norse Berserker",
+				[
+					"Casualties captured post-battle: +12%"
+				],
+				[
+					"battle_general_ability.png"
+				],
+				[
+					[
+						3,
+						[
+							[
+								"*(<u title=\"Main Lord - the one, who leads the attack/defense\">Lord</u>)\nWin battle",
 								false
 							]
 						]
@@ -7065,27 +7086,6 @@ data = {
 						]
 					]
 				]
-			],
-			[
-				"output/html/game/ui/campaign ui/ancillaries/wh_main_anc_chaos_warrior.png",
-				"Norse Berserker",
-				[
-					"Casualties captured post-battle: +12%"
-				],
-				[
-					"battle_general_ability.png"
-				],
-				[
-					[
-						3,
-						[
-							[
-								"*(<u title=\"Main Lord - the one, who leads the attack/defense\">Lord</u>)\nWin battle",
-								false
-							]
-						]
-					]
-				]
 			]
 		]
 	},
@@ -7093,8 +7093,8 @@ data = {
 		"title": "Chaos",
 		"ancillaryList": [
 			[
-				"output/html/game/ui/campaign ui/ancillaries/wh_main_anc_chaos_warrior.png",
-				"Zealot",
+				"output/html/game/ui/campaign ui/ancillaries/wh_main_anc_chaos_human.png",
+				"Cultist ",
 				[
 					"Chaos corruption: +1 (local province)"
 				],
@@ -7115,8 +7115,8 @@ data = {
 				]
 			],
 			[
-				"output/html/game/ui/campaign ui/ancillaries/wh_main_anc_chaos_human.png",
-				"Cultist ",
+				"output/html/game/ui/campaign ui/ancillaries/wh_main_anc_chaos_warrior.png",
+				"Zealot",
 				[
 					"Chaos corruption: +1 (local province)"
 				],
@@ -7335,6 +7335,27 @@ data = {
 				]
 			],
 			[
+				"output/html/game/ui/campaign ui/ancillaries/wh_main_anc_chaos_demon.png",
+				"Darksoul ",
+				[
+					"Horde growth: +2 (<img src=\"output/html/game/ui/campaign ui/effect_bundles/general.png\" icon=\"icon_general\" />Lord's army)"
+				],
+				[
+					"battle_general_ability.png"
+				],
+				[
+					[
+						6,
+						[
+							[
+								"*(<u title=\"Main Lord - the one, who leads the attack/defense\">Lord</u>)\nSack settlement",
+								false
+							]
+						]
+					]
+				]
+			],
+			[
 				"output/html/game/ui/campaign ui/ancillaries/wh_main_anc_chaos_human.png",
 				"Collector",
 				[
@@ -7347,27 +7368,6 @@ data = {
 				[
 					[
 						5,
-						[
-							[
-								"*(<u title=\"Main Lord - the one, who leads the attack/defense\">Lord</u>)\nSack settlement",
-								false
-							]
-						]
-					]
-				]
-			],
-			[
-				"output/html/game/ui/campaign ui/ancillaries/wh_main_anc_chaos_demon.png",
-				"Darksoul ",
-				[
-					"Horde growth: +2 (<img src=\"output/html/game/ui/campaign ui/effect_bundles/general.png\" icon=\"icon_general\" />Lord's army)"
-				],
-				[
-					"battle_general_ability.png"
-				],
-				[
-					[
-						6,
 						[
 							[
 								"*(<u title=\"Main Lord - the one, who leads the attack/defense\">Lord</u>)\nSack settlement",
@@ -7584,27 +7584,6 @@ data = {
 				]
 			],
 			[
-				"output/html/game/ui/campaign ui/ancillaries/wh_main_anc_human_man.png",
-				"Mercenary",
-				[
-					"Casualty replenishment rate: +5% (<img src=\"output/html/game/ui/campaign ui/effect_bundles/general.png\" icon=\"icon_general\" />Lord's army)"
-				],
-				[
-					"battle_general_ability.png"
-				],
-				[
-					[
-						8,
-						[
-							[
-								"*(<u title=\"Main Lord - the one, who leads the attack/defense\">Lord</u>)\nLose/draw battle",
-								false
-							]
-						]
-					]
-				]
-			],
-			[
 				"output/html/game/ui/campaign ui/ancillaries/wh_main_anc_human_old_man.png",
 				"Antagonist",
 				[
@@ -7649,6 +7628,27 @@ data = {
 			],
 			[
 				"output/html/game/ui/campaign ui/ancillaries/wh_main_anc_human_man.png",
+				"Mercenary",
+				[
+					"Casualty replenishment rate: +5% (<img src=\"output/html/game/ui/campaign ui/effect_bundles/general.png\" icon=\"icon_general\" />Lord's army)"
+				],
+				[
+					"battle_general_ability.png"
+				],
+				[
+					[
+						8,
+						[
+							[
+								"*(<u title=\"Main Lord - the one, who leads the attack/defense\">Lord</u>)\nLose/draw battle",
+								false
+							]
+						]
+					]
+				]
+			],
+			[
+				"output/html/game/ui/campaign ui/ancillaries/wh_main_anc_human_man.png",
 				"Pit Fighter",
 				[
 					"Casualties captured post-battle: +10%"
@@ -7671,12 +7671,11 @@ data = {
 			],
 			[
 				"output/html/game/ui/campaign ui/ancillaries/wh_main_anc_human_man.png",
-				"Servant",
+				"Vagabond",
 				[
-					"Enemy Hero action success chance: -10%"
+					"Campaign line of sight: +7%"
 				],
 				[
-					"battle_general_ability.png",
 					"campaign_agent.png"
 				],
 				[
@@ -7693,11 +7692,12 @@ data = {
 			],
 			[
 				"output/html/game/ui/campaign ui/ancillaries/wh_main_anc_human_man.png",
-				"Vagabond",
+				"Servant",
 				[
-					"Campaign line of sight: +7%"
+					"Enemy Hero action success chance: -10%"
 				],
 				[
+					"battle_general_ability.png",
 					"campaign_agent.png"
 				],
 				[
@@ -7778,13 +7778,13 @@ data = {
 				]
 			],
 			[
-				"output/html/game/ui/campaign ui/ancillaries/wh_main_anc_human_old_man.png",
-				"Zealot",
+				"output/html/game/ui/campaign ui/ancillaries/wh_main_anc_human_man.png",
+				"Initiate",
 				[
 					"Untainted: +3 (local province)"
 				],
 				[
-					"battle_general_ability.png"
+					"campaign_agent.png"
 				],
 				[
 					[
@@ -7799,13 +7799,13 @@ data = {
 				]
 			],
 			[
-				"output/html/game/ui/campaign ui/ancillaries/wh_main_anc_human_man.png",
-				"Initiate",
+				"output/html/game/ui/campaign ui/ancillaries/wh_main_anc_human_old_man.png",
+				"Zealot",
 				[
 					"Untainted: +3 (local province)"
 				],
 				[
-					"campaign_agent.png"
+					"battle_general_ability.png"
 				],
 				[
 					[
@@ -8389,6 +8389,28 @@ data = {
 				]
 			],
 			[
+				"output/html/game/ui/campaign ui/ancillaries/wh_main_anc_chaos_human.png",
+				"Cultist ",
+				[
+					"Chaos corruption: +1 (local province)"
+				],
+				[
+					"battle_general_ability.png",
+					"campaign_agent.png"
+				],
+				[
+					[
+						3,
+						[
+							[
+								"*Rank Up in untainted province",
+								false
+							]
+						]
+					]
+				]
+			],
+			[
 				"output/html/game/ui/campaign ui/ancillaries/wh_main_anc_chaos_warrior.png",
 				"Zealot",
 				[
@@ -8413,28 +8435,6 @@ data = {
 			[
 				"output/html/game/ui/campaign ui/ancillaries/wh_dlc03_anc_beastmen_gor2.png",
 				"Herdstone Keeper",
-				[
-					"Chaos corruption: +1 (local province)"
-				],
-				[
-					"battle_general_ability.png",
-					"campaign_agent.png"
-				],
-				[
-					[
-						3,
-						[
-							[
-								"*Rank Up in untainted province",
-								false
-							]
-						]
-					]
-				]
-			],
-			[
-				"output/html/game/ui/campaign ui/ancillaries/wh_main_anc_chaos_human.png",
-				"Cultist ",
 				[
 					"Chaos corruption: +1 (local province)"
 				],
@@ -8589,6 +8589,27 @@ data = {
 				]
 			],
 			[
+				"output/html/game/ui/campaign ui/ancillaries/wh_dlc03_anc_beastmen_gor.png",
+				"Flayer",
+				[
+					"Post battle chance of stealing a magic item: +12%"
+				],
+				[
+					"battle_general_ability.png"
+				],
+				[
+					[
+						10,
+						[
+							[
+								"*Declare war this turn and Rank Up and character has won 4 offensive battles",
+								false
+							]
+						]
+					]
+				]
+			],
+			[
 				"output/html/game/ui/campaign ui/ancillaries/wh_main_anc_chaos_warrior.png",
 				"Barbarian ",
 				[
@@ -8601,27 +8622,6 @@ data = {
 				[
 					[
 						18,
-						[
-							[
-								"*Declare war this turn and Rank Up and character has won 4 offensive battles",
-								false
-							]
-						]
-					]
-				]
-			],
-			[
-				"output/html/game/ui/campaign ui/ancillaries/wh_dlc03_anc_beastmen_gor.png",
-				"Flayer",
-				[
-					"Post battle chance of stealing a magic item: +12%"
-				],
-				[
-					"battle_general_ability.png"
-				],
-				[
-					[
-						10,
 						[
 							[
 								"*Declare war this turn and Rank Up and character has won 4 offensive battles",
@@ -8675,6 +8675,27 @@ data = {
 				]
 			],
 			[
+				"output/html/game/ui/campaign ui/ancillaries/wh_main_anc_chaos_demon.png",
+				"Darksoul ",
+				[
+					"Horde growth: +2 (<img src=\"output/html/game/ui/campaign ui/effect_bundles/general.png\" icon=\"icon_general\" />Lord's army)"
+				],
+				[
+					"battle_general_ability.png"
+				],
+				[
+					[
+						6,
+						[
+							[
+								"*(<u title=\"Main Lord - the one, who leads the attack/defense\">Lord</u>)\nSack settlement",
+								false
+							]
+						]
+					]
+				]
+			],
+			[
 				"output/html/game/ui/campaign ui/ancillaries/wh_main_anc_chaos_human.png",
 				"Collector",
 				[
@@ -8687,27 +8708,6 @@ data = {
 				[
 					[
 						5,
-						[
-							[
-								"*(<u title=\"Main Lord - the one, who leads the attack/defense\">Lord</u>)\nSack settlement",
-								false
-							]
-						]
-					]
-				]
-			],
-			[
-				"output/html/game/ui/campaign ui/ancillaries/wh_main_anc_chaos_demon.png",
-				"Darksoul ",
-				[
-					"Horde growth: +2 (<img src=\"output/html/game/ui/campaign ui/effect_bundles/general.png\" icon=\"icon_general\" />Lord's army)"
-				],
-				[
-					"battle_general_ability.png"
-				],
-				[
-					[
-						6,
 						[
 							[
 								"*(<u title=\"Main Lord - the one, who leads the attack/defense\">Lord</u>)\nSack settlement",
