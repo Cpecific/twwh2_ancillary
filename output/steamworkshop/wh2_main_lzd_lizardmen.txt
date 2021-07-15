@@ -14,14 +14,14 @@ Recruitment cost: -10% (Lord's army)[/td]
 Complete battle and character has won 20 battles[/td]
 [/tr][tr]
 [td]Temple Architect[/td]
-[td](Skink Priest)
+[td](Skink Oracle, Skink Priest)
 Construction cost: -25% for Cult of Sotek and Cult of the Old Ones buildings (local province)[/td]
 [td][previewicon=21642086;sizeOriginal,inline;character_agent.png][/previewicon]
 10%[/td]
-[td]*Have technology “Sequence of Expansion” and Rank Up (1 turn own) in region with chain “Outpost” (chs), “Occupied Settlement” (rogue), “Large Outpost”, “Large Coastal Outpost” (wef), “Major Settlement” (dwf, grn), “Provincial Capital” (brt, cst, emp, vmp), “Province Capital” (def, hef, lzd, skv, tmb) or “Major Coastal Settlement” (def, dwf, grn, hef, lzd, skv, tmb)[/td]
+[td]*Have technology “Sequence of Expansion” and Rank Up (1 turn own) in region with chain “Herdstone” (bst), “Outpost” (chs), “Occupied Settlement” (rogue), “Large Outpost”, “Large Coastal Outpost” (wef), “Major Settlement” (dwf, grn), “Provincial Capital” (brt, cst, emp, vmp), “Province Capital” (def, hef, lzd, skv, tmb) or “Major Coastal Settlement” (def, dwf, grn, hef, lzd, skv, tmb)[/td]
 [/tr][tr]
 [td]Astromancer[/td]
-[td](Skink Priest)
+[td](Skink Oracle, Skink Priest)
 Ancient Plaques from all buildings: +5% (factionwide)[/td]
 [td][previewicon=21641941;sizeOriginal,inline;battle_general_ability.png][/previewicon][previewicon=21642086;sizeOriginal,inline;character_agent.png][/previewicon]
 25%[/td]
@@ -29,7 +29,7 @@ Ancient Plaques from all buildings: +5% (factionwide)[/td]
 Spend a turn in own region, which has chain “Scrying” (every 5th turn)[/td]
 [/tr][tr]
 [td]Astronomer[/td]
-[td](Skink Priest)
+[td](Skink Oracle, Skink Priest)
 Public order: +2 (local province)[/td]
 [td][previewicon=21641941;sizeOriginal,inline;battle_general_ability.png][/previewicon][previewicon=21642086;sizeOriginal,inline;character_agent.png][/previewicon]
 25%[/td]
@@ -39,7 +39,7 @@ Public order: +2 (local province)[/td]
 [td]Construction cost: -25% for Cult of Sotek and Cult of the Old Ones buildings (local province)[/td]
 [td][previewicon=21641941;sizeOriginal,inline;battle_general_ability.png][/previewicon][previewicon=21641943;sizeOriginal,inline;campaign_agent.png][/previewicon]
 10%[/td]
-[td]*Have technology “Sequence of Guardian Spawning” and Rank Up in region (1 turn own), which has chain “Ranged” (cst), “Riders” (def), “Forest Beasts”, “Greenskin Recruitment”, “Savage Orc Recruitment” (grn), “Elven Cavalry”, “Citizen Militia” (hef), “Underground Spawning Pool”, “Outdoor Spawning Pool” (lzd), “Assassins”, “Clan Warriors” (skv), “Cavalry”, “Infantry” (tmb), “Binding Circle”, “Cemetery” (vmp), “Stables” (brt, emp) or “Barracks” (brt, cst, def, dwf, emp)[/td]
+[td]*Have technology “Sequence of Guardian Spawning” and Rank Up in region (1 turn own), which has chain “Ranged” (cst), “Riders” (def), “Guild Workshops” (dwf), “Forest Beasts”, “Greenskin Recruitment”, “Savage Orc Recruitment” (grn), “Elven Cavalry”, “Citizen Militia” (hef), “Underground Spawning Pool”, “Outdoor Spawning Pool” (lzd), “Assassins”, “Clan Warriors” (skv), “Cavalry”, “Infantry” (tmb), “Binding Circle”, “Cemetery” (vmp), “Stables” (brt, emp) or “Barracks” (brt, cst, def, dwf, emp)[/td]
 [/tr][tr]
 [td]Great Warder[/td]
 [td]Enemy siege holdout time: -1 (minimum 1 turn)
@@ -63,7 +63,7 @@ Siege holdout time: +2 (local region)[/td]
 [td]*Rank Up in region (1 turn own), which has chain “Walls” (lzd)[/td]
 [/tr][tr]
 [td]Sacred Plaque Librarian[/td]
-[td](Skink Chief, Skink Priest)
+[td](Skink Oracle, Skink Chief, Skink Priest)
 Ancient Plaques from all buildings: +5% (factionwide)
 Research rate: +10% (factionwide)[/td]
 [td][previewicon=21641941;sizeOriginal,inline;battle_general_ability.png][/previewicon][previewicon=21642086;sizeOriginal,inline;character_agent.png][/previewicon]
@@ -72,15 +72,15 @@ Research rate: +10% (factionwide)[/td]
 Win a battle[/td]
 [/tr][tr]
 [td]Star-Metallurgist[/td]
-[td](Skink Priest)
+[td](Skink Oracle, Skink Priest)
 Construction cost: -25% for Star Chamber buildings (local province)
 Siege holdout time: +2 (local region)[/td]
 [td][previewicon=21642086;sizeOriginal,inline;character_agent.png][/previewicon]
 10%[/td]
-[td]*Have technology “Sequence of the Star Chambers” and Rank Up (1 turn own) in region with chain “Outpost” (chs), “Occupied Settlement” (rogue), “Large Outpost”, “Large Coastal Outpost” (wef), “Major Settlement” (dwf, grn), “Provincial Capital” (brt, cst, emp, vmp), “Province Capital” (def, hef, lzd, skv, tmb) or “Major Coastal Settlement” (def, dwf, grn, hef, lzd, skv, tmb)[/td]
+[td]*Have technology “Sequence of the Star Chambers” and Rank Up (1 turn own) in region with chain “Herdstone” (bst), “Outpost” (chs), “Occupied Settlement” (rogue), “Large Outpost”, “Large Coastal Outpost” (wef), “Major Settlement” (dwf, grn), “Provincial Capital” (brt, cst, emp, vmp), “Province Capital” (def, hef, lzd, skv, tmb) or “Major Coastal Settlement” (def, dwf, grn, hef, lzd, skv, tmb)[/td]
 [/tr][tr]
 [td]Temple Keeper[/td]
-[td](Skink Priest)
+[td](Skink Oracle, Skink Priest)
 Public order: +2 (local province)[/td]
 [td][previewicon=21642086;sizeOriginal,inline;character_agent.png][/previewicon]
 25%[/td]
@@ -94,7 +94,7 @@ Recruit rank: +1 for infantry units (Lord's army)[/td]
 [td]*Rank Up in region (2 turn own), which has chain “Garrison” (cst, def, hef, lzd, skv, tmb)[/td]
 [/tr][tr]
 [td]Rat-Spawn Sacrifice[/td]
-[td](Skink Chief, Skink Priest)
+[td](Skink Oracle, Skink Chief, Skink Priest)
 Leadership: +4 when fighting against Skaven[/td]
 [td][previewicon=21641941;sizeOriginal,inline;battle_general_ability.png][/previewicon][previewicon=21642086;sizeOriginal,inline;character_agent.png][/previewicon]
 11%[/td]
@@ -104,7 +104,7 @@ Win battle as attacker;
 Complete battle as defender[/td]
 [/tr][tr]
 [td]Acolyte Mage[/td]
-[td](Skink Priest)
+[td](Skink Oracle, Skink Priest)
 Research rate: +10% (factionwide)[/td]
 [td][previewicon=21642086;sizeOriginal,inline;character_agent.png][/previewicon]
 1%[/td]
@@ -112,14 +112,14 @@ Research rate: +10% (factionwide)[/td]
 [/tr][tr]
 [td]Prize Hunter[/td]
 [td](Saurus Scar-Veteran)
-Upkeep: -10% for Terradon Riders, Cold One, Stegadon, Bastiladon, Carnosaur and Dread Saurian units (Lord's army)[/td]
+Upkeep: -10% for Terradon Riders, Cold One, Stegadon, Bastiladon, Feral Carnosaur, Feral Troglodon and Dread Saurian units (Lord's army)[/td]
 [td][previewicon=21641941;sizeOriginal,inline;battle_general_ability.png][/previewicon][previewicon=21642086;sizeOriginal,inline;character_agent.png][/previewicon]
 25%[/td]
 [td]*([u]Lord[/u])
 Participate in ambush battle[/td]
 [/tr][tr]
 [td]Great Plan Archivist[/td]
-[td](Skink Priest)
+[td](Skink Oracle, Skink Priest)
 Campaign line of sight: +15%[/td]
 [td][previewicon=21642086;sizeOriginal,inline;character_agent.png][/previewicon]
 10%[/td]
@@ -139,7 +139,7 @@ Winds of Magic power reserve: +10[/td]
 [td]*Rank Up in region (1 turn own) with less than -20 public order[/td]
 [/tr][tr]
 [td]Artefact Hunter[/td]
-[td](Skink Priest)
+[td](Skink Oracle, Skink Priest)
 Magic item drop chance: +10%
 Post battle chance of stealing a magic item: +10%[/td]
 [td][previewicon=21642086;sizeOriginal,inline;character_agent.png][/previewicon]
@@ -148,7 +148,7 @@ Post battle chance of stealing a magic item: +10%[/td]
 Sack settlement[/td]
 [/tr][tr]
 [td]Man-Spawn Sacrifice[/td]
-[td](Skink Chief, Skink Priest)
+[td](Skink Oracle, Skink Chief, Skink Priest)
 Leadership: +4 when fighting against Men[/td]
 [td][previewicon=21641941;sizeOriginal,inline;battle_general_ability.png][/previewicon][previewicon=21642086;sizeOriginal,inline;character_agent.png][/previewicon]
 50%[/td]

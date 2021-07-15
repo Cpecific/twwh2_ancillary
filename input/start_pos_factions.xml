@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<dataroot xmlns:od="urn:schemas-microsoft-com:officedata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="start_pos_factions.xsd" export_time="Thu Jan 14 12:19:25 2021" revision="461" export_branch="C:/Users/william.wright/AppData/Roaming/TWDaemon/2329/dave" export_user="bob">
-<edit_uuid>bea2a58b-6d7a-4af7-916a-004c0c7ab4b4</edit_uuid>
+<dataroot xmlns:od="urn:schemas-microsoft-com:officedata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="start_pos_factions.xsd" export_time="Tue May 11 14:15:02 2021" revision="472" export_branch="C:/Users/Nicolas.Graber/AppData/Roaming/TWDaemon/2509/dave" export_user="bob">
+<edit_uuid>3fc6f7b2-0224-4916-b8d7-c7402bf0f67a</edit_uuid>
 <start_pos_factions record_uuid="{fcac712b-5b87-4d3b-83ee-07f5ff1c890c}" record_timestamp="1533031380364" record_key="1006495099">
 <ID>1006495099</ID>
 <ai_manager>default</ai_manager>
@@ -237,6 +237,30 @@
 <prestige_enlightenment>0</prestige_enlightenment>
 <prestige_navy>0</prestige_navy>
 <starting_order>999</starting_order>
+<state_religion>wh_main_religion_untainted</state_religion>
+<treasury>5000</treasury>
+<unique>0</unique>
+</start_pos_factions>
+<start_pos_factions record_uuid="{5295e9bb-ae56-4d62-8db5-51c1b5ed3d1d}" record_timestamp="1611245840453" record_key="1041708044">
+<ID>1041708044</ID>
+<ai_manager>default</ai_manager>
+<cai_personality_group>wh_group_dwarfs_subjugator</cai_personality_group>
+<cai_starting_personality></cai_starting_personality>
+<campaign>wh2_main_great_vortex</campaign>
+<can_ever_convert_religion>0</can_ever_convert_religion>
+<cdir_military_generator_config>WH_Dwarfs_Belegar</cdir_military_generator_config>
+<description state="PLACEHOLDER" last_approved_text="" last_edit_user="bob">PLACEHOLDER</description>
+<faction>wh2_dlc17_dwf_thorek_ironbrow</faction>
+<government_type>gov_absolute_monarchy</government_type>
+<honour>50</honour>
+<is_major>1</is_major>
+<long_description state="PLACEHOLDER" last_approved_text="" last_edit_user="bob">LONGER PLACEHOLDER</long_description>
+<playable>1</playable>
+<prestige_army>0</prestige_army>
+<prestige_economy>0</prestige_economy>
+<prestige_enlightenment>0</prestige_enlightenment>
+<prestige_navy>0</prestige_navy>
+<starting_order>73</starting_order>
 <state_religion>wh_main_religion_untainted</state_religion>
 <treasury>5000</treasury>
 <unique>0</unique>
@@ -817,7 +841,7 @@
 <treasury>5000</treasury>
 <unique>0</unique>
 </start_pos_factions>
-<start_pos_factions record_uuid="{770f5ea4-94ae-4c8e-88b1-d5a8bf2d2751}" record_timestamp="1606734788685" record_key="1213271860">
+<start_pos_factions record_uuid="{770f5ea4-94ae-4c8e-88b1-d5a8bf2d2751}" record_timestamp="1618307681783" record_key="1213271860">
 <ID>1213271860</ID>
 <ai_manager>default</ai_manager>
 <cai_personality_group>wh2_group_darkelf_default</cai_personality_group>
@@ -1249,6 +1273,30 @@
 <treasury>5000</treasury>
 <unique>0</unique>
 </start_pos_factions>
+<start_pos_factions record_uuid="{c3aac5a5-94ce-46c1-b611-df0adeafbadf}" record_timestamp="1614708712305" record_key="1269280525">
+<ID>1269280525</ID>
+<ai_manager>default</ai_manager>
+<cai_personality_group>default</cai_personality_group>
+<cai_starting_personality></cai_starting_personality>
+<campaign>wh2_main_great_vortex</campaign>
+<can_ever_convert_religion>0</can_ever_convert_religion>
+<cdir_military_generator_config>WH_Beastmen</cdir_military_generator_config>
+<description state="HIDDEN" last_approved_text="" last_edit_user="bob">PLACEHOLDER</description>
+<faction>wh2_dlc17_bst_beastmen_qb6</faction>
+<government_type>gov_absolute_monarchy</government_type>
+<honour>50</honour>
+<is_major>0</is_major>
+<long_description state="HIDDEN" last_approved_text="" last_edit_user="bob">PLACEHOLDER</long_description>
+<playable>0</playable>
+<prestige_army>0</prestige_army>
+<prestige_economy>0</prestige_economy>
+<prestige_enlightenment>0</prestige_enlightenment>
+<prestige_navy>0</prestige_navy>
+<starting_order>999</starting_order>
+<state_religion>wh_main_religion_untainted</state_religion>
+<treasury>5000</treasury>
+<unique>0</unique>
+</start_pos_factions>
 <start_pos_factions record_uuid="{6947a954-3914-4106-9965-8e3a6d271f3b}" record_timestamp="1509440257783" record_key="1269970921">
 <ID>1269970921</ID>
 <ai_manager>default</ai_manager>
@@ -1324,7 +1372,7 @@
 <start_pos_factions record_uuid="{604ff16c-b56f-4c03-a4bb-ba4c4ae63c18}" record_timestamp="1581679705022" record_key="1295067546">
 <ID>1295067546</ID>
 <ai_manager>default</ai_manager>
-<cai_personality_group>wh_group_dwarfs_subordinate</cai_personality_group>
+<cai_personality_group>wh_group_dwarfs_default</cai_personality_group>
 <cai_starting_personality></cai_starting_personality>
 <campaign>main_warhammer</campaign>
 <can_ever_convert_religion>0</can_ever_convert_religion>
@@ -1367,6 +1415,30 @@
 <starting_order>285</starting_order>
 <state_religion>wh_main_religion_untainted</state_religion>
 <treasury>5000</treasury>
+<unique>0</unique>
+</start_pos_factions>
+<start_pos_factions record_uuid="{69283820-8dbf-4177-a8e8-40b9a3c694fa}" record_timestamp="1611920835368" record_key="1311701322">
+<ID>1311701322</ID>
+<ai_manager>default</ai_manager>
+<cai_personality_group>wh_group_norsca_default</cai_personality_group>
+<cai_starting_personality></cai_starting_personality>
+<campaign>main_warhammer</campaign>
+<can_ever_convert_religion>0</can_ever_convert_religion>
+<cdir_military_generator_config>WH_Norsca</cdir_military_generator_config>
+<description state="HIDDEN" last_approved_text="" last_edit_user="bob">PLACEHOLDER</description>
+<faction>wh2_dlc17_nor_deadwood_ravagers</faction>
+<government_type>gov_absolute_monarchy</government_type>
+<honour>50</honour>
+<is_major>0</is_major>
+<long_description state="HIDDEN" last_approved_text="" last_edit_user="bob">PLACEHOLDER</long_description>
+<playable>0</playable>
+<prestige_army>0</prestige_army>
+<prestige_economy>0</prestige_economy>
+<prestige_enlightenment>0</prestige_enlightenment>
+<prestige_navy>0</prestige_navy>
+<starting_order>529</starting_order>
+<state_religion>wh_main_religion_chaos</state_religion>
+<treasury>1000</treasury>
 <unique>0</unique>
 </start_pos_factions>
 <start_pos_factions record_uuid="{e4882e9e-2fef-4978-9209-9ea80947fbd0}" record_timestamp="1578415878636" record_key="1323315559">
@@ -1633,6 +1705,30 @@
 <treasury>5000</treasury>
 <unique>0</unique>
 </start_pos_factions>
+<start_pos_factions record_uuid="{450c3ec7-dc48-489d-85e5-fcbccdbc121d}" record_timestamp="1614708712305" record_key="1384358948">
+<ID>1384358948</ID>
+<ai_manager>default</ai_manager>
+<cai_personality_group>default</cai_personality_group>
+<cai_starting_personality></cai_starting_personality>
+<campaign>main_warhammer</campaign>
+<can_ever_convert_religion>0</can_ever_convert_religion>
+<cdir_military_generator_config>WH_Beastmen</cdir_military_generator_config>
+<description state="HIDDEN" last_approved_text="" last_edit_user="bob">PLACEHOLDER</description>
+<faction>wh2_dlc17_bst_beastmen_qb4</faction>
+<government_type>gov_absolute_monarchy</government_type>
+<honour>50</honour>
+<is_major>0</is_major>
+<long_description state="HIDDEN" last_approved_text="" last_edit_user="bob">PLACEHOLDER</long_description>
+<playable>0</playable>
+<prestige_army>0</prestige_army>
+<prestige_economy>0</prestige_economy>
+<prestige_enlightenment>0</prestige_enlightenment>
+<prestige_navy>0</prestige_navy>
+<starting_order>999</starting_order>
+<state_religion>wh_main_religion_untainted</state_religion>
+<treasury>5000</treasury>
+<unique>0</unique>
+</start_pos_factions>
 <start_pos_factions record_uuid="{db46b23f-a90f-4dd6-9502-d622f7470b52}" record_timestamp="1507893357137" record_key="1385560514">
 <ID>1385560514</ID>
 <ai_manager>default</ai_manager>
@@ -1727,6 +1823,30 @@
 <starting_order>999</starting_order>
 <state_religion>wh_main_religion_untainted</state_religion>
 <treasury>5000</treasury>
+<unique>0</unique>
+</start_pos_factions>
+<start_pos_factions record_uuid="{73c8fccd-d8f2-4440-8526-a48470383c44}" record_timestamp="1616609724988" record_key="1386695969">
+<ID>1386695969</ID>
+<ai_manager>default</ai_manager>
+<cai_personality_group>wh_dlc03_group_beastmen_subjugator</cai_personality_group>
+<cai_starting_personality></cai_starting_personality>
+<campaign>wh2_main_great_vortex</campaign>
+<can_ever_convert_religion>0</can_ever_convert_religion>
+<cdir_military_generator_config>WH_Beastmen_Khazrak</cdir_military_generator_config>
+<description state="PLACEHOLDER" last_approved_text="" last_edit_user="bob">Much of the Old World is covered in dark, forbidding forest. Although mankind has claimed this land, to think the forests are tamed would be a mistake - for they are the blood-grounds of the Cloven Ones. Beastmen are creatures of Chaos, so civilisation is anathema to them and they raid and destroy all that they come across. Mankind has retaliated, but bringing a warherd to battle is hard. Beastmen are master ambushers, using the beast-paths to entrap an enemy army - the hunter quickly becoming the hunted.\n\nEven when battle is joined, Beastmen are ferocious foes - mighty Beastlords control herds of goat-headed Gors, smaller Ungors strike from the flanks, and frenzied, massive Minotaurs charge at any enemy line. Then there are the many monsters in thrall to their bestial masters: Chaos Spawn, Warhounds, Giants and Cygors to name but a few. Such a fearsome menagerie is partly why the Old World's forests are still terrifying places, where the Children of Chaos roam, lurking in the darkness, desperate to pull apart the very fabric of civilisation.</description>
+<faction>wh2_dlc17_bst_malagor</faction>
+<government_type>gov_absolute_monarchy</government_type>
+<honour>50</honour>
+<is_major>1</is_major>
+<long_description state="PLACEHOLDER" last_approved_text="" last_edit_user="bob">“Make man-filth suffer! Make man-filth fall!”\n\nMuch of the Old World is covered in dark, forbidding forest - vast tracts of dense woodland where thick canopies blot out the sky and you can walk for days on end without seeing the sun. Assuming, of course, you could wander for so long in such a place and survive intact. Although mankind has ruled this land for many centuries, to think the forests tamed simply by being within the borders of the Empire or Bretonnia would be a mistake. Despite countless pogroms to clear the woodlands of their sinister taint, they have always harboured evil. The dark forests are not the homes of man, they are the blood-grounds of the Cloven Ones.\n\nWhen Morrslieb's glow penetrates the dense boughs of the wild woods, the Beastmen range. They hunt the blood-grounds for prey - be that rival herds, 'natural' fauna or, more preferably, man-flesh. It is mankind that the Beastmen seem to despise the most, although they have a long and bitter rivalry with the Wood Elves and will happily feast on Dwarfen flesh when the opportunity arises. To the Beastmen, though, men represent everything they hate. Despite the dangers around it, mankind has prospered, building great cities where the trees part, creating order and civilisation. Beastmen are creatures of Chaos, they follow the Ruinous Powers and so civilisation is anathema to them. They have a burning desire that floods their entire being: to tear down progress and society wherever it is found. And so they raid, destroying the easier targets - hamlets and villages that dare to exist close to the blood-grounds. Should a brayherd be gathered, when the Bray-Shamans manage to bring the fractious bestial tribes into one larger force, larger towns and even cities are attacked. Thankfully for mankind, and other ordered races, this is a rare occurrence. \n\nThe Empire and its occasional allies have retaliated, but bringing a Beastmen warherd to battle is hard. They are master ambushers, using the beast-paths to weave around and entrap an enemy army - the hunter quickly becoming the hunted and facing doom. Even when battle is joined the Beastmen are ferocious foes - mighty Beastlords control herds of goat-headed Gors, smaller Ungors strike from the flanks and frenzied, massive Minotaurs charge at any enemy line. Then there are the many monsters in thrall to their bestial masters: Chaos Spawn, Warhounds, Giants and Cygors to name but a few. Such a fearsome menagerie is part of the reason why the Old World's forests are still terrifying places, where the Children of Chaos roam, lurking in the darkness, desperate to pull apart the very fabric of civilisation.</long_description>
+<playable>1</playable>
+<prestige_army>0</prestige_army>
+<prestige_economy>0</prestige_economy>
+<prestige_enlightenment>0</prestige_enlightenment>
+<prestige_navy>0</prestige_navy>
+<starting_order>70</starting_order>
+<state_religion>wh_main_religion_chaos</state_religion>
+<treasury>6000</treasury>
 <unique>0</unique>
 </start_pos_factions>
 <start_pos_factions record_uuid="{0ad5cf08-2a20-4e8e-9bab-5a3a02501649}" record_timestamp="1516016530226" record_key="1392084022">
@@ -2521,6 +2641,30 @@
 <treasury>5000</treasury>
 <unique>0</unique>
 </start_pos_factions>
+<start_pos_factions record_uuid="{ed662bb0-6f94-41f9-8364-d78688e228aa}" record_timestamp="1616609724986" record_key="1513308951">
+<ID>1513308951</ID>
+<ai_manager>default</ai_manager>
+<cai_personality_group>wh_dlc03_group_beastmen_subjugator</cai_personality_group>
+<cai_starting_personality></cai_starting_personality>
+<campaign>wh2_main_great_vortex</campaign>
+<can_ever_convert_religion>0</can_ever_convert_religion>
+<cdir_military_generator_config>WH_Beastmen_Khazrak</cdir_military_generator_config>
+<description state="PLACEHOLDER" last_approved_text="" last_edit_user="bob">Much of the Old World is covered in dark, forbidding forest. Although mankind has claimed this land, to think the forests are tamed would be a mistake - for they are the blood-grounds of the Cloven Ones. Beastmen are creatures of Chaos, so civilisation is anathema to them and they raid and destroy all that they come across. Mankind has retaliated, but bringing a warherd to battle is hard. Beastmen are master ambushers, using the beast-paths to entrap an enemy army - the hunter quickly becoming the hunted.\n\nEven when battle is joined, Beastmen are ferocious foes - mighty Beastlords control herds of goat-headed Gors, smaller Ungors strike from the flanks, and frenzied, massive Minotaurs charge at any enemy line. Then there are the many monsters in thrall to their bestial masters: Chaos Spawn, Warhounds, Giants and Cygors to name but a few. Such a fearsome menagerie is partly why the Old World's forests are still terrifying places, where the Children of Chaos roam, lurking in the darkness, desperate to pull apart the very fabric of civilisation.</description>
+<faction>wh_dlc03_bst_beastmen</faction>
+<government_type>gov_absolute_monarchy</government_type>
+<honour>50</honour>
+<is_major>1</is_major>
+<long_description state="PLACEHOLDER" last_approved_text="" last_edit_user="bob">“Make man-filth suffer! Make man-filth fall!”\n\nMuch of the Old World is covered in dark, forbidding forest - vast tracts of dense woodland where thick canopies blot out the sky and you can walk for days on end without seeing the sun. Assuming, of course, you could wander for so long in such a place and survive intact. Although mankind has ruled this land for many centuries, to think the forests tamed simply by being within the borders of the Empire or Bretonnia would be a mistake. Despite countless pogroms to clear the woodlands of their sinister taint, they have always harboured evil. The dark forests are not the homes of man, they are the blood-grounds of the Cloven Ones.\n\nWhen Morrslieb's glow penetrates the dense boughs of the wild woods, the Beastmen range. They hunt the blood-grounds for prey - be that rival herds, 'natural' fauna or, more preferably, man-flesh. It is mankind that the Beastmen seem to despise the most, although they have a long and bitter rivalry with the Wood Elves and will happily feast on Dwarfen flesh when the opportunity arises. To the Beastmen, though, men represent everything they hate. Despite the dangers around it, mankind has prospered, building great cities where the trees part, creating order and civilisation. Beastmen are creatures of Chaos, they follow the Ruinous Powers and so civilisation is anathema to them. They have a burning desire that floods their entire being: to tear down progress and society wherever it is found. And so they raid, destroying the easier targets - hamlets and villages that dare to exist close to the blood-grounds. Should a brayherd be gathered, when the Bray-Shamans manage to bring the fractious bestial tribes into one larger force, larger towns and even cities are attacked. Thankfully for mankind, and other ordered races, this is a rare occurrence. \n\nThe Empire and its occasional allies have retaliated, but bringing a Beastmen warherd to battle is hard. They are master ambushers, using the beast-paths to weave around and entrap an enemy army - the hunter quickly becoming the hunted and facing doom. Even when battle is joined the Beastmen are ferocious foes - mighty Beastlords control herds of goat-headed Gors, smaller Ungors strike from the flanks and frenzied, massive Minotaurs charge at any enemy line. Then there are the many monsters in thrall to their bestial masters: Chaos Spawn, Warhounds, Giants and Cygors to name but a few. Such a fearsome menagerie is part of the reason why the Old World's forests are still terrifying places, where the Children of Chaos roam, lurking in the darkness, desperate to pull apart the very fabric of civilisation.</long_description>
+<playable>1</playable>
+<prestige_army>0</prestige_army>
+<prestige_economy>0</prestige_economy>
+<prestige_enlightenment>0</prestige_enlightenment>
+<prestige_navy>0</prestige_navy>
+<starting_order>72</starting_order>
+<state_religion>wh_main_religion_chaos</state_religion>
+<treasury>6000</treasury>
+<unique>0</unique>
+</start_pos_factions>
 <start_pos_factions record_uuid="{9d975a87-b8ec-4ad1-93b8-d09373defea6}" record_timestamp="1532964162713" record_key="1515483487">
 <ID>1515483487</ID>
 <ai_manager>default</ai_manager>
@@ -2590,6 +2734,30 @@
 <prestige_navy>0</prestige_navy>
 <starting_order>439</starting_order>
 <state_religion>wh_main_religion_chaos</state_religion>
+<treasury>5000</treasury>
+<unique>0</unique>
+</start_pos_factions>
+<start_pos_factions record_uuid="{94ef3e48-79fd-4309-ba5f-a04b67bbbe59}" record_timestamp="1611245840454" record_key="1529143065">
+<ID>1529143065</ID>
+<ai_manager>default</ai_manager>
+<cai_personality_group>wh_group_dwarfs_default</cai_personality_group>
+<cai_starting_personality></cai_starting_personality>
+<campaign>main_warhammer</campaign>
+<can_ever_convert_religion>0</can_ever_convert_religion>
+<cdir_military_generator_config>WH_Dwarfs_Belegar</cdir_military_generator_config>
+<description state="PLACEHOLDER" last_approved_text="" last_edit_user="bob">PLACEHOLDER</description>
+<faction>wh2_dlc17_dwf_thorek_ironbrow</faction>
+<government_type>gov_absolute_monarchy</government_type>
+<honour>50</honour>
+<is_major>1</is_major>
+<long_description state="PLACEHOLDER" last_approved_text="" last_edit_user="bob">LONGER PLACEHOLDER</long_description>
+<playable>1</playable>
+<prestige_army>0</prestige_army>
+<prestige_economy>0</prestige_economy>
+<prestige_enlightenment>0</prestige_enlightenment>
+<prestige_navy>0</prestige_navy>
+<starting_order>73</starting_order>
+<state_religion>wh_main_religion_untainted</state_religion>
 <treasury>5000</treasury>
 <unique>0</unique>
 </start_pos_factions>
@@ -2855,6 +3023,30 @@
 <starting_order>999</starting_order>
 <state_religion>wh_main_religion_untainted</state_religion>
 <treasury>5000</treasury>
+<unique>0</unique>
+</start_pos_factions>
+<start_pos_factions record_uuid="{93e2eb44-47da-4dfd-b823-a8f9d4b888bd}" record_timestamp="1611589331516" record_key="162494995">
+<ID>162494995</ID>
+<ai_manager>default</ai_manager>
+<cai_personality_group>wh_dlc03_group_beastmen_subjugator</cai_personality_group>
+<cai_starting_personality></cai_starting_personality>
+<campaign>main_warhammer</campaign>
+<can_ever_convert_religion>0</can_ever_convert_religion>
+<cdir_military_generator_config>WH_Beastmen_Khazrak</cdir_military_generator_config>
+<description state="PLACEHOLDER" last_approved_text="" last_edit_user="bob">Much of the Old World is covered in dark, forbidding forest. Although mankind has claimed this land, to think the forests are tamed would be a mistake - for they are the blood-grounds of the Cloven Ones. Beastmen are creatures of Chaos, so civilisation is anathema to them and they raid and destroy all that they come across. Mankind has retaliated, but bringing a warherd to battle is hard. Beastmen are master ambushers, using the beast-paths to entrap an enemy army - the hunter quickly becoming the hunted.\n\nEven when battle is joined, Beastmen are ferocious foes - mighty Beastlords control herds of goat-headed Gors, smaller Ungors strike from the flanks, and frenzied, massive Minotaurs charge at any enemy line. Then there are the many monsters in thrall to their bestial masters: Chaos Spawn, Warhounds, Giants and Cygors to name but a few. Such a fearsome menagerie is partly why the Old World's forests are still terrifying places, where the Children of Chaos roam, lurking in the darkness, desperate to pull apart the very fabric of civilisation.</description>
+<faction>wh2_dlc17_bst_malagor</faction>
+<government_type>gov_absolute_monarchy</government_type>
+<honour>50</honour>
+<is_major>1</is_major>
+<long_description state="PLACEHOLDER" last_approved_text="" last_edit_user="bob">“Make man-filth suffer! Make man-filth fall!”\n\nMuch of the Old World is covered in dark, forbidding forest - vast tracts of dense woodland where thick canopies blot out the sky and you can walk for days on end without seeing the sun. Assuming, of course, you could wander for so long in such a place and survive intact. Although mankind has ruled this land for many centuries, to think the forests tamed simply by being within the borders of the Empire or Bretonnia would be a mistake. Despite countless pogroms to clear the woodlands of their sinister taint, they have always harboured evil. The dark forests are not the homes of man, they are the blood-grounds of the Cloven Ones.\n\nWhen Morrslieb's glow penetrates the dense boughs of the wild woods, the Beastmen range. They hunt the blood-grounds for prey - be that rival herds, 'natural' fauna or, more preferably, man-flesh. It is mankind that the Beastmen seem to despise the most, although they have a long and bitter rivalry with the Wood Elves and will happily feast on Dwarfen flesh when the opportunity arises. To the Beastmen, though, men represent everything they hate. Despite the dangers around it, mankind has prospered, building great cities where the trees part, creating order and civilisation. Beastmen are creatures of Chaos, they follow the Ruinous Powers and so civilisation is anathema to them. They have a burning desire that floods their entire being: to tear down progress and society wherever it is found. And so they raid, destroying the easier targets - hamlets and villages that dare to exist close to the blood-grounds. Should a brayherd be gathered, when the Bray-Shamans manage to bring the fractious bestial tribes into one larger force, larger towns and even cities are attacked. Thankfully for mankind, and other ordered races, this is a rare occurrence. \n\nThe Empire and its occasional allies have retaliated, but bringing a Beastmen warherd to battle is hard. They are master ambushers, using the beast-paths to weave around and entrap an enemy army - the hunter quickly becoming the hunted and facing doom. Even when battle is joined the Beastmen are ferocious foes - mighty Beastlords control herds of goat-headed Gors, smaller Ungors strike from the flanks and frenzied, massive Minotaurs charge at any enemy line. Then there are the many monsters in thrall to their bestial masters: Chaos Spawn, Warhounds, Giants and Cygors to name but a few. Such a fearsome menagerie is part of the reason why the Old World's forests are still terrifying places, where the Children of Chaos roam, lurking in the darkness, desperate to pull apart the very fabric of civilisation.</long_description>
+<playable>1</playable>
+<prestige_army>0</prestige_army>
+<prestige_economy>0</prestige_economy>
+<prestige_enlightenment>0</prestige_enlightenment>
+<prestige_navy>0</prestige_navy>
+<starting_order>131</starting_order>
+<state_religion>wh_main_religion_chaos</state_religion>
+<treasury>6000</treasury>
 <unique>0</unique>
 </start_pos_factions>
 <start_pos_factions record_uuid="{9fbab1ef-a9e5-430d-af64-35c64f7ec3ad}" record_timestamp="1499355721948" record_key="1625137603">
@@ -3409,6 +3601,30 @@
 <treasury>5000</treasury>
 <unique>0</unique>
 </start_pos_factions>
+<start_pos_factions record_uuid="{6dd50d65-ad43-41b5-ae07-52dba4f262ec}" record_timestamp="1611146112779" record_key="1807067425">
+<ID>1807067425</ID>
+<ai_manager>default</ai_manager>
+<cai_personality_group>wh2_group_lizardmen_major_secondary</cai_personality_group>
+<cai_starting_personality></cai_starting_personality>
+<campaign>main_warhammer</campaign>
+<can_ever_convert_religion>0</can_ever_convert_religion>
+<cdir_military_generator_config>WH_Lizardmen</cdir_military_generator_config>
+<description state="PLACEHOLDER" last_approved_text="" last_edit_user="bob">PLACEHOLDER</description>
+<faction>wh2_dlc17_lzd_oxyotl</faction>
+<government_type>gov_absolute_monarchy</government_type>
+<honour>50</honour>
+<is_major>1</is_major>
+<long_description state="PLACEHOLDER" last_approved_text="" last_edit_user="bob">PLACEHOLDER</long_description>
+<playable>1</playable>
+<prestige_army>0</prestige_army>
+<prestige_economy>0</prestige_economy>
+<prestige_enlightenment>0</prestige_enlightenment>
+<prestige_navy>0</prestige_navy>
+<starting_order>16</starting_order>
+<state_religion>wh_main_religion_untainted</state_religion>
+<treasury>5000</treasury>
+<unique>0</unique>
+</start_pos_factions>
 <start_pos_factions record_uuid="{0c433b50-8437-4b1b-b3b7-599b3b17186b}" record_timestamp="1581679705231" record_key="1810179394">
 <ID>1810179394</ID>
 <ai_manager>default</ai_manager>
@@ -3481,7 +3697,7 @@
 <treasury>5000</treasury>
 <unique>0</unique>
 </start_pos_factions>
-<start_pos_factions record_uuid="{dd325da1-73c5-4817-ab69-0cdf784fbc00}" record_timestamp="1606734788686" record_key="1814975513">
+<start_pos_factions record_uuid="{dd325da1-73c5-4817-ab69-0cdf784fbc00}" record_timestamp="1618307681783" record_key="1814975513">
 <ID>1814975513</ID>
 <ai_manager>default</ai_manager>
 <cai_personality_group>wh_group_empire_separatist_default</cai_personality_group>
@@ -3694,6 +3910,30 @@
 <prestige_navy>0</prestige_navy>
 <starting_order>995</starting_order>
 <state_religion>wh2_main_religion_skaven</state_religion>
+<treasury>5000</treasury>
+<unique>0</unique>
+</start_pos_factions>
+<start_pos_factions record_uuid="{c8d634b4-f830-46c4-9565-8037f9221fd9}" record_timestamp="1618918518607" record_key="187462753">
+<ID>187462753</ID>
+<ai_manager>default</ai_manager>
+<cai_personality_group>default</cai_personality_group>
+<cai_starting_personality></cai_starting_personality>
+<campaign>wh2_main_great_vortex</campaign>
+<can_ever_convert_religion>0</can_ever_convert_religion>
+<cdir_military_generator_config>WH_Beastmen</cdir_military_generator_config>
+<description state="HIDDEN" last_approved_text="" last_edit_user="bob">PLACEHOLDER</description>
+<faction>wh2_dlc17_bst_beastmen_qb7</faction>
+<government_type>gov_absolute_monarchy</government_type>
+<honour>50</honour>
+<is_major>0</is_major>
+<long_description state="HIDDEN" last_approved_text="" last_edit_user="bob">PLACEHOLDER</long_description>
+<playable>0</playable>
+<prestige_army>0</prestige_army>
+<prestige_economy>0</prestige_economy>
+<prestige_enlightenment>0</prestige_enlightenment>
+<prestige_navy>0</prestige_navy>
+<starting_order>999</starting_order>
+<state_religion>wh_main_religion_untainted</state_religion>
 <treasury>5000</treasury>
 <unique>0</unique>
 </start_pos_factions>
@@ -4081,7 +4321,7 @@
 <treasury>5000</treasury>
 <unique>0</unique>
 </start_pos_factions>
-<start_pos_factions record_uuid="{2f08977a-6d3b-41fb-a971-2992ce80311c}" record_timestamp="1607684557504" record_key="1953273264">
+<start_pos_factions record_uuid="{2f08977a-6d3b-41fb-a971-2992ce80311c}" record_timestamp="1605702402670" record_key="1953273264">
 <ID>1953273264</ID>
 <ai_manager>default</ai_manager>
 <cai_personality_group>wh2_group_darkelf_major_secondary</cai_personality_group>
@@ -4101,6 +4341,30 @@
 <prestige_enlightenment>0</prestige_enlightenment>
 <prestige_navy>0</prestige_navy>
 <starting_order>26</starting_order>
+<state_religion>wh_main_religion_untainted</state_religion>
+<treasury>5000</treasury>
+<unique>0</unique>
+</start_pos_factions>
+<start_pos_factions record_uuid="{d7098b7d-cd04-4283-9796-d84b2ba691db}" record_timestamp="1614708712307" record_key="1960549268">
+<ID>1960549268</ID>
+<ai_manager>default</ai_manager>
+<cai_personality_group>default</cai_personality_group>
+<cai_starting_personality></cai_starting_personality>
+<campaign>main_warhammer</campaign>
+<can_ever_convert_religion>0</can_ever_convert_religion>
+<cdir_military_generator_config>WH_Beastmen</cdir_military_generator_config>
+<description state="HIDDEN" last_approved_text="" last_edit_user="bob">PLACEHOLDER</description>
+<faction>wh2_dlc17_bst_beastmen_qb5</faction>
+<government_type>gov_absolute_monarchy</government_type>
+<honour>50</honour>
+<is_major>0</is_major>
+<long_description state="HIDDEN" last_approved_text="" last_edit_user="bob">PLACEHOLDER</long_description>
+<playable>0</playable>
+<prestige_army>0</prestige_army>
+<prestige_economy>0</prestige_economy>
+<prestige_enlightenment>0</prestige_enlightenment>
+<prestige_navy>0</prestige_navy>
+<starting_order>999</starting_order>
 <state_religion>wh_main_religion_untainted</state_religion>
 <treasury>5000</treasury>
 <unique>0</unique>
@@ -4177,7 +4441,7 @@
 <treasury>5000</treasury>
 <unique>0</unique>
 </start_pos_factions>
-<start_pos_factions record_uuid="{82f74de9-c36c-4893-9cfa-65ef316c15f7}" record_timestamp="1544028674575" record_key="1990359365">
+<start_pos_factions record_uuid="{82f74de9-c36c-4893-9cfa-65ef316c15f7}" record_timestamp="1610125473324" record_key="1990359365">
 <ID>1990359365</ID>
 <ai_manager>default</ai_manager>
 <cai_personality_group>wh_group_dwarfs_default</cai_personality_group>
@@ -4249,6 +4513,30 @@
 <treasury>5000</treasury>
 <unique>0</unique>
 </start_pos_factions>
+<start_pos_factions record_uuid="{15f246b3-db73-426e-b96f-58d5756164ee}" record_timestamp="1611146112778" record_key="2002820631">
+<ID>2002820631</ID>
+<ai_manager>default</ai_manager>
+<cai_personality_group>wh2_group_lizardmen_major_secondary</cai_personality_group>
+<cai_starting_personality></cai_starting_personality>
+<campaign>wh2_main_great_vortex</campaign>
+<can_ever_convert_religion>0</can_ever_convert_religion>
+<cdir_military_generator_config>WH_Lizardmen</cdir_military_generator_config>
+<description state="PLACEHOLDER" last_approved_text="" last_edit_user="bob">PLACEHOLDER</description>
+<faction>wh2_dlc17_lzd_oxyotl</faction>
+<government_type>gov_absolute_monarchy</government_type>
+<honour>50</honour>
+<is_major>1</is_major>
+<long_description state="PLACEHOLDER" last_approved_text="" last_edit_user="bob">PLACEHOLDER</long_description>
+<playable>1</playable>
+<prestige_army>0</prestige_army>
+<prestige_economy>0</prestige_economy>
+<prestige_enlightenment>0</prestige_enlightenment>
+<prestige_navy>0</prestige_navy>
+<starting_order>16</starting_order>
+<state_religion>wh_main_religion_untainted</state_religion>
+<treasury>5000</treasury>
+<unique>0</unique>
+</start_pos_factions>
 <start_pos_factions record_uuid="{e77bdadd-c3da-4991-9db8-429487155055}" record_timestamp="1509383556572" record_key="2004340799">
 <ID>2004340799</ID>
 <ai_manager>default</ai_manager>
@@ -4271,6 +4559,30 @@
 <starting_order>999</starting_order>
 <state_religion>wh_main_religion_untainted</state_religion>
 <treasury>5000</treasury>
+<unique>0</unique>
+</start_pos_factions>
+<start_pos_factions record_uuid="{7df1f40c-cc6c-4a18-9a6a-2b0de8a5b766}" record_timestamp="1616609724987" record_key="2004573784">
+<ID>2004573784</ID>
+<ai_manager>default</ai_manager>
+<cai_personality_group>wh_dlc03_group_beastmen_subjugator</cai_personality_group>
+<cai_starting_personality></cai_starting_personality>
+<campaign>wh2_main_great_vortex</campaign>
+<can_ever_convert_religion>0</can_ever_convert_religion>
+<cdir_military_generator_config>WH_Beastmen_Khazrak</cdir_military_generator_config>
+<description state="PLACEHOLDER" last_approved_text="" last_edit_user="bob">Much of the Old World is covered in dark, forbidding forest. Although mankind has claimed this land, to think the forests are tamed would be a mistake - for they are the blood-grounds of the Cloven Ones. Beastmen are creatures of Chaos, so civilisation is anathema to them and they raid and destroy all that they come across. Mankind has retaliated, but bringing a warherd to battle is hard. Beastmen are master ambushers, using the beast-paths to entrap an enemy army - the hunter quickly becoming the hunted.\n\nEven when battle is joined, Beastmen are ferocious foes - mighty Beastlords control herds of goat-headed Gors, smaller Ungors strike from the flanks, and frenzied, massive Minotaurs charge at any enemy line. Then there are the many monsters in thrall to their bestial masters: Chaos Spawn, Warhounds, Giants and Cygors to name but a few. Such a fearsome menagerie is partly why the Old World's forests are still terrifying places, where the Children of Chaos roam, lurking in the darkness, desperate to pull apart the very fabric of civilisation.</description>
+<faction>wh_dlc05_bst_morghur_herd</faction>
+<government_type>gov_absolute_monarchy</government_type>
+<honour>50</honour>
+<is_major>1</is_major>
+<long_description state="PLACEHOLDER" last_approved_text="" last_edit_user="bob">“Make man-filth suffer! Make man-filth fall!”\n\nMuch of the Old World is covered in dark, forbidding forest - vast tracts of dense woodland where thick canopies blot out the sky and you can walk for days on end without seeing the sun. Assuming, of course, you could wander for so long in such a place and survive intact. Although mankind has ruled this land for many centuries, to think the forests tamed simply by being within the borders of the Empire or Bretonnia would be a mistake. Despite countless pogroms to clear the woodlands of their sinister taint, they have always harboured evil. The dark forests are not the homes of man, they are the blood-grounds of the Cloven Ones.\n\nWhen Morrslieb's glow penetrates the dense boughs of the wild woods, the Beastmen range. They hunt the blood-grounds for prey - be that rival herds, 'natural' fauna or, more preferably, man-flesh. It is mankind that the Beastmen seem to despise the most, although they have a long and bitter rivalry with the Wood Elves and will happily feast on Dwarfen flesh when the opportunity arises. To the Beastmen, though, men represent everything they hate. Despite the dangers around it, mankind has prospered, building great cities where the trees part, creating order and civilisation. Beastmen are creatures of Chaos, they follow the Ruinous Powers and so civilisation is anathema to them. They have a burning desire that floods their entire being: to tear down progress and society wherever it is found. And so they raid, destroying the easier targets - hamlets and villages that dare to exist close to the blood-grounds. Should a brayherd be gathered, when the Bray-Shamans manage to bring the fractious bestial tribes into one larger force, larger towns and even cities are attacked. Thankfully for mankind, and other ordered races, this is a rare occurrence. \n\nThe Empire and its occasional allies have retaliated, but bringing a Beastmen warherd to battle is hard. They are master ambushers, using the beast-paths to weave around and entrap an enemy army - the hunter quickly becoming the hunted and facing doom. Even when battle is joined the Beastmen are ferocious foes - mighty Beastlords control herds of goat-headed Gors, smaller Ungors strike from the flanks and frenzied, massive Minotaurs charge at any enemy line. Then there are the many monsters in thrall to their bestial masters: Chaos Spawn, Warhounds, Giants and Cygors to name but a few. Such a fearsome menagerie is part of the reason why the Old World's forests are still terrifying places, where the Children of Chaos roam, lurking in the darkness, desperate to pull apart the very fabric of civilisation.</long_description>
+<playable>1</playable>
+<prestige_army>0</prestige_army>
+<prestige_economy>0</prestige_economy>
+<prestige_enlightenment>0</prestige_enlightenment>
+<prestige_navy>0</prestige_navy>
+<starting_order>71</starting_order>
+<state_religion>wh_main_religion_chaos</state_religion>
+<treasury>6000</treasury>
 <unique>0</unique>
 </start_pos_factions>
 <start_pos_factions record_uuid="{9d92cb7a-0c24-4354-be14-5fd9854aa9d5}" record_timestamp="1544180762332" record_key="200472925">
@@ -4629,6 +4941,30 @@
 <prestige_enlightenment>0</prestige_enlightenment>
 <prestige_navy>0</prestige_navy>
 <starting_order>331</starting_order>
+<state_religion>wh_main_religion_untainted</state_religion>
+<treasury>5000</treasury>
+<unique>0</unique>
+</start_pos_factions>
+<start_pos_factions record_uuid="{668b74fd-8dce-4967-9682-5ec53689520a}" record_timestamp="1614708712306" record_key="2085465031">
+<ID>2085465031</ID>
+<ai_manager>default</ai_manager>
+<cai_personality_group>default</cai_personality_group>
+<cai_starting_personality></cai_starting_personality>
+<campaign>main_warhammer</campaign>
+<can_ever_convert_religion>0</can_ever_convert_religion>
+<cdir_military_generator_config>WH_Beastmen</cdir_military_generator_config>
+<description state="HIDDEN" last_approved_text="" last_edit_user="bob">PLACEHOLDER</description>
+<faction>wh2_dlc17_bst_beastmen_qb6</faction>
+<government_type>gov_absolute_monarchy</government_type>
+<honour>50</honour>
+<is_major>0</is_major>
+<long_description state="HIDDEN" last_approved_text="" last_edit_user="bob">PLACEHOLDER</long_description>
+<playable>0</playable>
+<prestige_army>0</prestige_army>
+<prestige_economy>0</prestige_economy>
+<prestige_enlightenment>0</prestige_enlightenment>
+<prestige_navy>0</prestige_navy>
+<starting_order>999</starting_order>
 <state_religion>wh_main_religion_untainted</state_religion>
 <treasury>5000</treasury>
 <unique>0</unique>
@@ -7676,7 +8012,7 @@
 <prestige_economy>0</prestige_economy>
 <prestige_enlightenment>0</prestige_enlightenment>
 <prestige_navy>0</prestige_navy>
-<starting_order>137</starting_order>
+<starting_order>138</starting_order>
 <state_religion>wh_main_religion_untainted</state_religion>
 <treasury>5000</treasury>
 <unique>0</unique>
@@ -7748,7 +8084,7 @@
 <prestige_economy>0</prestige_economy>
 <prestige_enlightenment>0</prestige_enlightenment>
 <prestige_navy>0</prestige_navy>
-<starting_order>132</starting_order>
+<starting_order>133</starting_order>
 <state_religion>wh_main_religion_untainted</state_religion>
 <treasury>5000</treasury>
 <unique>0</unique>
@@ -7844,7 +8180,7 @@
 <prestige_economy>0</prestige_economy>
 <prestige_enlightenment>0</prestige_enlightenment>
 <prestige_navy>0</prestige_navy>
-<starting_order>135</starting_order>
+<starting_order>136</starting_order>
 <state_religion>wh_main_religion_untainted</state_religion>
 <treasury>5000</treasury>
 <unique>0</unique>
@@ -7868,7 +8204,7 @@
 <prestige_economy>0</prestige_economy>
 <prestige_enlightenment>0</prestige_enlightenment>
 <prestige_navy>0</prestige_navy>
-<starting_order>131</starting_order>
+<starting_order>132</starting_order>
 <state_religion>wh_main_religion_untainted</state_religion>
 <treasury>5000</treasury>
 <unique>0</unique>
@@ -8161,7 +8497,7 @@
 <treasury>5000</treasury>
 <unique>0</unique>
 </start_pos_factions>
-<start_pos_factions record_uuid="{20078078-9f4c-4234-90a8-a7ab84600411}" record_timestamp="1486985526313" record_key="2120138083">
+<start_pos_factions record_uuid="{20078078-9f4c-4234-90a8-a7ab84600411}" record_timestamp="1610125473324" record_key="2120138083">
 <ID>2120138083</ID>
 <ai_manager>default</ai_manager>
 <cai_personality_group>wh2_group_dwarfs_default</cai_personality_group>
@@ -8732,7 +9068,7 @@
 <prestige_economy>0</prestige_economy>
 <prestige_enlightenment>0</prestige_enlightenment>
 <prestige_navy>0</prestige_navy>
-<starting_order>133</starting_order>
+<starting_order>134</starting_order>
 <state_religion>wh_main_religion_untainted</state_religion>
 <treasury>5000</treasury>
 <unique>0</unique>
@@ -9028,7 +9364,7 @@
 <start_pos_factions record_uuid="{5a900c8c-5bff-4024-8e14-72bca22e1bb3}" record_timestamp="1504877092578" record_key="2120138328">
 <ID>2120138328</ID>
 <ai_manager>default</ai_manager>
-<cai_personality_group>wh2_group_dwarfs_default</cai_personality_group>
+<cai_personality_group>wh_group_dwarfs_default</cai_personality_group>
 <cai_starting_personality></cai_starting_personality>
 <campaign>main_warhammer</campaign>
 <can_ever_convert_religion>0</can_ever_convert_religion>
@@ -9940,7 +10276,7 @@
 <start_pos_factions record_uuid="{545a8bca-925a-46f9-9d1e-5e2cc16af0b7}" record_timestamp="1505319819333" record_key="2120138617">
 <ID>2120138617</ID>
 <ai_manager>default</ai_manager>
-<cai_personality_group>wh_group_dwarfs_subordinate</cai_personality_group>
+<cai_personality_group>wh_group_dwarfs_default</cai_personality_group>
 <cai_starting_personality></cai_starting_personality>
 <campaign>main_warhammer</campaign>
 <can_ever_convert_religion>0</can_ever_convert_religion>
@@ -10220,7 +10556,7 @@
 <prestige_economy>0</prestige_economy>
 <prestige_enlightenment>0</prestige_enlightenment>
 <prestige_navy>0</prestige_navy>
-<starting_order>134</starting_order>
+<starting_order>135</starting_order>
 <state_religion>wh_main_religion_untainted</state_religion>
 <treasury>5000</treasury>
 <unique>0</unique>
@@ -10244,7 +10580,7 @@
 <prestige_economy>0</prestige_economy>
 <prestige_enlightenment>0</prestige_enlightenment>
 <prestige_navy>0</prestige_navy>
-<starting_order>136</starting_order>
+<starting_order>137</starting_order>
 <state_religion>wh_main_religion_untainted</state_religion>
 <treasury>5000</treasury>
 <unique>0</unique>
@@ -10820,7 +11156,7 @@
 <prestige_economy>0</prestige_economy>
 <prestige_enlightenment>0</prestige_enlightenment>
 <prestige_navy>0</prestige_navy>
-<starting_order>70</starting_order>
+<starting_order>69</starting_order>
 <state_religion>wh_main_religion_untainted</state_religion>
 <treasury>5000</treasury>
 <unique>0</unique>
@@ -11377,6 +11713,30 @@
 <treasury>5000</treasury>
 <unique>0</unique>
 </start_pos_factions>
+<start_pos_factions record_uuid="{51288208-a2c7-40c2-bcbc-6d4cd70985ff}" record_timestamp="1614708712304" record_key="360018530">
+<ID>360018530</ID>
+<ai_manager>default</ai_manager>
+<cai_personality_group>default</cai_personality_group>
+<cai_starting_personality></cai_starting_personality>
+<campaign>wh2_main_great_vortex</campaign>
+<can_ever_convert_religion>0</can_ever_convert_religion>
+<cdir_military_generator_config>WH_Beastmen</cdir_military_generator_config>
+<description state="HIDDEN" last_approved_text="" last_edit_user="bob">PLACEHOLDER</description>
+<faction>wh2_dlc17_bst_beastmen_qb4</faction>
+<government_type>gov_absolute_monarchy</government_type>
+<honour>50</honour>
+<is_major>0</is_major>
+<long_description state="HIDDEN" last_approved_text="" last_edit_user="bob">PLACEHOLDER</long_description>
+<playable>0</playable>
+<prestige_army>0</prestige_army>
+<prestige_economy>0</prestige_economy>
+<prestige_enlightenment>0</prestige_enlightenment>
+<prestige_navy>0</prestige_navy>
+<starting_order>999</starting_order>
+<state_religion>wh_main_religion_untainted</state_religion>
+<treasury>5000</treasury>
+<unique>0</unique>
+</start_pos_factions>
 <start_pos_factions record_uuid="{59bdb906-9e76-4e52-b578-9ec6bcd2f28d}" record_timestamp="1504877094109" record_key="361583619">
 <ID>361583619</ID>
 <ai_manager>default</ai_manager>
@@ -11879,6 +12239,30 @@
 <starting_order>42</starting_order>
 <state_religion>wh_main_religion_undeath</state_religion>
 <treasury>5000</treasury>
+<unique>0</unique>
+</start_pos_factions>
+<start_pos_factions record_uuid="{e853ee8f-5170-4625-ad76-0ea0d63c5385}" record_timestamp="1611920835369" record_key="462185806">
+<ID>462185806</ID>
+<ai_manager>default</ai_manager>
+<cai_personality_group>wh_group_norsca_default</cai_personality_group>
+<cai_starting_personality></cai_starting_personality>
+<campaign>wh2_main_great_vortex</campaign>
+<can_ever_convert_religion>0</can_ever_convert_religion>
+<cdir_military_generator_config>WH_Norsca</cdir_military_generator_config>
+<description state="HIDDEN" last_approved_text="" last_edit_user="bob">PLACEHOLDER</description>
+<faction>wh2_dlc17_nor_deadwood_ravagers</faction>
+<government_type>gov_absolute_monarchy</government_type>
+<honour>50</honour>
+<is_major>0</is_major>
+<long_description state="HIDDEN" last_approved_text="" last_edit_user="bob">PLACEHOLDER</long_description>
+<playable>0</playable>
+<prestige_army>0</prestige_army>
+<prestige_economy>0</prestige_economy>
+<prestige_enlightenment>0</prestige_enlightenment>
+<prestige_navy>0</prestige_navy>
+<starting_order>269</starting_order>
+<state_religion>wh_main_religion_chaos</state_religion>
+<treasury>1000</treasury>
 <unique>0</unique>
 </start_pos_factions>
 <start_pos_factions record_uuid="{83362499-b671-4b60-a60f-f08f4510cab5}" record_timestamp="1504877094142" record_key="465827067">
@@ -12577,7 +12961,7 @@
 <treasury>5000</treasury>
 <unique>0</unique>
 </start_pos_factions>
-<start_pos_factions record_uuid="{a3ca36bf-2fc1-4558-ab5d-5da047b3991f}" record_timestamp="1607684557504" record_key="620154969">
+<start_pos_factions record_uuid="{a3ca36bf-2fc1-4558-ab5d-5da047b3991f}" record_timestamp="1605702402245" record_key="620154969">
 <ID>620154969</ID>
 <ai_manager>default</ai_manager>
 <cai_personality_group>wh2_group_darkelf_major_secondary</cai_personality_group>
@@ -12719,6 +13103,30 @@
 <starting_order>303</starting_order>
 <state_religion>wh_main_religion_undeath</state_religion>
 <treasury>5000</treasury>
+<unique>0</unique>
+</start_pos_factions>
+<start_pos_factions record_uuid="{92d42916-5f91-4c6a-ba99-bd6672f9bf7b}" record_timestamp="1611589331515" record_key="652259241">
+<ID>652259241</ID>
+<ai_manager>default</ai_manager>
+<cai_personality_group>wh_dlc03_group_beastmen_subjugator</cai_personality_group>
+<cai_starting_personality></cai_starting_personality>
+<campaign>main_warhammer</campaign>
+<can_ever_convert_religion>0</can_ever_convert_religion>
+<cdir_military_generator_config>WH_Beastmen_Khazrak</cdir_military_generator_config>
+<description state="PLACEHOLDER" last_approved_text="" last_edit_user="bob">Much of the Old World is covered in dark, forbidding forest. Although mankind has claimed this land, to think the forests are tamed would be a mistake - for they are the blood-grounds of the Cloven Ones. Beastmen are creatures of Chaos, so civilisation is anathema to them and they raid and destroy all that they come across. Mankind has retaliated, but bringing a warherd to battle is hard. Beastmen are master ambushers, using the beast-paths to entrap an enemy army - the hunter quickly becoming the hunted.\n\nEven when battle is joined, Beastmen are ferocious foes - mighty Beastlords control herds of goat-headed Gors, smaller Ungors strike from the flanks, and frenzied, massive Minotaurs charge at any enemy line. Then there are the many monsters in thrall to their bestial masters: Chaos Spawn, Warhounds, Giants and Cygors to name but a few. Such a fearsome menagerie is partly why the Old World's forests are still terrifying places, where the Children of Chaos roam, lurking in the darkness, desperate to pull apart the very fabric of civilisation.</description>
+<faction>wh_dlc05_bst_morghur_herd</faction>
+<government_type>gov_absolute_monarchy</government_type>
+<honour>50</honour>
+<is_major>1</is_major>
+<long_description state="PLACEHOLDER" last_approved_text="" last_edit_user="bob">“Make man-filth suffer! Make man-filth fall!”\n\nMuch of the Old World is covered in dark, forbidding forest - vast tracts of dense woodland where thick canopies blot out the sky and you can walk for days on end without seeing the sun. Assuming, of course, you could wander for so long in such a place and survive intact. Although mankind has ruled this land for many centuries, to think the forests tamed simply by being within the borders of the Empire or Bretonnia would be a mistake. Despite countless pogroms to clear the woodlands of their sinister taint, they have always harboured evil. The dark forests are not the homes of man, they are the blood-grounds of the Cloven Ones.\n\nWhen Morrslieb's glow penetrates the dense boughs of the wild woods, the Beastmen range. They hunt the blood-grounds for prey - be that rival herds, 'natural' fauna or, more preferably, man-flesh. It is mankind that the Beastmen seem to despise the most, although they have a long and bitter rivalry with the Wood Elves and will happily feast on Dwarfen flesh when the opportunity arises. To the Beastmen, though, men represent everything they hate. Despite the dangers around it, mankind has prospered, building great cities where the trees part, creating order and civilisation. Beastmen are creatures of Chaos, they follow the Ruinous Powers and so civilisation is anathema to them. They have a burning desire that floods their entire being: to tear down progress and society wherever it is found. And so they raid, destroying the easier targets - hamlets and villages that dare to exist close to the blood-grounds. Should a brayherd be gathered, when the Bray-Shamans manage to bring the fractious bestial tribes into one larger force, larger towns and even cities are attacked. Thankfully for mankind, and other ordered races, this is a rare occurrence. \n\nThe Empire and its occasional allies have retaliated, but bringing a Beastmen warherd to battle is hard. They are master ambushers, using the beast-paths to weave around and entrap an enemy army - the hunter quickly becoming the hunted and facing doom. Even when battle is joined the Beastmen are ferocious foes - mighty Beastlords control herds of goat-headed Gors, smaller Ungors strike from the flanks and frenzied, massive Minotaurs charge at any enemy line. Then there are the many monsters in thrall to their bestial masters: Chaos Spawn, Warhounds, Giants and Cygors to name but a few. Such a fearsome menagerie is part of the reason why the Old World's forests are still terrifying places, where the Children of Chaos roam, lurking in the darkness, desperate to pull apart the very fabric of civilisation.</long_description>
+<playable>1</playable>
+<prestige_army>0</prestige_army>
+<prestige_economy>0</prestige_economy>
+<prestige_enlightenment>0</prestige_enlightenment>
+<prestige_navy>0</prestige_navy>
+<starting_order>132</starting_order>
+<state_religion>wh_main_religion_chaos</state_religion>
+<treasury>6000</treasury>
 <unique>0</unique>
 </start_pos_factions>
 <start_pos_factions record_uuid="{8a3f29c9-9cea-4773-bd72-8bb97a414284}" record_timestamp="1569407723900" record_key="652761626">
@@ -13033,6 +13441,30 @@
 <treasury>5000</treasury>
 <unique>0</unique>
 </start_pos_factions>
+<start_pos_factions record_uuid="{37f1acbd-b04f-4af0-a53c-43baad6c50e2}" record_timestamp="1610726951264" record_key="742791397">
+<ID>742791397</ID>
+<ai_manager>default</ai_manager>
+<cai_personality_group>wh_dlc03_group_beastmen_subjugator</cai_personality_group>
+<cai_starting_personality></cai_starting_personality>
+<campaign>main_warhammer</campaign>
+<can_ever_convert_religion>0</can_ever_convert_religion>
+<cdir_military_generator_config>WH_Beastmen_Khazrak</cdir_military_generator_config>
+<description state="PLACEHOLDER" last_approved_text="" last_edit_user="bob">Much of the Old World is covered in dark, forbidding forest. Although mankind has claimed this land, to think the forests are tamed would be a mistake - for they are the blood-grounds of the Cloven Ones. Beastmen are creatures of Chaos, so civilisation is anathema to them and they raid and destroy all that they come across. Mankind has retaliated, but bringing a warherd to battle is hard. Beastmen are master ambushers, using the beast-paths to entrap an enemy army - the hunter quickly becoming the hunted.\n\nEven when battle is joined, Beastmen are ferocious foes - mighty Beastlords control herds of goat-headed Gors, smaller Ungors strike from the flanks, and frenzied, massive Minotaurs charge at any enemy line. Then there are the many monsters in thrall to their bestial masters: Chaos Spawn, Warhounds, Giants and Cygors to name but a few. Such a fearsome menagerie is partly why the Old World's forests are still terrifying places, where the Children of Chaos roam, lurking in the darkness, desperate to pull apart the very fabric of civilisation.</description>
+<faction>wh2_dlc17_bst_taurox</faction>
+<government_type>gov_absolute_monarchy</government_type>
+<honour>50</honour>
+<is_major>1</is_major>
+<long_description state="PLACEHOLDER" last_approved_text="" last_edit_user="bob">“Make man-filth suffer! Make man-filth fall!”\n\nMuch of the Old World is covered in dark, forbidding forest - vast tracts of dense woodland where thick canopies blot out the sky and you can walk for days on end without seeing the sun. Assuming, of course, you could wander for so long in such a place and survive intact. Although mankind has ruled this land for many centuries, to think the forests tamed simply by being within the borders of the Empire or Bretonnia would be a mistake. Despite countless pogroms to clear the woodlands of their sinister taint, they have always harboured evil. The dark forests are not the homes of man, they are the blood-grounds of the Cloven Ones.\n\nWhen Morrslieb's glow penetrates the dense boughs of the wild woods, the Beastmen range. They hunt the blood-grounds for prey - be that rival herds, 'natural' fauna or, more preferably, man-flesh. It is mankind that the Beastmen seem to despise the most, although they have a long and bitter rivalry with the Wood Elves and will happily feast on Dwarfen flesh when the opportunity arises. To the Beastmen, though, men represent everything they hate. Despite the dangers around it, mankind has prospered, building great cities where the trees part, creating order and civilisation. Beastmen are creatures of Chaos, they follow the Ruinous Powers and so civilisation is anathema to them. They have a burning desire that floods their entire being: to tear down progress and society wherever it is found. And so they raid, destroying the easier targets - hamlets and villages that dare to exist close to the blood-grounds. Should a brayherd be gathered, when the Bray-Shamans manage to bring the fractious bestial tribes into one larger force, larger towns and even cities are attacked. Thankfully for mankind, and other ordered races, this is a rare occurrence. \n\nThe Empire and its occasional allies have retaliated, but bringing a Beastmen warherd to battle is hard. They are master ambushers, using the beast-paths to weave around and entrap an enemy army - the hunter quickly becoming the hunted and facing doom. Even when battle is joined the Beastmen are ferocious foes - mighty Beastlords control herds of goat-headed Gors, smaller Ungors strike from the flanks and frenzied, massive Minotaurs charge at any enemy line. Then there are the many monsters in thrall to their bestial masters: Chaos Spawn, Warhounds, Giants and Cygors to name but a few. Such a fearsome menagerie is part of the reason why the Old World's forests are still terrifying places, where the Children of Chaos roam, lurking in the darkness, desperate to pull apart the very fabric of civilisation.</long_description>
+<playable>1</playable>
+<prestige_army>0</prestige_army>
+<prestige_economy>0</prestige_economy>
+<prestige_enlightenment>0</prestige_enlightenment>
+<prestige_navy>0</prestige_navy>
+<starting_order>133</starting_order>
+<state_religion>wh_main_religion_chaos</state_religion>
+<treasury>6000</treasury>
+<unique>0</unique>
+</start_pos_factions>
 <start_pos_factions record_uuid="{c3981e39-cf81-4e23-a8a3-1ab291055a3b}" record_timestamp="1532964161975" record_key="743376445">
 <ID>743376445</ID>
 <ai_manager>default</ai_manager>
@@ -13150,6 +13582,30 @@
 <prestige_navy>0</prestige_navy>
 <starting_order>542</starting_order>
 <state_religion>wh_main_religion_chaos</state_religion>
+<treasury>5000</treasury>
+<unique>0</unique>
+</start_pos_factions>
+<start_pos_factions record_uuid="{62f59845-9bb2-46a2-8de7-77f243ca9546}" record_timestamp="1614708712307" record_key="778878081">
+<ID>778878081</ID>
+<ai_manager>default</ai_manager>
+<cai_personality_group>default</cai_personality_group>
+<cai_starting_personality></cai_starting_personality>
+<campaign>wh2_main_great_vortex</campaign>
+<can_ever_convert_religion>0</can_ever_convert_religion>
+<cdir_military_generator_config>WH_Beastmen</cdir_military_generator_config>
+<description state="HIDDEN" last_approved_text="" last_edit_user="bob">PLACEHOLDER</description>
+<faction>wh2_dlc17_bst_beastmen_qb5</faction>
+<government_type>gov_absolute_monarchy</government_type>
+<honour>50</honour>
+<is_major>0</is_major>
+<long_description state="HIDDEN" last_approved_text="" last_edit_user="bob">PLACEHOLDER</long_description>
+<playable>0</playable>
+<prestige_army>0</prestige_army>
+<prestige_economy>0</prestige_economy>
+<prestige_enlightenment>0</prestige_enlightenment>
+<prestige_navy>0</prestige_navy>
+<starting_order>999</starting_order>
+<state_religion>wh_main_religion_untainted</state_religion>
 <treasury>5000</treasury>
 <unique>0</unique>
 </start_pos_factions>
@@ -13535,6 +13991,30 @@
 <starting_order>903</starting_order>
 <state_religion>wh_main_religion_untainted</state_religion>
 <treasury>5000</treasury>
+<unique>0</unique>
+</start_pos_factions>
+<start_pos_factions record_uuid="{10899ccd-e79d-420c-b1ff-f9304f43dd0f}" record_timestamp="1610726951265" record_key="836697658">
+<ID>836697658</ID>
+<ai_manager>default</ai_manager>
+<cai_personality_group>wh_dlc03_group_beastmen_subjugator</cai_personality_group>
+<cai_starting_personality></cai_starting_personality>
+<campaign>wh2_main_great_vortex</campaign>
+<can_ever_convert_religion>0</can_ever_convert_religion>
+<cdir_military_generator_config>WH_Beastmen_Khazrak</cdir_military_generator_config>
+<description state="PLACEHOLDER" last_approved_text="" last_edit_user="bob">Much of the Old World is covered in dark, forbidding forest. Although mankind has claimed this land, to think the forests are tamed would be a mistake - for they are the blood-grounds of the Cloven Ones. Beastmen are creatures of Chaos, so civilisation is anathema to them and they raid and destroy all that they come across. Mankind has retaliated, but bringing a warherd to battle is hard. Beastmen are master ambushers, using the beast-paths to entrap an enemy army - the hunter quickly becoming the hunted.\n\nEven when battle is joined, Beastmen are ferocious foes - mighty Beastlords control herds of goat-headed Gors, smaller Ungors strike from the flanks, and frenzied, massive Minotaurs charge at any enemy line. Then there are the many monsters in thrall to their bestial masters: Chaos Spawn, Warhounds, Giants and Cygors to name but a few. Such a fearsome menagerie is partly why the Old World's forests are still terrifying places, where the Children of Chaos roam, lurking in the darkness, desperate to pull apart the very fabric of civilisation.</description>
+<faction>wh2_dlc17_bst_taurox</faction>
+<government_type>gov_absolute_monarchy</government_type>
+<honour>50</honour>
+<is_major>0</is_major>
+<long_description state="PLACEHOLDER" last_approved_text="" last_edit_user="bob">“Make man-filth suffer! Make man-filth fall!”\n\nMuch of the Old World is covered in dark, forbidding forest - vast tracts of dense woodland where thick canopies blot out the sky and you can walk for days on end without seeing the sun. Assuming, of course, you could wander for so long in such a place and survive intact. Although mankind has ruled this land for many centuries, to think the forests tamed simply by being within the borders of the Empire or Bretonnia would be a mistake. Despite countless pogroms to clear the woodlands of their sinister taint, they have always harboured evil. The dark forests are not the homes of man, they are the blood-grounds of the Cloven Ones.\n\nWhen Morrslieb's glow penetrates the dense boughs of the wild woods, the Beastmen range. They hunt the blood-grounds for prey - be that rival herds, 'natural' fauna or, more preferably, man-flesh. It is mankind that the Beastmen seem to despise the most, although they have a long and bitter rivalry with the Wood Elves and will happily feast on Dwarfen flesh when the opportunity arises. To the Beastmen, though, men represent everything they hate. Despite the dangers around it, mankind has prospered, building great cities where the trees part, creating order and civilisation. Beastmen are creatures of Chaos, they follow the Ruinous Powers and so civilisation is anathema to them. They have a burning desire that floods their entire being: to tear down progress and society wherever it is found. And so they raid, destroying the easier targets - hamlets and villages that dare to exist close to the blood-grounds. Should a brayherd be gathered, when the Bray-Shamans manage to bring the fractious bestial tribes into one larger force, larger towns and even cities are attacked. Thankfully for mankind, and other ordered races, this is a rare occurrence. \n\nThe Empire and its occasional allies have retaliated, but bringing a Beastmen warherd to battle is hard. They are master ambushers, using the beast-paths to weave around and entrap an enemy army - the hunter quickly becoming the hunted and facing doom. Even when battle is joined the Beastmen are ferocious foes - mighty Beastlords control herds of goat-headed Gors, smaller Ungors strike from the flanks and frenzied, massive Minotaurs charge at any enemy line. Then there are the many monsters in thrall to their bestial masters: Chaos Spawn, Warhounds, Giants and Cygors to name but a few. Such a fearsome menagerie is part of the reason why the Old World's forests are still terrifying places, where the Children of Chaos roam, lurking in the darkness, desperate to pull apart the very fabric of civilisation.</long_description>
+<playable>1</playable>
+<prestige_army>0</prestige_army>
+<prestige_economy>0</prestige_economy>
+<prestige_enlightenment>0</prestige_enlightenment>
+<prestige_navy>0</prestige_navy>
+<starting_order>71</starting_order>
+<state_religion>wh_main_religion_chaos</state_religion>
+<treasury>6000</treasury>
 <unique>0</unique>
 </start_pos_factions>
 <start_pos_factions record_uuid="{fa62a841-e669-4d21-baf4-8ed02069c6bb}" record_timestamp="1508759450639" record_key="851926106">

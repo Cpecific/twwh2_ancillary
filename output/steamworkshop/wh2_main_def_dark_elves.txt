@@ -118,20 +118,20 @@ Public order: +1 (local province)[/td]
 [td]*Perform successfull action against another character;
 *Perform critical success action against another character other than “Assist Army”[/td]
 [/tr][tr]
-[td]Fimir Balefiend[/td]
-[td](Sorceress)
-Hero action success chance: +10% for Sorceresses
-Post battle chance of stealing a magic item: +10%[/td]
-[td][previewicon=21642086;sizeOriginal,inline;character_agent.png][/previewicon]
-5%[/td]
-[td]*([u]Lord[/u])
-Post Battle: Kill Captives[/td]
-[/tr][tr]
 [td]Slaver[/td]
 [td](Master, Death Hag)
 Income from Slave Pens and Slave Markets: +5% (all provinces)
 Casualties captured post-battle: +15%[/td]
 [td][previewicon=21641941;sizeOriginal,inline;battle_general_ability.png][/previewicon][previewicon=21642086;sizeOriginal,inline;character_agent.png][/previewicon]
+5%[/td]
+[td]*([u]Lord[/u])
+Post Battle: Kill Captives[/td]
+[/tr][tr]
+[td]Fimir Balefiend[/td]
+[td](Sorceress)
+Hero action success chance: +10% for Sorceresses
+Post battle chance of stealing a magic item: +10%[/td]
+[td][previewicon=21642086;sizeOriginal,inline;character_agent.png][/previewicon]
 5%[/td]
 [td]*([u]Lord[/u])
 Post Battle: Kill Captives[/td]

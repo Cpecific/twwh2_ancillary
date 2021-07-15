@@ -70,7 +70,7 @@ Recruitment cost: -10% for Dragon units (Lord's army)[/td]
 [td]Dragon Armourer[/td]
 [td](Handmaiden, Noble)
 Enemy Hero action success chance: -10%
-Bonus vs. Large: +14[/td]
+Bonus vs Large: +14[/td]
 [td][previewicon=21641941;sizeOriginal,inline;battle_general_ability.png][/previewicon][previewicon=21642086;sizeOriginal,inline;character_agent.png][/previewicon]
 25%[/td]
 [td]*Spend a turn in own region, which has chain “Dragons” (every 5th turn)[/td]

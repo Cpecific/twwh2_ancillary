@@ -143,7 +143,7 @@ Leadership: +4 during subterranean intercept battles (Lord's army)[/td]
 Sack settlement[/td]
 [/tr][tr]
 [td]Troll Slayer[/td]
-[td]Bonus vs. Large: +14[/td]
+[td]Bonus vs Large: +14[/td]
 [td][previewicon=21641943;sizeOriginal,inline;campaign_agent.png][/previewicon]
 20%[/td]
 [td]*([u]Lord[/u])
