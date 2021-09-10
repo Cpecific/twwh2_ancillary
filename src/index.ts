@@ -16,6 +16,7 @@ import {
 	IParsed,
 	parseTrigger,
 	printTextNode,
+	sortParsedMap,
 	toCultureKey
 } from './build-data';
 import { isEqualShuffle, toArray, unique, toMap } from './common';
@@ -100,6 +101,7 @@ async function outputSteam() {
 			}
 		}
 	}
+	sortParsedMap(parsed);
 	let writtenCultureList: CultureType[] = [];
 	for (const [cultureKey, cultureMap] of parsed) {
 		let string = '';
@@ -246,6 +248,7 @@ async function outputHTML() {
 			}
 		}
 	}
+	sortParsedMap(parsed);
 	type OutputEntry = {
 		title: string;
 		description: string | undefined;

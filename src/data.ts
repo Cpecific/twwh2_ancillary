@@ -889,13 +889,13 @@ export const data: ITrigger[] = [
 		}],
 		ancillaryList: [{
 			chance: 15,
-			key: 'wh2_dlc11_anc_follower_cst_shipwright',
-		}, {
-			chance: 15,
 			key: 'wh2_dlc11_anc_follower_cst_sartosa_navigator',
 		}, {
 			chance: 8,
 			key: 'wh_dlc03_anc_follower_beastmen_mannish_thrall',
+		}, {
+			chance: 15,
+			key: 'wh2_dlc11_anc_follower_cst_shipwright',
 		}]
 	},
 	// #endregion
@@ -958,16 +958,16 @@ export const data: ITrigger[] = [
 		}],
 		ancillaryList: [{
 			chance: 3,
-			key: 'wh_dlc01_anc_follower_chaos_zealot',
-		}, {
-			chance: 3,
-			key: 'wh_main_anc_follower_undead_carrion',
+			key: 'wh_dlc03_anc_follower_beastmen_herdstone_keeper',
 		}, {
 			chance: 3,
 			key: 'wh_dlc01_anc_follower_chaos_cultist',
 		}, {
 			chance: 3,
-			key: 'wh_dlc03_anc_follower_beastmen_herdstone_keeper',
+			key: 'wh_dlc01_anc_follower_chaos_zealot',
+		}, {
+			chance: 3,
+			key: 'wh_main_anc_follower_undead_carrion',
 		}]
 	},
 	// #endregion
@@ -987,14 +987,14 @@ export const data: ITrigger[] = [
 			chance: 10,
 			key: 'wh_main_anc_follower_greenskins_dog_boy_scout',
 		}, {
-			chance: 10,
-			key: 'wh2_main_anc_follower_skv_pet_wolf_rat',
-		}, {
 			chance: 5,
 			key: 'wh_main_anc_follower_undead_flesh_golem',
 		}, {
 			chance: 5,
 			key: 'wh2_main_anc_follower_def_organ_merchant',
+		}, {
+			chance: 5,
+			key: 'wh_dlc01_anc_follower_chaos_huscarl',
 		}, {
 			chance: 8,
 			key: 'wh2_main_anc_follower_def_gravedigger',
@@ -1002,8 +1002,8 @@ export const data: ITrigger[] = [
 			chance: 5,
 			key: 'wh2_main_anc_follower_hef_assassin',
 		}, {
-			chance: 5,
-			key: 'wh_dlc01_anc_follower_chaos_huscarl',
+			chance: 10,
+			key: 'wh2_main_anc_follower_skv_pet_wolf_rat',
 		}]
 	},
 	// #endregion
@@ -1018,12 +1018,6 @@ export const data: ITrigger[] = [
 			text: () => `Fail an action against another character other than “Assist Army”`
 		}],
 		ancillaryList: [{
-			chance: 15,
-			key: 'wh2_main_anc_follower_skv_bodyguard',
-		}, {
-			chance: 5,
-			key: 'wh_main_anc_follower_dwarfs_candle_maker',
-		}, {
 			chance: 13,
 			key: 'wh_main_anc_follower_all_men_bodyguard',
 		}, {
@@ -1032,6 +1026,12 @@ export const data: ITrigger[] = [
 		}, {
 			chance: 25,
 			key: 'wh2_main_anc_follower_hef_counterspy',
+		}, {
+			chance: 15,
+			key: 'wh2_main_anc_follower_skv_bodyguard',
+		}, {
+			chance: 5,
+			key: 'wh_main_anc_follower_dwarfs_candle_maker',
 		}]
 	},
 	// #endregion
@@ -1092,11 +1092,11 @@ export const data: ITrigger[] = [
 			text: () => `Perform successfull action against garrison`
 		}],
 		ancillaryList: [{
-			chance: 13,
-			key: 'wh_main_anc_follower_empire_watchman',
-		}, {
 			chance: 9,
 			key: 'wh2_main_anc_follower_skv_scavenger_1',
+		}, {
+			chance: 13,
+			key: 'wh_main_anc_follower_empire_watchman',
 		}]
 	},
 	// #endregion
@@ -1145,11 +1145,11 @@ export const data: ITrigger[] = [
 			text: () => `Loot settlement`
 		}],
 		ancillaryList: [{
-			chance: 15,
-			key: 'wh_main_anc_follower_greenskins_serial_loota',
-		}, {
 			chance: 5,
 			key: 'wh_main_anc_follower_dwarfs_treasure_hunter',
+		}, {
+			chance: 15,
+			key: 'wh_main_anc_follower_greenskins_serial_loota',
 		}]
 	},
 	// #endregion
@@ -1162,17 +1162,17 @@ export const data: ITrigger[] = [
 			text: () => `Loot settlement`
 		}],
 		ancillaryList: [{
-			chance: 13,
-			key: 'wh_main_anc_follower_undead_manservant',
-		}, {
 			chance: 10,
-			key: 'wh_dlc08_anc_follower_kurgan_slave_merchant',
+			key: 'wh_dlc08_anc_follower_skaeling_trader',
 		}, {
 			chance: 13,
 			key: 'wh_main_anc_follower_empire_jailer',
 		}, {
 			chance: 10,
-			key: 'wh_dlc08_anc_follower_skaeling_trader',
+			key: 'wh_dlc08_anc_follower_kurgan_slave_merchant',
+		}, {
+			chance: 13,
+			key: 'wh_main_anc_follower_undead_manservant',
 		}]
 	},
 	// #endregion
@@ -1200,10 +1200,10 @@ export const data: ITrigger[] = [
 		}],
 		ancillaryList: [{
 			chance: 6,
-			key: 'wh_main_anc_follower_empire_barber_surgeon',
+			key: 'wh2_main_anc_follower_skv_scribe',
 		}, {
 			chance: 6,
-			key: 'wh2_main_anc_follower_skv_scribe',
+			key: 'wh_main_anc_follower_empire_barber_surgeon',
 		}]
 	},
 	// #endregion
@@ -1229,17 +1229,17 @@ export const data: ITrigger[] = [
 			text: () => `Lose/draw battle`
 		}],
 		ancillaryList: [{
-			chance: 2,
-			key: 'wh_main_anc_follower_all_men_soldier',
+			chance: 6,
+			key: 'wh_dlc01_anc_follower_chaos_mutant',
 		}, {
 			chance: 4,
 			key: 'wh_main_anc_follower_all_men_protagonist',
 		}, {
-			chance: 6,
-			key: 'wh_dlc01_anc_follower_chaos_mutant',
-		}, {
 			chance: 8,
 			key: 'wh_main_anc_follower_all_men_mercenary',
+		}, {
+			chance: 2,
+			key: 'wh_main_anc_follower_all_men_soldier',
 		}]
 	},
 	// #endregion
@@ -1251,11 +1251,11 @@ export const data: ITrigger[] = [
 			text: () => `Participate in ambush battle`
 		}],
 		ancillaryList: [{
+			chance: 25,
+			key: 'wh2_main_anc_follower_lzd_army_beast_hunter',
+		}, {
 			chance: 5,
 			key: 'wh_dlc05_anc_follower_dryad_spy',
-		}, {
-			chance: 25,
-			key: 'wh_main_anc_follower_undead_warlock',
 		}, {
 			chance: 25,
 			key: 'wh_main_anc_follower_empire_road_warden',
@@ -1264,7 +1264,7 @@ export const data: ITrigger[] = [
 			key: 'wh2_main_anc_follower_hef_scout',
 		}, {
 			chance: 25,
-			key: 'wh2_main_anc_follower_lzd_army_beast_hunter',
+			key: 'wh_main_anc_follower_undead_warlock',
 		}]
 	},
 	// #endregion
@@ -1279,22 +1279,22 @@ export const data: ITrigger[] = [
 		}],
 		ancillaryList: [{
 			chance: 5,
-			key: 'wh2_main_anc_follower_def_slave_trader',
-		}, {
-			chance: 10,
-			key: 'wh_dlc08_anc_follower_baernsonlings_berserker',
-		}, {
-			chance: 5,
-			key: 'wh2_main_anc_follower_hef_raven_keeper',
+			key: 'wh_dlc05_anc_follower_forest_spirit',
 		}, {
 			chance: 5,
 			key: 'wh_main_anc_follower_all_men_ogres_pit_fighter',
 		}, {
 			chance: 5,
-			key: 'wh2_main_anc_follower_def_fimir_balefiend',
+			key: 'wh2_main_anc_follower_hef_raven_keeper',
 		}, {
 			chance: 5,
-			key: 'wh_dlc05_anc_follower_forest_spirit',
+			key: 'wh2_main_anc_follower_def_fimir_balefiend',
+		}, {
+			chance: 10,
+			key: 'wh_dlc08_anc_follower_baernsonlings_berserker',
+		}, {
+			chance: 5,
+			key: 'wh2_main_anc_follower_def_slave_trader',
 		}]
 	},
 	// #endregion
@@ -1306,8 +1306,8 @@ export const data: ITrigger[] = [
 			text: () => `Rank Up on sea`
 		}],
 		ancillaryList: [{
-			chance: 10,
-			key: 'wh_dlc08_anc_follower_whalers',
+			chance: 12,
+			key: 'wh_dlc01_anc_follower_chaos_oar_slave',
 		}, {
 			chance: 15,
 			key: 'wh_main_anc_follower_dwarfs_shipwright',
@@ -1315,8 +1315,8 @@ export const data: ITrigger[] = [
 			chance: 10,
 			key: 'wh2_dlc11_anc_follower_cst_siren',
 		}, {
-			chance: 12,
-			key: 'wh_dlc01_anc_follower_chaos_oar_slave',
+			chance: 10,
+			key: 'wh_dlc08_anc_follower_whalers',
 		}]
 	},
 	// #endregion
@@ -1512,17 +1512,17 @@ export const data: ITrigger[] = [
 			chance: 5,
 			key: 'wh_main_anc_follower_all_men_vagabond',
 		}, {
+			chance: 5,
+			key: 'wh_main_anc_follower_all_men_servant',
+		}, {
+			chance: 10,
+			key: 'wh_dlc08_anc_follower_marauder_champion',
+		}, {
 			chance: 10,
 			key: 'wh_dlc05_anc_follower_eternal_guard_commander',
 		}, {
 			chance: 10,
 			key: 'wh_dlc05_anc_follower_elder_scout',
-		}, {
-			chance: 10,
-			key: 'wh_dlc08_anc_follower_marauder_champion',
-		}, {
-			chance: 5,
-			key: 'wh_main_anc_follower_all_men_servant',
 		}]
 	},
 	// #endregion
@@ -1534,6 +1534,9 @@ export const data: ITrigger[] = [
 			text: () => `Rank Up and faction has 40% trade after 5th turn (every 5th turn)`
 		}],
 		ancillaryList: [{
+			chance: 7,
+			key: 'wh_main_anc_follower_empire_coachman',
+		}, {
 			chance: 10,
 			key: 'wh_main_anc_follower_dwarfs_guildmaster',
 		}, {
@@ -1541,16 +1544,13 @@ export const data: ITrigger[] = [
 			key: 'wh2_main_anc_follower_lzd_archivist',
 		}, {
 			chance: 10,
-			key: 'wh2_main_anc_follower_def_merchant',
+			key: 'wh_main_anc_follower_empire_ferryman',
 		}, {
 			chance: 10,
 			key: 'wh2_main_anc_follower_hef_wine_merchant',
 		}, {
-			chance: 7,
-			key: 'wh_main_anc_follower_empire_coachman',
-		}, {
 			chance: 10,
-			key: 'wh_main_anc_follower_empire_ferryman',
+			key: 'wh2_main_anc_follower_def_merchant',
 		}, {
 			chance: 3,
 			key: 'wh_main_anc_follower_empire_tradesman',
@@ -1661,11 +1661,11 @@ export const data: ITrigger[] = [
 			chance: 5,
 			key: 'wh_main_anc_follower_all_men_initiate',
 		}, {
-			chance: 5,
-			key: 'wh_main_anc_follower_all_men_zealot',
-		}, {
 			chance: 7,
 			key: 'wh_main_anc_follower_empire_bone_picker',
+		}, {
+			chance: 5,
+			key: 'wh_main_anc_follower_all_men_zealot',
 		}]
 	},
 	// #endregion
@@ -1677,20 +1677,20 @@ export const data: ITrigger[] = [
 			text: () => `Rank Up before 11th level`
 		}],
 		ancillaryList: [{
-			chance: 1,
-			key: 'wh_main_anc_follower_all_men_tollkeeper',
+			chance: 5,
+			key: 'wh_dlc08_anc_follower_mountain_scout',
 		}, {
 			chance: 5,
-			key: 'wh_dlc05_anc_follower_hawk_companion',
+			key: 'wh_dlc05_anc_follower_young_stag',
+		}, {
+			chance: 1,
+			key: 'wh_main_anc_follower_all_men_tollkeeper',
 		}, {
 			chance: 2,
 			key: 'wh_dlc03_anc_follower_beastmen_flying_spy',
 		}, {
 			chance: 5,
-			key: 'wh_dlc05_anc_follower_young_stag',
-		}, {
-			chance: 5,
-			key: 'wh_dlc08_anc_follower_mountain_scout',
+			key: 'wh_dlc05_anc_follower_hawk_companion',
 		}]
 	},
 	// #endregion
@@ -1703,23 +1703,23 @@ export const data: ITrigger[] = [
 			text: () => `Rank Up in region (1 turn own) with less than -20 public order`
 		}],
 		ancillaryList: [{
-			chance: 12,
-			key: 'wh_main_anc_follower_dwarfs_choir_master',
+			chance: 10,
+			key: 'wh_main_anc_follower_greenskins_idol_carva',
 		}, {
-			chance: 15,
-			key: 'wh2_main_anc_follower_def_bodyguard',
-		}, {
-			chance: 15,
-			key: 'wh2_main_anc_follower_hef_food_taster',
-		}, {
-			chance: 12,
-			key: 'wh_main_anc_follower_empire_burgher',
+			chance: 20,
+			key: 'wh_main_anc_follower_undead_black_cat',
 		}, {
 			chance: 15,
 			key: 'wh_main_anc_follower_undead_poltergeist',
 		}, {
-			chance: 20,
-			key: 'wh_main_anc_follower_undead_black_cat',
+			chance: 15,
+			key: 'wh2_main_anc_follower_hef_food_taster',
+		}, {
+			chance: 8,
+			key: 'wh_main_anc_follower_all_men_bailiff',
+		}, {
+			chance: 13,
+			key: 'wh_main_anc_follower_empire_agitator',
 		}, {
 			chance: 15,
 			key: 'wh2_main_anc_follower_lzd_attendant',
@@ -1727,20 +1727,20 @@ export const data: ITrigger[] = [
 			chance: 10,
 			key: 'wh_dlc08_anc_follower_cathy_slave_dancers',
 		}, {
-			chance: 10,
-			key: 'wh_main_anc_follower_dwarfs_teller_of_tales',
+			chance: 12,
+			key: 'wh_main_anc_follower_dwarfs_choir_master',
 		}, {
-			chance: 10,
-			key: 'wh_main_anc_follower_greenskins_idol_carva',
-		}, {
-			chance: 13,
-			key: 'wh_main_anc_follower_empire_agitator',
-		}, {
-			chance: 8,
-			key: 'wh_main_anc_follower_all_men_bailiff',
+			chance: 15,
+			key: 'wh2_main_anc_follower_def_bodyguard',
 		}, {
 			chance: 10,
 			key: 'wh2_main_anc_follower_skv_saboteur',
+		}, {
+			chance: 10,
+			key: 'wh_main_anc_follower_dwarfs_teller_of_tales',
+		}, {
+			chance: 12,
+			key: 'wh_main_anc_follower_empire_burgher',
 		}]
 	},
 	// #endregion
@@ -1812,17 +1812,17 @@ export const data: ITrigger[] = [
 			text: () => `Rank Up in army while raiding`
 		}],
 		ancillaryList: [{
+			chance: 20,
+			key: 'wh_main_anc_follower_greenskins_bat-winged_loony',
+		}, {
+			chance: 20,
+			key: 'wh_dlc08_anc_follower_dragonbone_raiders',
+		}, {
 			chance: 8,
 			key: 'wh_main_anc_follower_all_men_outlaw',
 		}, {
 			chance: 13,
 			key: 'wh_main_anc_follower_empire_thief',
-		}, {
-			chance: 20,
-			key: 'wh_dlc08_anc_follower_dragonbone_raiders',
-		}, {
-			chance: 20,
-			key: 'wh_main_anc_follower_greenskins_bat-winged_loony',
 		}]
 	},
 	// #endregion
@@ -1882,8 +1882,8 @@ export const data: ITrigger[] = [
 			text: () => `Rank Up in region with untainted < 70%`
 		}],
 		ancillaryList: [{
-			chance: 5,
-			key: 'wh_main_anc_follower_empire_light_college_acolyte',
+			chance: 10,
+			key: 'wh_main_anc_follower_bretonnia_court_jester',
 		}, {
 			chance: 10,
 			key: 'wh_main_anc_follower_greenskins_gobbo_ranta',
@@ -1891,8 +1891,8 @@ export const data: ITrigger[] = [
 			chance: 10,
 			key: 'wh_main_anc_follower_dwarfs_dwarfen_tattooist',
 		}, {
-			chance: 10,
-			key: 'wh_main_anc_follower_bretonnia_court_jester',
+			chance: 5,
+			key: 'wh_main_anc_follower_empire_light_college_acolyte',
 		}]
 	},
 	// #endregion
@@ -1921,20 +1921,20 @@ export const data: ITrigger[] = [
 			chance: 10,
 			key: 'wh_dlc03_anc_follower_beastmen_flayer',
 		}, {
+			chance: 8,
+			key: 'wh2_main_anc_follower_def_diplomat',
+		}, {
 			chance: 18,
 			key: 'wh_dlc01_anc_follower_chaos_barbarian',
 		}, {
 			chance: 50,
 			key: 'wh_main_anc_follower_greenskins_backstabba',
 		}, {
-			chance: 14,
-			key: 'wh_main_anc_follower_all_men_outrider',
-		}, {
 			chance: 10,
 			key: 'wh_dlc08_anc_follower_marauder_champion',
 		}, {
-			chance: 8,
-			key: 'wh2_main_anc_follower_def_diplomat',
+			chance: 14,
+			key: 'wh_main_anc_follower_all_men_outrider',
 		}]
 	},
 	// #endregion
@@ -1973,11 +1973,11 @@ export const data: ITrigger[] = [
 			text: () => `Rank Up outside of army`
 		}],
 		ancillaryList: [{
-			chance: 20,
-			key: 'wh_main_anc_follower_greenskins_shamans_lacky',
-		}, {
 			chance: 10,
 			key: 'wh_dlc08_anc_follower_seer',
+		}, {
+			chance: 20,
+			key: 'wh_main_anc_follower_greenskins_shamans_lacky',
 		}]
 	},
 	// #endregion
@@ -1989,17 +1989,17 @@ export const data: ITrigger[] = [
 			text: () => `Rank Up and character has won 6 offensive battles`
 		}],
 		ancillaryList: [{
-			chance: 5,
-			key: 'wh_dlc01_anc_follower_chaos_magister',
+			chance: 8,
+			key: 'wh2_main_anc_follower_hef_bard',
 		}, {
 			chance: 8,
 			key: 'wh_main_anc_follower_dwarfs_dwarf_bride',
 		}, {
 			chance: 5,
-			key: 'wh_main_anc_follower_all_men_valet',
+			key: 'wh_dlc01_anc_follower_chaos_magister',
 		}, {
-			chance: 8,
-			key: 'wh2_main_anc_follower_hef_bard',
+			chance: 5,
+			key: 'wh_main_anc_follower_all_men_valet',
 		}, {
 			chance: 5,
 			key: 'wh_dlc05_anc_follower_hunting_hound',
@@ -2017,36 +2017,36 @@ export const data: ITrigger[] = [
 			text: () => `Sack settlement`
 		}],
 		ancillaryList: [{
-			chance: 10,
-			key: 'wh_dlc08_anc_follower_slave_worker',
-			repeat: 2,
-		}, {
-			chance: 20,
-			key: 'wh_main_anc_follower_greenskins_bully',
-		}, {
-			chance: 5,
-			key: 'wh_main_anc_follower_dwarfs_prospector',
-		}, {
-			chance: 25,
-			key: 'wh2_main_anc_follower_lzd_artefact_hunter',
-		}, {
-			chance: 30,
-			key: 'wh2_main_anc_follower_def_slave',
-		}, {
 			chance: 5,
 			key: 'wh_dlc01_anc_follower_chaos_kurgan_chieftain',
 		}, {
 			chance: 10,
+			key: 'wh_dlc08_anc_follower_slave_worker',
+			repeat: 2,
+		}, {
+			chance: 30,
+			key: 'wh2_main_anc_follower_def_slave',
+		}, {
+			chance: 10,
 			key: 'wh_dlc08_anc_follower_kurgan_slave_merchant',
+		}, {
+			chance: 5,
+			key: 'wh_dlc01_anc_follower_chaos_collector',
+		}, {
+			chance: 20,
+			key: 'wh_main_anc_follower_greenskins_bully',
+		}, {
+			chance: 25,
+			key: 'wh2_main_anc_follower_skv_artefact_hunter',
+		}, {
+			chance: 25,
+			key: 'wh2_main_anc_follower_lzd_artefact_hunter',
 		}, {
 			chance: 6,
 			key: 'wh_dlc01_anc_follower_chaos_darksoul',
 		}, {
 			chance: 5,
-			key: 'wh_dlc01_anc_follower_chaos_collector',
-		}, {
-			chance: 25,
-			key: 'wh2_main_anc_follower_skv_artefact_hunter',
+			key: 'wh_main_anc_follower_dwarfs_prospector',
 		}]
 	},
 	// #endregion
@@ -2110,28 +2110,28 @@ export const data: ITrigger[] = [
 			key: 'wh_dlc05_anc_follower_wardancer_drummer',
 		}, {
 			chance: 5,
-			key: 'wh_dlc08_anc_follower_mammoth',
+			key: 'wh_dlc08_anc_follower_beserker',
 		}, {
 			chance: 3,
 			key: 'wh_main_anc_follower_norsca_berserker',
 		}, {
-			chance: 5,
-			key: 'wh_dlc08_anc_follower_beserker',
-		}, {
-			chance: 6,
-			key: 'wh_main_anc_follower_empire_camp_follower',
-		}, {
 			chance: 4,
 			key: 'wh_main_anc_follower_empire_apprentice_wizard',
+		}, {
+			chance: 5,
+			key: 'wh_main_anc_follower_empire_hunter',
 		}, {
 			chance: 4,
 			key: 'wh2_dlc11_anc_follower_cst_travelling_necromancer',
 		}, {
 			chance: 5,
-			key: 'wh_main_anc_follower_empire_hunter',
+			key: 'wh_dlc08_anc_follower_mammoth',
 		}, {
 			chance: 3,
 			key: 'wh_main_anc_follower_undead_corpse_thief',
+		}, {
+			chance: 6,
+			key: 'wh_main_anc_follower_empire_camp_follower',
 		}]
 	},
 	// #endregion
@@ -2176,16 +2176,16 @@ export const data: ITrigger[] = [
 		}],
 		ancillaryList: [{
 			chance: 25,
-			key: 'wh_main_anc_follower_undead_warp_stone_hunter',
-		}, {
-			chance: 20,
-			key: 'wh_main_anc_follower_undead_dreg',
+			key: 'wh_main_anc_follower_empire_peasant',
 		}, {
 			chance: 40,
 			key: 'wh_main_anc_follower_greenskins_swindla',
 		}, {
+			chance: 20,
+			key: 'wh_main_anc_follower_undead_dreg',
+		}, {
 			chance: 25,
-			key: 'wh_main_anc_follower_empire_peasant',
+			key: 'wh_main_anc_follower_undead_warp_stone_hunter',
 		}]
 	},
 	// #endregion
@@ -2214,8 +2214,8 @@ export const data: ITrigger[] = [
 			chance: 20,
 			key: 'wh_main_anc_follower_empire_entertainer',
 		}, {
-			chance: 20,
-			key: 'wh_main_anc_follower_undead_treasurer',
+			chance: 10,
+			key: 'wh_dlc08_anc_follower_skaeling_trader',
 		}, {
 			chance: 15,
 			key: 'wh_dlc01_anc_follower_chaos_demagogue',
@@ -2223,8 +2223,8 @@ export const data: ITrigger[] = [
 			chance: 15,
 			key: 'wh_main_anc_follower_dwarfs_cooper',
 		}, {
-			chance: 10,
-			key: 'wh_dlc08_anc_follower_skaeling_trader',
+			chance: 20,
+			key: 'wh_main_anc_follower_undead_treasurer',
 		}]
 	},
 	// #endregion
@@ -2237,13 +2237,13 @@ export const data: ITrigger[] = [
 		}],
 		ancillaryList: [{
 			chance: 5,
+			key: 'wh_main_anc_follower_dwarfs_sapper',
+		}, {
+			chance: 5,
 			key: 'wh2_main_anc_follower_skv_engineering_student',
 		}, {
 			chance: 5,
 			key: 'wh_dlc05_anc_follower_vauls_anvil_smith',
-		}, {
-			chance: 5,
-			key: 'wh_main_anc_follower_dwarfs_sapper',
 		}]
 	},
 	// #endregion
@@ -2302,14 +2302,14 @@ export const data: ITrigger[] = [
 			text: () => `Complete battle as defender`
 		}],
 		ancillaryList: [{
-			chance: 33,
-			key: 'wh2_main_anc_follower_skv_slave_human',
+			chance: 10,
+			key: 'wh_main_anc_follower_dwarfs_reckoner',
 		}, {
 			chance: 8,
 			key: 'wh_main_anc_follower_bretonnia_squire',
 		}, {
-			chance: 10,
-			key: 'wh_main_anc_follower_dwarfs_reckoner',
+			chance: 33,
+			key: 'wh2_main_anc_follower_skv_slave_human',
 		}, {
 			chance: 50,
 			key: 'wh2_main_anc_follower_lzd_sacrificial_victim_human',

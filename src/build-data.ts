@@ -939,6 +939,18 @@ export const parseTrigger = (opts: {
 		});
 	}
 };
+export const sortParsedMap = (parsed: Map<string, Map<string, IParsed>>) => {
+	for (const [subcultureKey, subcultureMap] of parsed) {
+		parsed.set(subcultureKey, new Map([...subcultureMap.entries()].sort((a, b) => {
+			const aa = findAncillary(a[0]);
+			const bb = findAncillary(b[0]);
+			const as = aa.ancillary['@onscreen_name'] as string;
+			const bs = bb.ancillary['@onscreen_name'] as string;
+			return as.localeCompare(bs);
+			// return a[0].localeCompare(b[0]);
+		})));
+	}
+};
 
 const typical_output = (output: string[]) => {
 	return output.length === 0
