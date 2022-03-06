@@ -1,5 +1,8 @@
+import type { IEntry } from "./ron-db";
+
 // #region (sub)culture
 export type SubCultureType =
+	'filter_all' |
 	'wh_dlc03_sc_bst_beastmen' |
 	'wh_dlc05_sc_wef_wood_elves' |
 	'wh_main_sc_brt_bretonnia' |
@@ -67,7 +70,18 @@ export type SubCultureType =
 	'wh2_main_rogue_vauls_expedition' |
 	'wh2_main_rogue_worldroot_rangers' |
 	'wh2_main_rogue_wrath_of_nature' |
-	'wh2_main_sc_skv_skaven';
+	'wh2_main_sc_skv_skaven' |
+	'wh3_main_pro_sc_kho_khorne' |
+	'wh3_main_pro_sc_ksl_kislev' |
+	'wh3_main_pro_sc_tze_tzeentch' |
+	'wh3_main_sc_cth_cathay' |
+	'wh3_main_sc_dae_daemons' |
+	'wh3_main_sc_kho_khorne' |
+	'wh3_main_sc_ksl_kislev' |
+	'wh3_main_sc_nur_nurgle' |
+	'wh3_main_sc_ogr_ogre_kingdoms' |
+	'wh3_main_sc_sla_slaanesh' |
+	'wh3_main_sc_tze_tzeentch';
 // #endregion
 
 /**
@@ -206,29 +220,6 @@ const agent_subtypes = [
 	'vmp_necromancer',
 	'vmp_vampire',
 	'vmp_wight_king',
-	'wh_dlc05_vmp_red_duke',
-	'wh_dlc05_vmp_vampire_shadow',
-	'wh_dlc05_wef_branchwraith',
-	'wh_dlc08_bst_cygor_boss',
-	'wh_dlc08_chs_challenger_khorne',
-	'wh_dlc08_chs_challenger_nurgle',
-	'wh_dlc08_chs_challenger_slaanesh',
-	'wh_dlc08_chs_challenger_tzeentch',
-	'wh_dlc08_chs_dragon_ogre_shaggoth_boss',
-	'wh_dlc08_grn_giant_boss',
-	'wh_dlc08_grn_venom_queen_boss',
-	'wh_dlc08_nor_arzik',
-	'wh_dlc08_nor_fimir_balefiend_fire',
-	'wh_dlc08_nor_fimir_balefiend_shadow',
-	'wh_dlc08_nor_frost_wyrm_boss',
-	'wh_dlc08_nor_shaman_sorcerer_death',
-	'wh_dlc08_nor_shaman_sorcerer_fire',
-	'wh_dlc08_nor_shaman_sorcerer_metal',
-	'wh_dlc08_nor_skin_wolf_werekin',
-	'wh_dlc08_nor_throgg',
-	'wh_dlc08_nor_wulfrik',
-	'wh_dlc08_vmp_terrorgheist_boss',
-	'wh_dlc08_wef_forest_dragon_boss',
 	'wh2_dlc09_skv_tretch_craventail',
 	'wh2_dlc09_tmb_arkhan',
 	'wh2_dlc09_tmb_khalida',
@@ -272,15 +263,18 @@ const agent_subtypes = [
 	'wh2_dlc11_cst_admiral_fem',
 	'wh2_dlc11_cst_admiral_fem_death',
 	'wh2_dlc11_cst_admiral_fem_deep',
+	'wh2_dlc11_cst_admiral_fem_vampires',
 	'wh2_dlc11_cst_admiral_tech_01',
 	'wh2_dlc11_cst_admiral_tech_02',
 	'wh2_dlc11_cst_admiral_tech_03',
 	'wh2_dlc11_cst_admiral_tech_04',
+	'wh2_dlc11_cst_admiral_vampires',
 	'wh2_dlc11_cst_aranessa',
 	'wh2_dlc11_cst_cylostra',
 	'wh2_dlc11_cst_fleet_captain',
 	'wh2_dlc11_cst_fleet_captain_death',
 	'wh2_dlc11_cst_fleet_captain_deep',
+	'wh2_dlc11_cst_fleet_captain_vampires',
 	'wh2_dlc11_cst_ghost_paladin',
 	'wh2_dlc11_cst_gunnery_wight',
 	'wh2_dlc11_cst_harkon',
@@ -303,7 +297,9 @@ const agent_subtypes = [
 	'wh2_dlc12_lzd_tlaqua_skink_priest_heavens',
 	'wh2_dlc12_skv_ikit_claw',
 	'wh2_dlc12_skv_warlock_master',
+	'wh2_dlc13_emp_cha_huntsmarshal',
 	'wh2_dlc13_emp_cha_huntsmarshal_0',
+	'wh2_dlc13_emp_cha_markus_wulfhart',
 	'wh2_dlc13_emp_cha_markus_wulfhart_0',
 	'wh2_dlc13_emp_hunter_doctor_hertwig_van_hal',
 	'wh2_dlc13_emp_hunter_jorek_grimm',
@@ -377,7 +373,17 @@ const agent_subtypes = [
 	'wh2_dlc16_wef_spellweaver_high',
 	'wh2_dlc16_wef_spellweaver_life',
 	'wh2_dlc16_wef_spellweaver_shadows',
+	'wh2_dlc17_bst_doombull',
+	'wh2_dlc17_bst_taurox',
+	'wh2_dlc17_bst_wargor',
+	'wh2_dlc17_dwf_thane_ghost_artifact',
+	'wh2_dlc17_dwf_thorek',
+	'wh2_dlc17_lzd_mon_dread_saurian_qb_boss',
+	'wh2_dlc17_lzd_oxyotl',
+	'wh2_dlc17_lzd_skink_oracle_troglodon',
+	'wh2_dlc17_vmp_kevon_lloydstein',
 	'wh2_main_def_black_ark',
+	'wh2_main_def_black_ark_blessed_dread',
 	'wh2_main_def_death_hag',
 	'wh2_main_def_dreadlord',
 	'wh2_main_def_dreadlord_fem',
@@ -393,8 +399,8 @@ const agent_subtypes = [
 	'wh2_main_hef_mage_light',
 	'wh2_main_hef_noble',
 	'wh2_main_hef_prince',
-	'wh2_main_hef_prince_alastar',
 	'wh2_main_hef_princess',
+	'wh2_main_hef_prince_alastar',
 	'wh2_main_hef_teclis',
 	'wh2_main_hef_tyrion',
 	'wh2_main_lzd_kroq_gar',
@@ -421,28 +427,241 @@ const agent_subtypes = [
 	'wh2_pro08_neu_gotrek',
 	'wh2_pro09_grn_black_orc_big_boss',
 	'wh2_twa02_wef_glade_captain',
+	'wh2_twa03_def_rakarth',
+	'wh2_twa04_bst_great_bray_shaman_beasts',
+	'wh2_twa04_bst_great_bray_shaman_death',
+	'wh2_twa04_bst_great_bray_shaman_shadows',
+	'wh2_twa04_bst_great_bray_shaman_wild',
+	'wh3_demo_kho_cha_exalted_bloodthirster',
+	'wh3_demo_nur_exalted_great_unclean_one_nurgle',
+	'wh3_main_cth_alchemist',
+	'wh3_main_cth_astromancer',
+	'wh3_main_cth_dragon_blooded_shugengan_yang',
+	'wh3_main_cth_dragon_blooded_shugengan_yin',
+	'wh3_main_cth_lord_caravan_master',
+	'wh3_main_cth_lord_magistrate_yang',
+	'wh3_main_cth_lord_magistrate_yin',
+	'wh3_main_cth_miao_ying',
+	'wh3_main_cth_zhao_ming',
+	'wh3_main_dae_belakor',
+	'wh3_main_dae_daemon_prince',
+	'wh3_main_dae_daemon_prince_khorne',
+	'wh3_main_dae_daemon_prince_khorne_fe',
+	'wh3_main_dae_daemon_prince_nurgle',
+	'wh3_main_dae_daemon_prince_nurgle_fe',
+	'wh3_main_dae_daemon_prince_slaanesh',
+	'wh3_main_dae_daemon_prince_slaanesh_fe',
+	'wh3_main_dae_daemon_prince_tzeentch',
+	'wh3_main_dae_daemon_prince_tzeentch_fe',
+	'wh3_main_kho_bloodreaper',
+	'wh3_main_kho_cultist',
+	'wh3_main_kho_exalted_bloodthirster',
+	'wh3_main_kho_herald_of_khorne',
+	'wh3_main_kho_herald_of_khorne_khorne_spawned_army',
+	'wh3_main_kho_skarbrand',
+	'wh3_main_ksl_ataman',
+	'wh3_main_ksl_boris',
+	'wh3_main_ksl_boyar',
+	'wh3_main_ksl_frost_maiden_ice',
+	'wh3_main_ksl_frost_maiden_tempest',
+	'wh3_main_ksl_ice_witch_ice',
+	'wh3_main_ksl_ice_witch_tempest',
+	'wh3_main_ksl_katarin',
+	'wh3_main_ksl_kostaltyn',
+	'wh3_main_ksl_patriarch',
+	'wh3_main_nur_cultist',
+	'wh3_main_nur_cultist_plague_ritual',
+	'wh3_main_nur_exalted_great_unclean_one_death',
+	'wh3_main_nur_exalted_great_unclean_one_nurgle',
+	'wh3_main_nur_herald_of_nurgle_death',
+	'wh3_main_nur_herald_of_nurgle_nurgle',
+	'wh3_main_nur_kugath',
+	'wh3_main_nur_plagueridden_death',
+	'wh3_main_nur_plagueridden_nurgle',
+	'wh3_main_ogr_butcher_beasts',
+	'wh3_main_ogr_butcher_great_maw',
+	'wh3_main_ogr_firebelly',
+	'wh3_main_ogr_greasus_goldtooth',
+	'wh3_main_ogr_hunter',
+	'wh3_main_ogr_skrag_the_slaughterer',
+	'wh3_main_ogr_slaughtermaster_beasts',
+	'wh3_main_ogr_slaughtermaster_great_maw',
+	'wh3_main_ogr_tyrant',
+	'wh3_main_ogr_tyrant_camp',
+	'wh3_main_pro_kho_bloodthirster',
+	'wh3_main_pro_kho_cultist',
+	'wh3_main_pro_kho_herald_of_khorne',
+	'wh3_main_pro_ksl_boyar',
+	'wh3_main_pro_ksl_cha_yuri_0_1',
+	'wh3_main_pro_ksl_cha_yuri_0_2',
+	'wh3_main_pro_ksl_cha_yuri_0_3',
+	'wh3_main_pro_ksl_frost_maiden_ice',
+	'wh3_main_pro_ksl_gerik_0',
+	'wh3_main_pro_ksl_patriarch',
+	'wh3_main_pro_ksl_sergi_0',
+	'wh3_main_pro_ksl_yuri_0',
+	'wh3_main_pro_ksl_yuri_1',
+	'wh3_main_pro_ksl_yuri_2',
+	'wh3_main_pro_ksl_yuri_3',
+	'wh3_main_pro_ksl_yuri_4',
+	'wh3_main_pro_slavin_0',
+	'wh3_main_pro_tze_cultist',
+	'wh3_main_pro_tze_herald_of_tzeentch_tzeentch',
+	'wh3_main_sla_alluress_shadow',
+	'wh3_main_sla_alluress_slaanesh',
+	'wh3_main_sla_cultist',
+	'wh3_main_sla_exalted_keeper_of_secrets_shadow',
+	'wh3_main_sla_exalted_keeper_of_secrets_slaanesh',
+	'wh3_main_sla_herald_of_slaanesh_shadow',
+	'wh3_main_sla_herald_of_slaanesh_slaanesh',
+	'wh3_main_sla_herald_of_slaanesh_slaanesh_disciple_army',
+	'wh3_main_sla_nkari',
+	'wh3_main_tze_cultist',
+	'wh3_main_tze_exalted_lord_of_change_metal',
+	'wh3_main_tze_exalted_lord_of_change_tzeentch',
+	'wh3_main_tze_herald_of_tzeentch_metal',
+	'wh3_main_tze_herald_of_tzeentch_tzeentch',
+	'wh3_main_tze_iridescent_horror_metal',
+	'wh3_main_tze_iridescent_horror_tzeentch',
+	'wh3_main_tze_kairos',
+	'wh3_prologue_apostles_of_change_chaos_knights',
+	'wh3_prologue_general_test',
+	'wh3_survival_dae_cha_belakor_01',
+	'wh3_survival_kho_cha_daemon_prince_of_khorne',
+	'wh3_survival_kho_cha_daemon_prince_of_khorne_fe',
+	'wh3_survival_nur_cha_daemon_prince_of_nurgle',
+	'wh3_survival_nur_cha_daemon_prince_of_nurgle_fe',
+	'wh3_survival_sla_cha_daemon_prince_of_slaanesh',
+	'wh3_survival_sla_cha_daemon_prince_of_slaanesh_fe',
+	'wh3_survival_tze_cha_daemon_prince_of_tzeentch',
+	'wh3_survival_tze_cha_daemon_prince_of_tzeentch_fe',
+	'wh_dlc01_chs_kholek_suneater',
+	'wh_dlc01_chs_prince_sigvald',
+	'wh_dlc01_chs_sorcerer_lord_death',
+	'wh_dlc01_chs_sorcerer_lord_fire',
+	'wh_dlc01_chs_sorcerer_lord_metal',
+	'wh_dlc01_nor_sorcerer_lord_metal',
+	'wh_dlc03_bst_beastlord',
+	'wh_dlc03_bst_bray_shaman_beasts',
+	'wh_dlc03_bst_bray_shaman_death',
+	'wh_dlc03_bst_bray_shaman_shadows',
+	'wh_dlc03_bst_bray_shaman_wild',
+	'wh_dlc03_bst_gorebull',
+	'wh_dlc03_bst_khazrak',
+	'wh_dlc03_bst_malagor',
+	'wh_dlc03_emp_amber_wizard',
+	'wh_dlc03_emp_boris_todbringer',
+	'wh_dlc04_emp_arch_lector',
+	'wh_dlc04_emp_volkmar',
+	'wh_dlc04_vmp_helman_ghorst',
+	'wh_dlc04_vmp_strigoi_ghoul_king',
+	'wh_dlc04_vmp_vlad_con_carstein',
+	'wh_dlc05_bst_morghur',
+	'wh_dlc05_emp_grey_wizard',
+	'wh_dlc05_emp_jade_wizard',
+	'wh_dlc05_vmp_red_duke',
+	'wh_dlc05_vmp_vampire_shadow',
+	'wh_dlc05_wef_ancient_treeman',
+	'wh_dlc05_wef_branchwraith',
+	'wh_dlc05_wef_durthu',
+	'wh_dlc05_wef_glade_lord',
+	'wh_dlc05_wef_glade_lord_fem',
+	'wh_dlc05_wef_orion',
+	'wh_dlc05_wef_spellsinger_beasts',
+	'wh_dlc05_wef_spellsinger_life',
+	'wh_dlc05_wef_spellsinger_shadow',
+	'wh_dlc05_wef_waystalker',
+	'wh_dlc06_dwf_belegar',
+	'wh_dlc06_dwf_master_engineer_ghost',
+	'wh_dlc06_dwf_runelord',
+	'wh_dlc06_dwf_runesmith_ghost',
+	'wh_dlc06_dwf_thane_ghost_1',
+	'wh_dlc06_dwf_thane_ghost_2',
+	'wh_dlc06_grn_night_goblin_warboss',
+	'wh_dlc06_grn_skarsnik',
+	'wh_dlc06_grn_wurrzag_da_great_prophet',
+	'wh_dlc07_brt_alberic',
+	'wh_dlc07_brt_damsel_beasts',
+	'wh_dlc07_brt_damsel_life',
+	'wh_dlc07_brt_fay_enchantress',
+	'wh_dlc07_brt_green_knight',
+	'wh_dlc07_brt_prophetess_beasts',
+	'wh_dlc07_brt_prophetess_heavens',
+	'wh_dlc07_brt_prophetess_life',
+	'wh_dlc07_chs_chaos_sorcerer_shadow',
+	'wh_dlc07_chs_sorcerer_lord_shadow',
+	'wh_dlc08_bst_cygor_boss',
+	'wh_dlc08_chs_challenger_khorne',
+	'wh_dlc08_chs_challenger_nurgle',
+	'wh_dlc08_chs_challenger_slaanesh',
+	'wh_dlc08_chs_challenger_tzeentch',
+	'wh_dlc08_chs_dragon_ogre_shaggoth_boss',
+	'wh_dlc08_grn_giant_boss',
+	'wh_dlc08_grn_venom_queen_boss',
+	'wh_dlc08_nor_arzik',
+	'wh_dlc08_nor_fimir_balefiend_fire',
+	'wh_dlc08_nor_fimir_balefiend_shadow',
+	'wh_dlc08_nor_frost_wyrm_boss',
+	'wh_dlc08_nor_kihar',
+	'wh_dlc08_nor_shaman_sorcerer_death',
+	'wh_dlc08_nor_shaman_sorcerer_fire',
+	'wh_dlc08_nor_shaman_sorcerer_metal',
+	'wh_dlc08_nor_skin_wolf_werekin',
+	'wh_dlc08_nor_throgg',
+	'wh_dlc08_nor_wulfrik',
+	'wh_dlc08_vmp_terrorgheist_boss',
+	'wh_dlc08_wef_forest_dragon_boss',
+	'wh_main_brt_damsel_heavens',
+	'wh_main_brt_lord',
+	'wh_main_brt_louen_leoncouer',
+	'wh_main_brt_paladin',
+	'wh_main_chs_archaon',
+	'wh_main_chs_chaos_sorcerer_death',
+	'wh_main_chs_chaos_sorcerer_fire',
+	'wh_main_chs_chaos_sorcerer_metal',
+	'wh_main_chs_exalted_hero',
+	'wh_main_chs_lord',
+	'wh_main_chs_lord_of_change',
+	'wh_main_dwf_lord',
+	'wh_main_dwf_master_engineer',
+	'wh_main_dwf_runesmith',
+	'wh_main_dwf_thane',
+	'wh_main_dwf_thorgrim_grudgebearer',
+	'wh_main_dwf_ungrim_ironfist',
+	'wh_main_emp_balthasar_gelt',
+	'wh_main_emp_bright_wizard',
+	'wh_main_emp_captain',
+	'wh_main_emp_celestial_wizard',
+	'wh_main_emp_karl_franz',
+	'wh_main_emp_light_wizard',
+	'wh_main_emp_lord',
+	'wh_main_emp_warrior_priest',
+	'wh_main_emp_witch_hunter',
+	'wh_main_grn_azhag_the_slaughterer',
+	'wh_main_grn_goblin_big_boss',
+	'wh_main_grn_goblin_great_shaman',
+	'wh_main_grn_grimgor_ironhide',
+	'wh_main_grn_night_goblin_shaman',
+	'wh_main_grn_orc_shaman',
+	'wh_main_grn_orc_warboss',
+	'wh_main_nor_chaos_sorcerer_metal',
+	'wh_main_nor_marauder_chieftain',
+	'wh_main_teb_bright_wizard',
+	'wh_main_teb_captain',
+	'wh_main_teb_lord',
+	'wh_main_vmp_banshee',
+	'wh_main_vmp_heinrich_kemmler',
+	'wh_main_vmp_lord',
+	'wh_main_vmp_mannfred_von_carstein',
+	'wh_main_vmp_master_necromancer',
+	'wh_main_vmp_necromancer',
+	'wh_main_vmp_vampire_death',
+	'wh_main_vmp_wight_king',
+	'wh_pro01_dwf_grombrindal',
+	'wh_pro02_vmp_isabella_von_carstein',
 ] as const;
 // cultures
-const cultures = [
-	'*',
-	'wh_dlc03_bst_beastmen',
-	'wh_dlc05_wef_wood_elves',
-	'wh_dlc08_nor_norsca',
-	'wh_main_brt_bretonnia',
-	'wh_main_chs_chaos',
-	'wh_main_dwf_dwarfs',
-	'wh_main_emp_empire',
-	'wh_main_grn_greenskins',
-	'wh_main_vmp_vampire_counts',
-	'wh2_dlc09_tmb_tomb_kings',
-	'wh2_dlc11_cst_vampire_coast',
-	'wh2_main_def_dark_elves',
-	'wh2_main_hef_high_elves',
-	'wh2_main_lzd_lizardmen',
-	'wh2_main_rogue',
-	'wh2_main_skv_skaven',
-] as const;
-export const culture_min_loc: { [K in CultureType]: string } = {
+export const culture_min_loc = {
 	'*': '*',
 	'wh_dlc03_bst_beastmen': 'bst',
 	'wh_dlc05_wef_wood_elves': 'wef',
@@ -460,11 +679,24 @@ export const culture_min_loc: { [K in CultureType]: string } = {
 	'wh2_main_lzd_lizardmen': 'lzd',
 	'wh2_main_rogue': 'rogue',
 	'wh2_main_skv_skaven': 'skv',
+	'wh3_main_cth_cathay': 'Cathay',
+	'wh3_main_dae_daemons': 'Daemons',
+	'wh3_main_kho_khorne': 'Khorne',
+	'wh3_main_ksl_kislev': 'Kislev',
+	'wh3_main_nur_nurgle': 'Nurgle',
+	'wh3_main_ogr_ogre_kingdoms': 'Ogre_Kingdoms',
+	'wh3_main_pro_ksl_kislev': 'Kislev_Prologue',
+	'wh3_main_sla_slaanesh': 'Slaanesh',
+	'wh3_main_tze_tzeentch': 'Tzeentch',
 };
+const cultures = Object.keys(culture_min_loc) as (keyof typeof culture_min_loc)[];
 // campaigns
 const campaign_loc = {
 	'main_warhammer': 'Mortal Empires',
 	'wh2_main_great_vortex': 'Vortex',
+	'wh3_main_prologue': 'Prologue',
+	'wh3_main_combi': 'Vortex',
+	'wh3_main_chaos': 'Chaos',
 } as const;
 // unit_castes (caste, @localised_name)
 const unit_castes = [
@@ -482,17 +714,52 @@ const unit_castes = [
 	'war_beast',
 	'warmachine',
 ] as const;
+// corruption
+export const corruption_loc = {
+	wh3_main_corruption_vampiric: 'Vampiric',
+	wh3_main_corruption_chaos: 'Chaos',
+	wh3_main_corruption_skaven: 'Skaven',
+	wh3_main_corruption_khorne: 'Khorne',
+	wh3_main_corruption_nurgle: 'Nurgle',
+	wh3_main_corruption_tzeentch: 'Tzeentch',
+	wh3_main_corruption_slaanesh: 'Slaanesh',
+} as const;
 export type AgentType = keyof typeof agent_loc;
 export type AgentSubtype = typeof agent_subtypes[number];
 export type CultureType = typeof cultures[number];
 export type CampaignType = keyof typeof campaign_loc;
 export type UnitCasteType = typeof unit_castes[number];
-export interface ICondition {
+export type CorruptionType = keyof typeof corruption_loc;
+type BugType = { value: boolean; description: string; };
+export type _BugType = boolean | string | BugType | BugType[];
+export const TransformBug = (v: _BugType | undefined): BugType => {
+	if (typeof v === 'object') {
+		if (v instanceof Array) {
+			let value = false;
+			let description: string[] = [];
+			for (const q of v) {
+				if (q.value) { value = true; }
+				description.push(q.description);
+			}
+			return { value, description: description.join(';\n\n') };
+		}
+		return v;
+	} else if (typeof v === 'string') {
+		return { value: true, description: v };
+	} else if (typeof v === 'boolean') {
+		return { value: v, description: '' };
+	} else { // if (typeof v === 'undefined')
+		return { value: false, description: '' };
+	}
+};
+export interface IDataCondition {
 	/** Юзер должен быть осторожен, когда читает данный кондишн */
 	careful?: boolean;
-	/** Глупые разработчики CA */
-	/** Кондишн никогда не вызывается (alwaysFalse) */
-	bug?: boolean | string;
+	/** Глупые разработчики CA
+	 * Кондишн никогда не вызывается (alwaysFalse)
+	 * За исключением, если не указывать как Array
+	 */
+	bug?: _BugType;
 	/** Условие предотвращает выдачу ancillary, если такой уже есть у character */
 	prevent?: boolean;
 	/** Уникальный ancillary; prevent по умолчанию */
@@ -504,6 +771,15 @@ export interface ICondition {
 	/** Для createTrigger with event = CharacterTurn and text with chain_or_superchain */
 	turnOwnRegion?: boolean;
 	// turnEnemy?: boolean;
+	/** Для normal */
+	hasRegion?: boolean | 'sea';
+	hasArmy?: boolean; // wh_main_anc_follower_greenskins_shroom_gathera
+	canEquip?: boolean;
+	// TODO "with reinforcing army" -> allowed: agent: general hasArmy
+	// TODO "in the opposing force" or character_won_battle_against_unit BUG
+	// TODO  in region (1 turn own)
+	// TODO  and win a battle
+	// TODO "Rank Up and have an ability to recruit" (char_can_recruit_unit) -> allowed: agent: general hasArmy
 	allowed?:// AllowedFor[] |
 	{
 		//default?: AllowedFor[];
@@ -523,7 +799,7 @@ export interface ICondition {
 	}
 	text: () => string;
 }
-export interface IAncillary {
+export interface IDataAncillary {
 	/** В условии допущена роковая ошибка, которая не позволит получить данный фолловер */
 	impossible?: boolean;
 	// cultureList: CultureType[];
@@ -536,9 +812,56 @@ export interface IAncillary {
 }
 export interface ITrigger {
 	event: Events;
-	condition: ICondition[];
-	ancillaryList: IAncillary[];
+	condition: IDataCondition[];
+	ancillaryList: IDataAncillary[];
 }
+
+export interface IGetChance {
+	// (trigger: ITrigger, ancillary: IDataAncillary): number | undefined | void;
+	(context: IContext): number | undefined | void;
+}
+export interface IEffect {
+	effectAnc: IEntry;
+	effect: IEntry;
+	scope: IEntry | null;
+}
+export interface ICAncillary {
+	ancillary: IEntry;
+	icon: string;
+	agentList: string[];
+	effectList: IEffect[];
+	toAgent: AgentType[];
+	toAgentSubtype: AgentSubtype[];
+	
+	includedSubcultureList: SubCultureType[];
+	/** Список получен из includedSubcultureList. В базе только указано каким subcultures давать ancillary */
+	includedCultureList: CultureType[];
+
+	subcultureList: SubCultureType[];
+	cultureList: CultureType[];
+}
+export type ICGroupBy = {
+	by: 'culture';
+	cultureKey: CultureType;
+	subcultureSubset: SubCultureType[];
+} | {
+	by: 'subculture';
+	cultureKey: CultureType;
+	subculture: SubCultureType;
+}
+export interface IContext {
+	ancillary: ICAncillary;
+	ancData: IDataAncillary;
+	group: ICGroupBy;
+	trigger: ITrigger;
+	event: Events;
+	condition: IDataCondition;
+	campaign?: CampaignType;
+}
+export type IDataCulture = Map<CultureType, {
+	title: string;
+	description?: string;
+}>
 
 export const enum Events {
 	AdviceCleared,
@@ -630,6 +953,7 @@ export const enum Events {
 	CharacterParticipatedAsSecondaryGeneralInBattle,
 	CharacterPerformsActionAgainstFriendlyTarget,
 	CharacterPerformsSettlementOccupationDecision,
+	CharacterPostBattleCaptureOption,
 	CharacterPostBattleEnslave,
 	CharacterPostBattleRelease,
 	CharacterPostBattleSlaughter,

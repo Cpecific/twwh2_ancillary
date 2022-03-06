@@ -3,6 +3,9 @@
 		"target": "ES6",
 		"module": "CommonJS",
 		"moduleResolution": "Node",
+		"lib": [
+			"ES2019"
+		],
 		"esModuleInterop": true,
 		"downlevelIteration": true,
 		"strict": true,

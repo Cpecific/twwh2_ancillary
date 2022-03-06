@@ -3,9 +3,11 @@ import glob from 'glob';
 import iterate from 'iterare';
 import { isEqual } from 'lodash';
 import path from 'path';
+import { current_game, game_data, data, dataCultureMap } from './config';
+import { isEqualShuffle, toArray, unique, toMap } from './common';
 import {
-	AncillaryInfo,
 	concatTextNode,
+	ctx_setTarget,
 	DB,
 	findAncillary,
 	getCulture,
@@ -19,64 +21,27 @@ import {
 	sortParsedMap,
 	toCultureKey
 } from './build-data';
-import { isEqualShuffle, toArray, unique, toMap } from './common';
-import { data } from './data';
-import { CultureType, ITrigger, SubCultureType } from './data-types';
-import { schema, locFileController, IEntry } from './ron-db';
-// import phantomProxy from 'phantom-proxy';
+import { _BugType, CultureType, ITrigger, SubCultureType, TransformBug } from './data-types';
+import { } from './ron-db';
+import assert from 'assert';
 
 
-const cultureDataMap = new Map([
-	['wh2_dlc09_tmb_tomb_kings', {
-		title: 'Tomb Kings',
-	}],
-	['wh_main_brt_bretonnia', {
-		title: 'Bretonnia',
-		description: `Almost all triggers (not only Bretonia's) forbid "Green Knight" character from satisfying condition.`,
-	}],
-	['wh_main_emp_empire', {
-		title: 'Empire, Kislev, Southern Realms',
-	}],
-	['wh2_main_def_dark_elves', {
-		title: 'Dark Elves',
-	}],
-	['wh2_main_hef_high_elves', {
-		title: 'High Elves',
-		description: `All hero triggers forbid "Hand of the Shadow Crown" character from satisfying condition.`,
-	}],
-	['wh2_main_lzd_lizardmen', {
-		title: 'Lizardmen',
-	}],
-	['wh2_main_skv_skaven', {
-		title: 'Skaven',
-	}],
-	['wh_dlc03_bst_beastmen', {
-		title: 'Beastmen',
-	}],
-	['wh2_dlc11_cst_vampire_coast', {
-		title: 'Vampire Coast',
-	}],
-	['wh_main_chs_chaos', {
-		title: 'Chaos, Norsca',
-	}],
-	['wh_main_vmp_vampire_counts', {
-		title: 'Vampire Counts',
-	}],
-	['wh_main_grn_greenskins', {
-		title: 'Greenskins, Savage Orcs',
-	}],
-	['wh_main_dwf_dwarfs', {
-		title: 'Dwarfs',
-	}],
-	['wh_dlc05_wef_wood_elves', {
-		title: 'Wood Elves',
-	}],
-]);
-
-fs.mkdirSync(path.join(__dirname, '../output/steamworkshop'), { recursive: true });
+const replace_file_content = (filename: string, string: string) => {
+	let content: string | null = null;
+	try {
+		content = fs.readFileSync(filename, { encoding: 'utf-8' });
+	} catch (e) { }
+	if (content !== string) {
+		fs.writeFileSync(filename, string);
+		return true;
+	}
+	return false;
+};
 
 // !STEAM
 async function outputSteam() {
+	if (current_game !== 'warhammer_2') { return; }
+	ctx_setTarget('steam');
 	const parsed = new Map<CultureType, Map<string, IParsed>>();
 	for (const trigger of data) {
 		for (const ancData of trigger.ancillaryList) {
@@ -106,7 +71,7 @@ async function outputSteam() {
 	for (const [cultureKey, cultureMap] of parsed) {
 		let string = '';
 		const culture = getCulture(cultureKey)!;
-		const cultureData = cultureDataMap.get(cultureKey)!;
+		const cultureData = dataCultureMap.get(cultureKey)!;
 		const allSubcultureList = getCultureSubcultureList(cultureKey);
 		console.log(cultureKey, allSubcultureList);
 		// string += `[h1]${c['@name']}[/h1]\n`;
@@ -123,7 +88,7 @@ async function outputSteam() {
 		for (const [ancillaryKey, parsed] of cultureMap) {
 			const { ancillaryInfo, tirggerList } = parsed;
 			const ancillary = findAncillary(ancillaryKey);
-			const effectList = await Promise.all(ancillary.effectList.map(v => getEffectDesc(v)));
+			const effectList = await Promise.all(ancillary.effectList.map(v => getEffectDesc(v, { cultureKey })));
 			const subcultureSubset = getSubcultureSubset(cultureKey, ancillary.subcultureList);
 
 			let steamChanceIcon: string[] = [];
@@ -196,24 +161,26 @@ ${string}
 		}
 		string += `[/table]`;
 
-		const filename = path.join(__dirname, '../output/steamworkshop', `${cultureKey}.txt`);
-		let content: string | null = null;
-		try {
-			content = fs.readFileSync(filename, { encoding: 'utf-8' });
-		} catch (e) { }
-		if (content !== string) {
+		const outputFolder = path.join(__dirname, '../output', 'steamworkshop', current_game);
+		fs.mkdirSync(outputFolder, { recursive: true });
+		const filename = path.join(outputFolder, `${cultureKey}.txt`);
+		if (replace_file_content(filename, string)) {
 			writtenCultureList.push(cultureKey);
-			fs.writeFileSync(filename, string);
 		}
 	}
 	console.log('@writtenCultureList (steam)', writtenCultureList);
 }
 
 // !HTML
+const enum ConditionFlags {
+	prevent = 1,
+	normal = 2,
+};
 async function outputHTML() {
+	ctx_setTarget('html');
 	// subculture > ancillary > parsed
 	const parsed = new Map<SubCultureType, Map<string, IParsed>>();
-	const {
+	let {
 		cultureMap,
 		playableFactionList,
 	} = getFactionListSorted();
@@ -249,6 +216,14 @@ async function outputHTML() {
 		}
 	}
 	sortParsedMap(parsed);
+	if (current_game === 'warhammer_3') {
+		// удаляем prologue
+		for (const k of [
+			'wh3_main_pro_sc_kho_khorne',
+			'wh3_main_pro_sc_tze_tzeentch',
+			'wh3_main_pro_sc_ksl_kislev',
+		] as SubCultureType[]) { parsed.delete(k); }
+	}
 	type OutputEntry = {
 		title: string;
 		description: string | undefined;
@@ -267,16 +242,21 @@ async function outputHTML() {
 	]
 	type JsonConditionEntry = [
 		text: string,
-		bug: boolean | string,
+		flags: number,
+		bug: _BugType,
 	]
 	// @ts-ignore
 	const output: { [K in SubCultureType]: OutputEntry; } = {};
 	const requiredImageSet = new Set<string>();
+	let outputGameFolder = game_data.get(current_game)!.short_key;
 	const getIconSrc = (src: string): string => {
-		if (/^output\/html\//.test(src)) { return src; }
+		if (/^output\/html\//.test(src)) {
+			return src.substr(12);
+		}
+		// if (src.startsWith(`output/${current_game}/html/`)) { return src; }
 		src = src.replace(/\\/, '/');
 		requiredImageSet.add(src);
-		src = `output/html/game/${src}`;
+		src = `${outputGameFolder}/${src}`;
 		return src;
 	}
 	for (const [subcultureKey, subcultureMap] of parsed) {
@@ -284,21 +264,19 @@ async function outputHTML() {
 		let jsonList: JsonEntry[] = [];
 		const cultureKey = toCultureKey(subcultureKey);
 		const culture = getCulture(cultureKey)!;
-		const cultureData = cultureDataMap.get(cultureKey)!;
+		const cultureData = dataCultureMap.get(cultureKey);
+		assert(!!cultureData, `missing key "${cultureKey}" from your config \`dataCultureMap\``);
 		const subcultureRow = DB.cultures_subcultures.getEntry([subcultureKey])!;
 		for (const [ancillaryKey, parsed] of subcultureMap) {
 			const { ancillaryInfo, tirggerList } = parsed;
 			const ancillary = findAncillary(ancillaryKey);
 			const effectList = (await Promise.all(
-				ancillary.effectList.map(v => getEffectDesc(v, {
-					color: 'html',
-					image: 'html',
-				}))
+				ancillary.effectList.map(v => getEffectDesc(v, { subcultureKey, cultureKey }))
 			)).map(v => (
 				v
 					.replace(/\n/g, '<br/>')
 					.replace(/\<img(.*?) src\=\"(.*?)\"(.*?)\>/g, (_, before, src, after) => {
-						return `<img${before} src="${getIconSrc(src)}"${after}>`;
+						return `<img${before} src="output/html/${getIconSrc(src)}"${after}>`;
 					})
 			));
 
@@ -324,6 +302,7 @@ async function outputHTML() {
 			const tgResult = tirggerList.map(({ chance, triggerDesc }, idx): JsonTriggerEntry => {
 				const tgDescList = triggerDesc.map((v): JsonConditionEntry => {
 					let text = v.text;
+					let flags = 0;
 					if ((v.top.allowed.length + v.top.against.length + v.top.forbid.length) > 0) {
 						let top = v.top.allowed.slice();
 						top = concatTextNode(top, v.top.against, { text: 'against: ' });
@@ -343,10 +322,14 @@ async function outputHTML() {
 						text = `(${topText})\n${text}`;
 					}
 					if (!v.c.prevent) {
-						text = `*${text}`;
+						// text = `*${text}`;
+					} else {
+						flags |= ConditionFlags.prevent;
 					}
+					if (v.flags.normal) { flags |= ConditionFlags.normal; }
 					return [
 						text,
+						flags,
 						v.c.bug || false,
 					];
 				});
@@ -365,6 +348,7 @@ async function outputHTML() {
 				appliedToIcon,
 				tgResult,
 			];
+			(json as any).key = ancillaryKey;
 			jsonList.push(json);
 		}
 		output[subcultureKey] = {
@@ -373,8 +357,8 @@ async function outputHTML() {
 			ancillaryList: jsonList,
 		};
 	}
-	const inputGameFolder = path.join(__dirname, '../input');
-	const outputGameFolder = path.join(__dirname, '../output/html/game');
+	const inputGameFolder = path.join(__dirname, '../input', current_game);
+	outputGameFolder = path.join(__dirname, '../output', `html/${outputGameFolder}`);
 	await new Promise(resolve => glob(path.join(outputGameFolder, 'ui/**/*'), (err, fileList) => {
 		for (const filepath of fileList) {
 			if (!fs.lstatSync(filepath).isFile()) { continue; }
@@ -406,36 +390,168 @@ async function outputHTML() {
 				.factionMap.get(subcultureKey)!
 				.some(factionKey => playableFactionList.includes(factionKey)),
 		}));
-	let string = `<html>
+	let ds: string[] = [];
+	const appliedToVar: { [K: string]: string } = {
+		'character_general_ability.png': 'a',
+		'battle_general_ability.png': 'b',
+		'character_agent.png': 'c',
+		'campaign_agent.png': 'd',
+	};
+	for (const subcultureKey in output) {
+		const entry = output[subcultureKey as SubCultureType];
+		let str = '\n\t' + JSON.stringify(subcultureKey) + ': {\n\t\t';
+		str += 'title: ' + JSON.stringify(entry.title) + ',\n\t\t';
+		str += 'description: ' + JSON.stringify(entry.description) + ',\n\t\t';
+		str += 'ancillaryList: [';
+		str += entry.ancillaryList.map((ancillary, idx, self) => {
+			let str = '\n\t\t\t';
+			// str += '// ' + (ancillary as any).key + '\n\t\t\t';
+			str += '[' + JSON.stringify(ancillary[0]) + ',\n\t\t\t';
+			str += JSON.stringify(ancillary[1]) + ',\n\t\t\t';
+			for (const s of ancillary[2]) {
+				str += JSON.stringify(s) + ',\n\t\t\t';
+			}
+			str += '[' + ancillary[3].map(s => appliedToVar[s]).join(',') + '],\n\t\t\t';
+			ancillary[4].forEach((trigger, idx, self) => {
+				const [chance, tgDescList] = trigger;
+				str += JSON.stringify(chance) + ',';
+				tgDescList.forEach((q, idx, self) => {
+					if (idx === 0) { str += '\t'; }
+					else if (self.length > 1) { str += '\n\t\t\t'; }
+					const description = JSON.stringify(q[0]);
+					const flags = q[1];
+					const bug = TransformBug(q[2]);
+					if (flags === 0 && !bug.value && !bug.description) {
+						str += description;
+					} else {
+						if (idx > 0) { str += '\t'; }
+						str += '[';
+						str += description;
+						if (flags !== 0 || bug.description) { str += ', ' + JSON.stringify(flags); }
+						if (bug.description) {
+							str += ',\n\t\t\t\t';
+							if (bug.value) { str += JSON.stringify(bug.description); }
+							else { str += '[false, ' + JSON.stringify(bug.description) + ']'; }
+						}
+						str += ']';
+					}
+					if (idx + 1 < self.length) { str += ','; }
+				});
+				if (idx + 1 < self.length) { str += ','; }
+			})
+			str += ']';
+			if (idx + 1 < self.length) { str += ','; }
+			else { str += '\n\t\t'; }
+			return str;
+		}).join('');
+		str += ']\n\t';
+		str += '}';
+		ds.push(str);
+	}
+	const data_flags: { [K in (keyof typeof ConditionFlags)]: [string, string, string] } = {
+		prevent: [
+			`Prevent, if character (or faction, if specified) already has ancillary equipped`,
+			`Prevent ancillary duplication`,
+			'bFprevent',
+		],
+		normal: [
+			`Prevent colonel from acquiring ancillary
+Colonel is a temporary placeholder, when your lord is killed during the end turn
+Colonel is also a general placeholder for garrison armies`,
+			`Forbid colonel`,
+			'bFnormal',
+		],
+	};
+	const flagList: (keyof typeof ConditionFlags)[] = ['prevent'];
+	if (current_game === 'warhammer_2') { flagList.push('normal'); }
+
+	const sortedSubcultureList = subcultureList.map(v => {
+		const subcultureRow = DB.cultures_subcultures.getEntry([v.subcultureKey])!;
+		return {
+			v,
+			title: subcultureRow['@name'] as string,
+		};
+	}).sort((a, b) => a.title.localeCompare(b.title));
+
+	let string = `<!DOCTYPE html>
+<html>
 <head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
 <title>Ultimate Ancillary Guide</title>
 <link rel="stylesheet" href="output/html/style.css" />
 </head>
 <body>
 <div id="root">
 	<div id="content"></div>
-	<div id="subculture-list">
-${subcultureList.map(v => {
-		const subcultureRow = DB.cultures_subcultures.getEntry([v.subcultureKey])!;
-		let classList: string[] = [];
-		if (!v.playable) { classList.push('not-playable'); }
-		return `<a ${classList.length > 0 ? `class="${classList.join(' ')}" ` : ''}href="#${v.subcultureKey}">${subcultureRow['@name']}</a>
+	<div id="sidebar">
+		<div id="sidebar-links">
+			<div id="subculture-list" class="vertical-link-list">
+${sortedSubcultureList.map(({ v, title }) => {
+		const cl: string[] = [];
+		if (!v.playable) { cl.push('not-playable'); }
+		if (v.subcultureKey.match(/_pro_/)) { title += ' (prologue)'; }
+		return `<a ${cl.length > 0 ? `class="${cl.join(' ')}" ` : ''}href="#${v.subcultureKey}">${title}</a>
 `;
 	}).join('')}
+			</div>
+			<div id="page-list" class="vertical-link-list">
+${iterate(game_data).map(([key, gdata]) => {
+		const cl: string[] = [];
+		if (current_game === key) { cl.push('active'); }
+		return `<a ${cl.length > 0 ? `class="${cl.join(' ')}" ` : ''}href="${key}.html">${gdata.title}</a>`;
+	}).join('')}
+			</div>
+		</div>
+		<div id="legend">
+${flagList.map(key => {
+		const [title, desc] = data_flags[key];
+		return `<div class="legend-item" title="${title.replace(/\"/g, '&quot;')}">
+	<div class="flag-item flag--${key}"></div>${desc}
+</div>`;
+	}).join('\n')}
+<div class="legend-item legend--soft-bug" title="Hover over such trigger condition to see bug explanation">
+	Doesn't work as expected
+</div>
+		</div>
 	</div>
 </div>
 <script>
-data = ${JSON.stringify(output, null, '\t')}
+((function(){
+${iterate(Object.entries(appliedToVar)).map(([k, v]) => (
+		`var ${v} = ${JSON.stringify(k)};`
+	)).join('\n')}
+${iterate(Object.entries(data_flags)).map(([k, v]) => (
+		`window.${v[2]} = ${flagList.includes(k as any) ? 'true' : 'false'};`
+	)).join('\n')}
+data = {${ds.join(',')}\n}
+})());
 </script>
 <script src="output/html/entry.js"></script>
 </body>
 </html>`;
+	// data = ${JSON.stringify(output, null, '\t')}
 
-	// fs.writeFileSync(path.join(__dirname, '../output/html', `index.html`), string);
-	fs.writeFileSync(path.join(__dirname, '..', `index.html`), string);
+	const gdata = game_data.get(current_game)!;
+	if (replace_file_content(path.join(__dirname, '..', `${current_game}.html`), string)) {
+		console.log(`@written (${current_game}.html)`);
+	}
+	if (gdata.index) {
+		if (replace_file_content(path.join(__dirname, '..', `index.html`), string)) {
+			console.log(`@written (index.html)`);
+		}
+	}
 }
 
-Promise.all([
-	outputSteam(),
-	outputHTML(),
-]).then(() => console.log('END'))
+async function main(){
+	await outputSteam();
+	await outputHTML();
+	ctx_setTarget(null);
+	console.log('END');
+}
+main();
+
+// TODO
+// chain_or_superchain([
+// 	'wh_main_sch_settlement_major',
+// 	'wh_main_sch_settlement_major_coast',
+// ])

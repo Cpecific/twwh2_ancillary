@@ -1,3 +1,4 @@
+import assert from 'assert';
 import path from 'path';
 import fs from 'fs';
 import ASTY from 'asty-astq';
@@ -11,11 +12,13 @@ import ASTY from 'asty-astq';
 import Tokenizr, { IToken } from 'tokenizr';
 import { get } from 'lodash';
 import { StringDecoder } from 'string_decoder';
+import { current_game, game_data } from './config';
 
 const fieldTypeList = [
 	'string', 'optstring',
 	'string_ascii', 'optstring_ascii',
-	'float', 'int', 'int64', 'boolean'] as const;
+	'float', 'int', 'int64', 'boolean',
+	'colour_rgb'] as const;
 export type FieldType = typeof fieldTypeList[number];
 interface IField {
 	name: string;
@@ -111,7 +114,7 @@ class LocFileController {
 		const file: LocFile = new Map();
 		if (typeof filepath === 'undefined') {
 			this.map.set(name, file);
-			filepath = path.join(__dirname, '../input/text/db', `${name}__.loc`);
+			filepath = path.join(__dirname, '../input', current_game, 'text/db', `${name}__.loc`);
 		}
 		const input = fs.existsSync(filepath) ?
 			fs.readFileSync(filepath) :
@@ -192,6 +195,13 @@ class Schema implements ISchema {
 					case 'float':
 						v = input.db.slice(offset, offset += 4);
 						entry[field.name] = v.readFloatLE();
+						break;
+					case 'colour_rgb':
+						// let's just skip it for now, as I don't even use those values
+						// should be raw: BGRA
+						input.db.slice(offset, offset += 4);
+						// v = input.db.slice(offset, offset += 4);
+						// entry[field.name] = v.readInt32LE();
 						break;
 					case 'optstring':
 					case 'optstring_ascii':
@@ -275,7 +285,7 @@ class Schema implements ISchema {
 		if (initialVoid) {
 			if (this.data !== null) { return this.data; }
 			input = {
-				db: fs.readFileSync(path.join(__dirname, '../input/db', this.table, 'data__')),
+				db: fs.readFileSync(path.join(__dirname, '../input', current_game, 'db', this.table, 'data__')),
 			};
 		}
 		let definitionList = this.definitionList;
@@ -297,6 +307,7 @@ class Schema implements ISchema {
 				// 	e);
 			}
 		}
+		assert(this.version !== null, `failed to parse DB file "${this.table}"`);
 		return this.data!;
 	}
 	getDefinition() {
@@ -325,7 +336,7 @@ function parseSchema(input: string) {
 	// #region LEXER
 	const lexer = new Tokenizr();
 	// Some|SequenceU32|DB
-	lexer.rule(/(None|Boolean|StringU8|StringU16|OptionalStringU8|OptionalStringU16|I8|I16|I32|I64|U8|U16|U32|U64|F32|F64)/, (ctx, match) => {
+	lexer.rule(/(None|Boolean|StringU8|StringU16|OptionalStringU8|OptionalStringU16|ColourRGB|I8|I16|I32|I64|U8|U16|U32|U64|F32|F64)/, (ctx, match) => {
 		ctx.accept('keyword', match[1]);
 	});
 	lexer.rule(/(true|false)/i, (ctx, match) => {
@@ -624,6 +635,9 @@ function parseFieldList(rawFieldList: any) {
 						case 'Boolean':
 							parsed[kv.key] = 'boolean';
 							break;
+						case 'ColourRGB':
+							parsed[kv.key] = 'colour_rgb';
+							break;
 					}
 					break;
 				case 'is_key':
@@ -659,7 +673,7 @@ function parseFieldList(rawFieldList: any) {
 	return [fieldList, pFieldList] as const;
 }
 function loadSchema() {
-	const schemaContent = fs.readFileSync(path.join(__dirname, '../input/schema_wh2.ron')).toString();
+	const schemaContent = fs.readFileSync(path.join(__dirname, '../input', current_game, game_data.get(current_game)!.schema_file)).toString();
 	const schemaRaw = parseSchema(schemaContent);
 	for (const dbTuple of schemaRaw.value[1].value.value) {
 		if (dbTuple.type !== 'Tuple'
@@ -697,7 +711,7 @@ function loadSchema() {
 		const name = table.replace(/\_tables$/, '');
 		// console.log(name, fieldList);
 		// if (name === 'achievements') { console.log(pFieldList); }
-		if (!fs.existsSync(path.join(__dirname, '../input/db', table, 'data__'))) {
+		if (!fs.existsSync(path.join(__dirname, '../input', current_game, 'db', table, 'data__'))) {
 			continue;
 		}
 		const sch = new Schema({

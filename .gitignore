@@ -1,7 +1,9 @@
-/input/*
-!/input/export_ancillaries__.lua
-!/input/schema_wh2.ron
-!/input/start_pos_factions.xml
+/input/*/*
+!/input/warhammer_2/export_ancillaries__.lua
+!/input/warhammer_2/schema_wh2.ron
+!/input/warhammer_2/start_pos_factions.xml
+!/input/warhammer_3/schema_wh3.ron
+!/input/warhammer_3/wh3_campaign_followers.lua
 node_modules/*
 !node_modules/tokenizr/
 src/data-mod.ts

@@ -2,23 +2,32 @@ import fs from 'fs';
 import path from 'path';
 import xml from 'fast-xml-parser';
 import iterate from 'iterare';
+import { current_game, getChance } from './config';
 import { addMap, unique, toArray, deleteItem, intersect, isEqualShuffle } from './common';
 import { schema, IEntry, locFileController } from './ron-db';
 import {
-	ITrigger,
-	Events,
 	agent_loc,
-	ICondition,
+	culture_min_loc,
+	corruption_loc,
+	Events,
+	ITrigger,
+	IDataCondition,
 	CampaignType,
 	CultureType,
 	SubCultureType,
-	culture_min_loc,
 	UnitCasteType,
-	IAncillary,
 	AgentType,
-	AgentSubtype
+	AgentSubtype,
+	TransformBug,
+	CorruptionType,
+	IContext,
+	IGetChance,
+	IEffect,
+	ICAncillary,
+	ICGroupBy,
 } from './data-types';
 import { isEqual } from 'lodash';
+import assert from 'assert';
 
 export const DB = {
 	building_chain_availabilities: schema['building_chain_availabilities'].getData(),
@@ -32,19 +41,22 @@ export const DB = {
 	agents: schema['agents'].getData(),
 	agent_recruitment_categories: schema['agent_recruitment_categories'].getData(), // key, @onscreen_name
 	agent_subtypes: schema['agent_subtypes'].getData(),
-	agent_subtype_subculture_overrides: schema['agent_subtype_subculture_overrides'].getData(),
+	agent_subtype_subculture_overrides: schema['agent_subtype_subculture_overrides']?.getData(),
 	agent_culture_details: schema['agent_culture_details'].getData(),
 	ancillaries: schema['ancillaries'].getData(),
 	// Бесполезно, категории типа "Armour", "Follower"...
 	// ancillaries_categories: schema['ancillaries_categories'].getData(),
 	ancillaries_included_agent_subtypes: schema['ancillaries_included_agent_subtypes'].getData(),
-	ancillary_included_subcultures: schema['ancillary_included_subcultures'].getData(),
+	ancillary_included_subcultures: schema['ancillary_included_subcultures']?.getData(), // ! ONLY WH2
 	ancillary_to_effects: schema['ancillary_to_effects'].getData(),
 	ancillary_to_included_agents: schema['ancillary_to_included_agents'].getData(),
 	ancillary_types: schema['ancillary_types'].getData(),
 	campaign_effect_scopes: schema['campaign_effect_scopes'].getData(),
 	campaign_group_members: schema['campaign_group_members'].getData(),
-	campaign_group_member_criteria_originating_cultures: schema['campaign_group_member_criteria_originating_cultures'].getData(),
+	campaign_group_member_criteria_cultures: schema['campaign_group_member_criteria_cultures'].getData(),
+	campaign_group_member_criteria_subcultures: schema['campaign_group_member_criteria_subcultures'].getData(),
+	campaign_group_member_criteria_originating_cultures: schema['campaign_group_member_criteria_originating_cultures']?.getData(), // ! ONLY WH2
+	campaign_group_member_criteria_originating_subcultures: schema['campaign_group_member_criteria_originating_subcultures']?.getData(), // ! ONLY WH2
 	campaign_post_battle_captive_options: schema['campaign_post_battle_captive_options'].getData(),
 	cultures: schema['cultures'].getData(),
 	culture_packs: schema['culture_packs'].getData(),
@@ -52,6 +64,7 @@ export const DB = {
 	effects: schema['effects'].getData(),
 	factions: schema['factions'].getData(),
 	faction_agent_permitted_subtypes: schema['faction_agent_permitted_subtypes'].getData(),
+	faction_set_items: schema['faction_set_items'].getData(),
 	frontend_factions: schema['frontend_factions'].getData(),
 	main_units: schema['main_units'].getData(),
 	names: schema['names'].getData(),
@@ -60,15 +73,44 @@ export const DB = {
 	unique_agents: schema['unique_agents'].getData(),
 	unit_castes: schema['unit_castes'].getData(),
 	start_pos_factions: (() => {
-		const content = fs.readFileSync(
-			path.join(__dirname, '../input/start_pos_factions.xml')
-		);
-		const json = xml.parse(content.toString(), {
-			parseNodeValue: false,
-		});
-		return (json['dataroot']['start_pos_factions'] as any[]).map(row => ({
+		let source: any[] = [];
+		if (current_game === 'warhammer_2') {
+			const content = fs.readFileSync(
+				path.join(__dirname, `../input/${current_game}/start_pos_factions.xml`)
+			);
+			const json = xml.parse(content.toString(), {
+				parseNodeValue: false,
+			});
+			source = json['dataroot']['start_pos_factions'] as any[];
+		} else {
+			// const factions = [
+			// 	'wh3_main_cth_the_northern_provinces',
+			// 	'wh3_main_cth_the_western_provinces',
+			// 	'wh3_main_dae_daemon_prince',
+			// 	'wh3_main_kho_exiles_of_khorne',
+			// 	'wh3_main_ksl_the_great_orthodoxy',
+			// 	'wh3_main_ksl_the_ice_court',
+			// 	'wh3_main_ksl_ursun_revivalists',
+			// 	'wh3_main_nur_poxmakers_of_nurgle',
+			// 	'wh3_main_ogr_disciples_of_the_maw',
+			// 	'wh3_main_ogr_goldtooth',
+			// 	'wh3_main_sla_seducers_of_slaanesh',
+			// 	'wh3_main_tze_oracles_of_tzeentch',
+			// 	'wh3_prologue_kislev_expedition',
+			// ]
+			// source = factions.map(faction => {
+			// 	if (/_pro_/.test(faction)) {
+			// 		return [{ faction: faction, campaign: 'wh3_main_prologue', playable: true }];
+			// 	}
+			// 	return [
+			// 		{ faction: faction, campaign: 'wh3_main_combi', playable: true },
+			// 		{ faction: faction, campaign: 'wh3_main_chaos', playable: true },
+			// 	]
+			// }).flat();
+		}
+		return source.map(row => ({
 			faction: row['faction'] as string,
-			campaign: row['campaign'] as CampaignType,
+			// campaign: row['campaign'] as CampaignType,
 			playable: (row['playable'] !== '0'),
 		}));
 	})(),
@@ -89,9 +131,12 @@ export const getFactionListSorted = () => {
 		factionKey: row['faction'] as string,
 		subcultureKey: DB.factions.raw.find(q => q['key'] === row['faction'])!['subculture'] as SubCultureType,
 	}))
-	const playableFactionList = frontendFactionList
-		.map(q => q.factionKey as string)
-		.filter(factionKey => DB.start_pos_factions.some(q => q.faction === factionKey && q.playable));
+	let playableFactionList = frontendFactionList.map(q => q.factionKey as string);
+	if (current_game === 'warhammer_2') {
+		playableFactionList = playableFactionList.filter(factionKey => DB.start_pos_factions.some(q => q.faction === factionKey && q.playable));
+	} else if (current_game === 'warhammer_3') {
+		playableFactionList = playableFactionList.filter(q => q.startsWith('wh3_main_'));
+	}
 
 	const subcultureList = unique(frontendFactionList.map(v => v.subcultureKey));
 	const cultureTmpMap = new Map<CultureType, SubCultureType[]>();
@@ -129,42 +174,63 @@ export const getFactionListSorted = () => {
 interface SchemaEntry { [K: string]: IEntry }
 export const toCultureKey = (subcultureKey: SubCultureType) => {
 	return DB.cultures_subcultures.getEntry([subcultureKey])!['culture'] as CultureType;
-}
+};
 export const getCulture = (cultureKey: CultureType) => {
 	return DB.cultures.getEntry([cultureKey]);
-}
+};
 const _getCultureSubcultureListCache = new Map<CultureType, SubCultureType[]>();
-export const getCultureSubcultureList = (cultureKey: CultureType) => {
+export const getCultureSubcultureList = (cultureKey: CultureType): SubCultureType[] => {
 	if (_getCultureSubcultureListCache.has(cultureKey)) {
 		return _getCultureSubcultureListCache.get(cultureKey)!;
 	}
-	const output: SubCultureType[] = [];
+	const ret: SubCultureType[] = [];
 	for (const row of DB.cultures_subcultures.raw) {
 		if (row['culture'] === cultureKey) {
-			output.push(row['subculture'] as SubCultureType);
+			ret.push(row['subculture'] as SubCultureType);
 		}
 	}
-	_getCultureSubcultureListCache.set(cultureKey, output);
-	return output;
-}
-const _findAncillaryCache = new Map<string, FindAncillary>(); // ancillary_key -> { ancillary, subcultureList, cultureList, effectList }
-interface EffectData {
-	effectAnc: IEntry;
-	effect: IEntry;
-	scope: IEntry | null;
-}
-interface FindAncillary {
-	ancillary: IEntry;
-	icon: string;
-	agentList: string[];
-	subcultureList: SubCultureType[];
-	/** Список получен из subcultureList. В базе только указано каким subcultures давать ancillary */
-	cultureList: CultureType[];
-	effectList: EffectData[];
-	toAgent: AgentType[];
-	toAgentSubtype: AgentSubtype[];
-}
-export const findAncillary = (key: string): FindAncillary => {
+	_getCultureSubcultureListCache.set(cultureKey, ret);
+	return ret;
+};
+const getFactionSubculture = (factionKey: string): SubCultureType => {
+	return DB.factions.getEntry([factionKey])!['subculture'] as SubCultureType;
+};
+const getSubcultureListForFactionSet = (factionSetKey: string) => {
+	let subcultureList: SubCultureType[] = [];
+	const add: IEntry[] = [];
+	const remove: IEntry[] = [];
+	for (const row of DB.faction_set_items.raw) {
+		if (row['set'] !== factionSetKey) { continue; }
+		const v1 = ((row['culture'] as string | null) !== null ? 1 : 0);
+		const v2 = ((row['faction'] as string | null) !== null ? 1 : 0);
+		const v3 = ((row['subculture'] as string | null) !== null ? 1 : 0);
+		assert(v1 + v2 + v3 === 1, `unexpected row in faction_set_items_tables with id=${row['id']}`);
+		if (row['remove']) { remove.push(row); }
+		else { add.push(row); }
+	}
+	assert(add.length + remove.length > 0, `currently, we expect faction_set="${factionSetKey}" to have some entries in faction_set_items_tables`);
+	if (add.length > 0) {
+		assert(remove.length === 0, 'not implemented');
+		for (const row of add) {
+			if (row['culture']) { subcultureList.push(...getCultureSubcultureList(row['culture'] as CultureType)); }
+			if (row['faction']) { subcultureList.push(getFactionSubculture(row['faction'] as string)); }
+			if (row['subculture']) { subcultureList.push(row['subculture'] as SubCultureType); }
+		}
+	}
+	if (remove.length > 0) {
+		assert(add.length === 0, 'not implemented');
+		for (const row of remove) {
+			if (row['culture']) { subcultureList.push(...getCultureSubcultureList(row['culture'] as CultureType)); }
+			if (row['faction']) { subcultureList.push(getFactionSubculture(row['faction'] as string)); }
+			if (row['subculture']) { subcultureList.push(row['subculture'] as SubCultureType); }
+		}
+		subcultureList = DB.cultures_subcultures.raw.map(row => row['subculture'] as SubCultureType)
+			.filter(k => !subcultureList.includes(k));
+	}
+	return unique(subcultureList);
+};
+const _findAncillaryCache = new Map<string, ICAncillary>(); // ancillary_key -> { ancillary, subcultureList, cultureList, effectList }
+export const findAncillary = (key: string): ICAncillary => {
 	if (_findAncillaryCache.has(key)) {
 		return _findAncillaryCache.get(key)!;
 	}
@@ -172,12 +238,8 @@ export const findAncillary = (key: string): FindAncillary => {
 	const icon = DB.ancillary_types.getEntry([ancillary['type'] as string])!['ui_icon'] as string;
 	const agentList = Object.keys(DB.ancillary_to_included_agents.keyed[key] || {})
 		.filter(agent => DB.agents.getEntry([agent])!['playable'] as boolean);
-	const subcultureList = Object.keys(DB.ancillary_included_subcultures.keyed[key] || {}) as SubCultureType[];
-	const cultureList = unique(subcultureList.map(subculture => (
-		toCultureKey(subculture)
-	)));
 	const effectMap = (DB.ancillary_to_effects.keyed[key] || {}) as unknown as SchemaEntry;
-	const effectList = toArray(effectMap).map(([effectKey, effectAnc]) => {
+	const effectList = toArray(effectMap).map(([effectKey, effectAnc]): IEffect => {
 		const effect = DB.effects.getEntry([effectKey])!;
 		const effectScope = effectAnc['effect_scope'] as string;
 		const scope = DB.campaign_effect_scopes.getEntry([effectScope]);
@@ -190,18 +252,45 @@ export const findAncillary = (key: string): FindAncillary => {
 	const toAgent = DB.ancillary_to_included_agents.raw.filter(row => (
 		row['ancillary'] === key
 	)).map(row => row['agent'] as AgentType);
-	const toAgentSubtype = DB.ancillaries_included_agent_subtypes.raw.filter(row => (
+	const toAgentSubtype: AgentSubtype[] = DB.ancillaries_included_agent_subtypes.raw.filter(row => (
 		row['ancillary'] === key
 	)).map(row => row['agent_subtype'] as AgentSubtype);
-	const v: FindAncillary = {
+
+	let includedSubcultureList: SubCultureType[] = [];
+	if (current_game === 'warhammer_2') {
+		includedSubcultureList = Object.keys(DB.ancillary_included_subcultures.keyed[key] || {}) as any;
+	} else if (current_game === 'warhammer_3') {
+		includedSubcultureList = getSubcultureListForFactionSet(ancillary['faction_set'] as string);
+	}
+	const includedCultureList: CultureType[] = includedSubcultureList.map(subculture => (
+		toCultureKey(subculture)
+	));
+
+	let subcultureList: SubCultureType[] = [];
+	// if (current_game === 'warhammer_3') {
+	// 	subcultureList = subcultureList.concat(
+	// 		getSubcultureListForAgentSubtypeList(toAgentSubtype)
+	// 	);
+	// }
+	subcultureList = subcultureList.concat(includedSubcultureList);
+	subcultureList = unique(subcultureList);
+	const cultureList: CultureType[] = unique(subcultureList.map(subculture => (
+		toCultureKey(subculture)
+	)));
+
+	const v: ICAncillary = {
 		ancillary,
 		icon,
 		agentList,
-		subcultureList,
-		cultureList,
 		effectList,
 		toAgent,
 		toAgentSubtype,
+
+		includedSubcultureList,
+		includedCultureList,
+
+		subcultureList,
+		cultureList,
 	};
 	_findAncillaryCache.set(key, v);
 	return v;
@@ -210,6 +299,12 @@ const _getIconCache = new Map<string, string>();
 const getIcon = async (icon: string): Promise<string> => {
 	if (_getIconCache.has(icon)) {
 		return _getIconCache.get(icon)!;
+	}
+	if (current_game === 'warhammer_3') {
+		if (icon === 'icon_general') {
+			// const dir = path.join(__dirname, '../input', current_game, 'ui/skins/')
+			icon = 'icon_army';
+		}
 	}
 	const promiseList: Promise<boolean>[] = [];
 	const dirList = [
@@ -225,7 +320,7 @@ const getIcon = async (icon: string): Promise<string> => {
 			src = src.substr(5);
 		}
 		promiseList.push(new Promise(resolve => {
-			fs.stat(path.join(__dirname, '../input', dir, `${src}.png`), (err, stats) => {
+			fs.stat(path.join(__dirname, '../input', current_game, dir, `${src}.png`), (err, stats) => {
 				if (err === null) { resolve(true); }
 				else { resolve(false); }
 			});
@@ -239,29 +334,37 @@ const getIcon = async (icon: string): Promise<string> => {
 	if (mustBeIcon) {
 		src = src.substr(5);
 	}
-	const output = `${dir}${src}.png`;
-	_getIconCache.set(icon, output);
-	return output;
+	const ret = `${dir}${src}.png`;
+	_getIconCache.set(icon, ret);
+	return ret;
 };
-export const getEffectDesc = async (v: EffectData, opts?: {
-	image?: 'html';
-	color?: 'html';
+export const getEffectDesc = async (v: IEffect, opts?: {
+	subcultureKey?: SubCultureType;
+	cultureKey?: CultureType;
 }) => {
 	const { effect, effectAnc, scope } = v;
-	const image = opts?.image;
-	const color = opts?.color;
 	const effectValue = effectAnc['value'] as number;
 	let desc = effect['@description'] as string;
 	desc = desc
 		.replace('%+n', `${effectValue > 0 ? '+' : ''}${effectValue.toString()}`)
 		.replace('%n', effectValue.toString());
 	if (scope) {
-		desc += (scope['@localised_text'] as string).replace(/^\n/, ' ');
+		let str = scope['@localised_text'] as string;
+		if (/^\n/.test(str)) {
+			if (ctx_target === 'html') {
+				str = str.replace(/^\n/, '');
+				str = str.replace(/^([^\s]+?)(?=\s)|(?<=\s)([^\s]+?)$/g, '<span class="nowr">$1$2</span>');
+				str = ' ' + str;
+			} else {
+				str = str.replace(/^\n/, ' ');
+			}
+		}
+		desc += str;
 	}
 	let imgIdx = 0;
 	const imgPromiseList: Promise<void>[] = [];
-	desc = desc.replace(/\[\[img\:([^\]]*)\]\][^\[]*\[\[\/img\]\]/g, (_, icon) => {
-		if (image === 'html') {
+	desc = desc.replace(/\[\[img\:([^\]]*)\]\][^\[]*\[\[\/img\]\]/gm, (_, icon) => {
+		if (ctx_target === 'html') {
 			// var src = icon;
 			// if (src.substr(0, 5) === 'icon_') {
 			// 	src = src.substr(5);
@@ -277,18 +380,32 @@ export const getEffectDesc = async (v: EffectData, opts?: {
 		return '';
 	});
 	await Promise.all(imgPromiseList);
-	desc = desc.replace(
-		/\[\[col\:([^\]]*)\]\]([^\[]*)\[\[\/col\]\]/g,
-		color === 'html'
-			? '<span style="color: $1;">$2</span>'
-			: '$2'
-	);
 	desc = desc.replace(/\{\{tr\:(.*?)\}\}/g, (_, key) => {
-		return TEXT.ui_text_replacements.get(key) || '';
+		let arr = [
+			opts?.subcultureKey ? TEXT.ui_text_replacements.get(key + '_' + opts.subcultureKey) || null : null,
+			opts?.cultureKey ? TEXT.ui_text_replacements.get(key + '_' + opts.cultureKey) || null : null,
+			TEXT.ui_text_replacements.get(key) || null,
+		];
+		return arr.find(q => q !== null) || '';
 	});
+	let colMap = {
+		green: '#00ff00', // it's too dark
+	} as any;
+	for (const r of [
+		/\[\[col\:([^\]]*?)\]\]([^\[]*?)\[\[\/col\]\]/gm,
+		// bugged wh3 description ([[col]] tag is not closed)
+		/\[\[col\:([^\]]*?)\]\]([^\[]*)/gm,
+	]) {
+		desc = desc.replace(r, (_, col, v) => {
+			if (ctx_target === 'html') {
+				return `<span style="color: ${colMap[col] || col};">${v}</span>`;
+			}
+			return v;
+		});
+	}
 	return desc;
 };
-export const getSubcultureSubset = (cultureKey: CultureType | SubCultureType[], subcultureList: SubCultureType[]) => {
+export const getSubcultureSubset = (cultureKey: CultureType | SubCultureType[], subcultureList: SubCultureType[]): SubCultureType[] => {
 	return intersect(
 		typeof cultureKey === 'string'
 			? getCultureSubcultureList(cultureKey) :
@@ -301,12 +418,34 @@ export const getSubcultureSubset = (cultureKey: CultureType | SubCultureType[], 
 	// return subcultureList
 	// 	.filter(subcultureKey => allSubcultureList.includes(subcultureKey));
 };
-const getSubcultureFactionList = (subcultureSubset: SubCultureType[]) => {
+const getSubcultureFactionList = (subcultureSubset: SubCultureType[]): string[] => {
 	return unique(DB.factions.raw.filter(row => (
 		subcultureSubset.includes(row['subculture'] as SubCultureType)
 	)).map(row => row['key'] as string));
 };
+const getUnitCaste = (associated_unit: any): UnitCasteType | null => {
+	if (typeof associated_unit === 'string') {
+		const row = DB.main_units.getEntry([associated_unit])!;
+		return row['caste'] as UnitCasteType;
+	}
+	return null;
+};
+
+const getSubcultureListForAgentSubtypeList = (subtypeList: AgentSubtype[]): SubCultureType[] => {
+	const factionList = DB.faction_agent_permitted_subtypes.raw.filter(row => (
+		subtypeList.includes(row['subtype'] as AgentSubtype)
+	)).map(row => (
+		DB.factions.getEntry([row['faction'] as string])!
+	));
+	return unique(factionList.map(row => (
+		row['subculture'] as SubCultureType
+	)));
+};
+
 // CONTEXT
+type ContextTarget = 'steam' | 'html' | null;
+var ctx_target: ContextTarget = null;
+export const ctx_setTarget = (target: ContextTarget) => { ctx_target = target; }
 const ctx_getEventData = () => {
 	let turnStart = false, turnEnd = false;
 	let heroEvent = false;
@@ -338,6 +477,8 @@ const ctx_getEventData = () => {
 		case Events.CharacterPostBattleSlaughter:
 		case Events.CharacterPostBattleEnslave:
 		case Events.GarrisonAttackedEvent:
+		// TODO CharacterPostBattleCaptureOption
+		case Events.CharacterPostBattleCaptureOption:
 			onlyMainLord = true;
 			break;
 	}
@@ -358,13 +499,6 @@ const ctx_getSubcultureSubset = (): SubCultureType[] => {
 			return [group.subculture];
 	}
 }
-const getUnitCaste = (associated_unit: any): UnitCasteType | null => {
-	if (typeof associated_unit === 'string') {
-		const unitRow = DB.main_units.getEntry([associated_unit])!;
-		return unitRow['caste'] as UnitCasteType;
-	}
-	return null;
-};
 const ctx_getAgentData = (agentKey: AgentType) => {
 	const { group } = context;
 	const { cultureKey } = group;
@@ -394,16 +528,16 @@ const ctx_getAgentSubtypeData = (subtypeKey: string) => {
 	// Если группируем по subculture, то можно уточнить данные для subculture_overrides
 	if (group.by === 'subculture') {
 		// Бессмысленно
-		const subcultureOverrideRow = null && DB.agent_subtype_subculture_overrides.raw.find(row => (
-			row['subtype'] === subtypeKey
-			&& row['subculture'] === group.subculture
-		));
-		if (subcultureOverrideRow) {
-			const unit_override = subcultureOverrideRow['associated_unit_override'];
-			if (typeof unit_override === 'string' && unit_override) { unit = unit_override; }
-			const name_override = subcultureOverrideRow['@onscreen_name'];
-			if (typeof name_override === 'string' && name_override) { name = name_override; }
-		}
+		// const subcultureOverrideRow = null && DB.agent_subtype_subculture_overrides?.raw.find(row => (
+		// 	row['subtype'] === subtypeKey
+		// 	&& row['subculture'] === group.subculture
+		// ));
+		// if (subcultureOverrideRow) {
+		// 	const unit_override = subcultureOverrideRow['associated_unit_override'];
+		// 	if (typeof unit_override === 'string' && unit_override) { unit = unit_override; }
+		// 	const name_override = subcultureOverrideRow['@onscreen_name'];
+		// 	if (typeof name_override === 'string' && name_override) { name = name_override; }
+		// }
 	}
 	const uniqueRow = DB.unique_agents.getEntry([subtypeKey]);
 	if (uniqueRow) {
@@ -440,11 +574,11 @@ const ctx_getAgentSubtypeData = (subtypeKey: string) => {
 		unit_caste: getUnitCaste(unit),
 	};
 };
-const _ctx_getPermittedSubtypeListCache = new Map<string, GetPermittedSubtypeList[]>();
 interface GetPermittedSubtypeList {
 	agent: AgentType;
 	subtype: AgentSubtype;
 }
+const _ctx_getPermittedSubtypeListCache = new Map<string, GetPermittedSubtypeList[]>();
 const ctx_getPermittedSubtypeList = (): GetPermittedSubtypeList[] => {
 	const subcultureSubset = ctx_getSubcultureSubset();
 	const key = subcultureSubset.join(',');
@@ -462,7 +596,7 @@ const ctx_getPermittedSubtypeList = (): GetPermittedSubtypeList[] => {
 		})).filter((row, idx, self) => (
 			self.findIndex(v => (
 				v.subtype === row.subtype
-				// && v.agent === row.agent
+				&& v.agent === row.agent
 			)) === idx
 		));
 	// return unique(data);
@@ -470,122 +604,45 @@ const ctx_getPermittedSubtypeList = (): GetPermittedSubtypeList[] => {
 	return list;
 };
 const ctx_getRecruitmentCategoryMap = () => {
-	const subtypeList = ctx_getPermittedSubtypeList().map(v => v.subtype);
+	const permitted = ctx_getPermittedSubtypeList();
 	const map = new Map<string, AgentSubtype[]>();
+	const actualCategorySet = new Set<string>();
 	for (const row of DB.agent_subtypes.raw) {
 		const subtypeKey = row['key'] as AgentSubtype;
-		if (!subtypeList.includes(subtypeKey)) { continue; }
-		const categoryKey = row['recruitment_category'] as string;
-		addMap(map, categoryKey, subtypeKey);
+		const subtypeList = permitted.filter(v => v.subtype === subtypeKey);
+		if (subtypeList.length === 0) { continue; }
+		let categoryKey = row['recruitment_category'] as string | null;
+		if (categoryKey !== null) {
+			addMap(map, categoryKey, subtypeKey);
+			actualCategorySet.add(categoryKey);
+			continue;
+		}
+		// subtype is hero
+		for (const v of subtypeList) {
+			addMap(map, v.agent, subtypeKey);
+		}
 	}
-	return map;
-};
-export interface AncillaryInfo {
-	hasLord: boolean;
-	incompleteLord: boolean;
-	hasHero: boolean;
-	incompleteHero: boolean;
-	list: string[];
-	narrow: string[];
-}
-const getAncillaryInfo = (): AncillaryInfo => {
-	const { ancillary, group } = context;
-	let info: AncillaryInfo = {
-		hasLord: false,
-		incompleteLord: false,
-		hasHero: false,
-		incompleteHero: false,
-		list: [],
-		narrow: [],
+	const ret = new Map<string, AgentSubtype[]>();
+	const hero_sort: { [K in AgentType]: number } = {
+		general: 10000000,
+		colonel: 20000000,
+		minister: 30000000,
+		champion: 10000001,
+		dignitary: 10000003,
+		engineer: 10000004,
+		runesmith: 10000005,
+		spy: 10000006,
+		wizard: 10000007,
 	};
-	let ancillaryInfo: string[] = [];
-	let toAgentList: string[] = [];
-	// let toAgentSubtypeList: string[] = [];
-	if (true || ancillary.toAgent.length > 0) {
-		let cultureAgentList = unique(DB.agent_culture_details.raw.filter(row => (
-			row['culture'] === group.cultureKey
-		)));
-		// .map(row => row['agent'] as AgentType)
-		// let playableList = cultureAgentList.filter(key => key !== 'colonel' && key !== 'minister');
-		let playableList = unique(cultureAgentList
-			.filter(row => !!row['associated_unit'])
-			.map(row => row['agent'] as AgentType));
-		let heroList = playableList.filter(key => key !== 'general');
-
-		let keyList = ancillary.toAgent.filter(key => cultureAgentList.some(row => row['agent'] === key));
-		// let int = intersect(arr, cultureAgentList);
-		toAgentList = keyList.map(key => ctx_getAgentData(key).name);
-		let narrow = intersect(keyList, playableList);
-		if (narrow.length > 0) {
-			if (narrow.includes('general')) {
-				info.hasLord = true;
-				narrow = narrow.filter(v => v !== 'general');
-			}
-			if (narrow.length > 0) {
-				info.hasHero = true;
-				if (narrow.length === heroList.length) {
-					narrow = [];
-				} else {
-					info.incompleteHero = true;
-				}
-			}
-		}
-
-		info.list = toAgentList;
-		info.narrow = narrow.map(key => ctx_getAgentData(key).name);
-	}
-	if (ancillary.toAgentSubtype.length > 0) {
-		// && DB.start_pos_factions.some(f => (
-		// 	f.faction === row['key']
-		// 	// && f.playable
-		// ))
-		// subculturePermittedSubtypeList
-		const permittedList = ctx_getPermittedSubtypeList();
-		const toAgentSubtypeList = permittedList
-			.filter(row => ancillary.toAgentSubtype.includes(row.subtype))
-			.map(row => ({
-				...ctx_getAgentSubtypeData(row.subtype)!,
-				...row,
-			}));
-		// We always assume, that `ancillaries_included_agent_subtypes` only contain a subset of `agents`
-		// so it will always give **incomplete**
-		// TODO not to assume ;)
-		if (toAgentSubtypeList.some(v => v.agent === 'general')) {
-			info.hasLord = true;
-			info.incompleteLord = true;
-		}
-		if (toAgentSubtypeList.some(v => v.agent !== 'general')) {
-			info.hasHero = true;
-			info.incompleteHero = true;
-		}
-		let keyList = ancillary.toAgentSubtype
-			.map(subtypeKey => ({
-				...ctx_getAgentSubtypeData(subtypeKey)!,
-				subtypeKey,
-			}));
-
-		let output: string[] = [];
-		for (const [recruitmentKey, subtypeList] of ctx_getRecruitmentCategoryMap()) {
-			const filter = keyList.filter(v => subtypeList.includes(v.subtypeKey));
-			if (filter.length === subtypeList.length) {
-				output.push(DB.agent_recruitment_categories.getEntry([recruitmentKey])!['@onscreen_name'] as string);
-			} else {
-				output = output.concat(filter.map(v => v.name));
-			}
-		}
-
-		if (output.length > 0) {
-			info.list.push(...output);
-			info.narrow.push(...output);
-		}
-	}
-	if (info.list.length === 0) {
-		// toAgentList.length === 0
-		// && toAgentSubtypeList.length === 0
-		info.hasLord = true;
-		info.hasHero = true;
-	}
-	return info;
+	const rkList = iterate(map).map(([key]) => {
+		const row = DB.agent_recruitment_categories.getEntry([key]);
+		return {
+			key,
+			order: row ? row['order'] as number : hero_sort[key as AgentType],
+		};
+	}).toArray().sort((a, b) => a.order - b.order);
+	for (const { key } of rkList) { ret.set(key, map.get(key)!); }
+	return map;
 };
 type TextNode = {
 	text: string;
@@ -609,20 +666,20 @@ export const concatTextNode = (self: TextNode[], tmp: TextNode[], category?: Tex
 	return self;
 };
 export const printTextNode = (self: TextNode[], format: (v: TextNode) => string) => {
-	let output = '';
+	let ret = '';
 	for (let i = 0; i < self.length; ++i) {
 		const a = self[i];
 		if (a.category) {
-			output += '; ';
+			ret += '; ';
 			if (typeof a.category !== 'boolean') {
-				output += format(a.category);
+				ret += format(a.category);
 			}
 		} else {
-			output += ', ';
+			ret += ', ';
 		}
-		output += format(a);
+		ret += format(a);
 	}
-	return output.substr(2);
+	return ret.substr(2);
 };
 // TODO ancillary_to_included_agents
 // TODO ancillaries_included_agent_subtypes
@@ -751,7 +808,12 @@ const buildTriggerDesc = () => {
 			}
 			if (typeof c.forbid.agent_subtype !== 'undefined') {
 				let agent_subtype = c.forbid.agent_subtype.slice();
-				deleteItem(agent_subtype, 'dlc07_brt_green_knight');
+				if (current_game === 'warhammer_2') {
+					deleteItem(agent_subtype, 'dlc07_brt_green_knight');
+				}
+				else {
+					deleteItem(agent_subtype, 'wh_dlc07_brt_green_knight');
+				}
 				deleteItem(agent_subtype, 'wh2_dlc10_hef_shadow_walker');
 
 				// we are splitting ancillary into multiple cultures
@@ -815,24 +877,28 @@ const buildTriggerDesc = () => {
 			hasEmpty: false,
 		};
 		context.condition = c;
-		let text = c.text().replace(/\{(.*?)\}/g, (_, q: string) => {
+		let text = c.text().replace(/\{(.*?)\}(\s?)/g, (_, q: string, space: string) => {
 			const qList = q.split(',');
-			if (qList.length === 0) {
-				return '';
-			}
-			const output: string[] = [];
+			const ret: string[] = [];
 			for (const val of qList) {
 				switch (val) {
 					case 'normal':
-						if (allowedNormal) {
-							allowedNormal = false;
-							output.push(TXT.normal);
-						}
+						allowedNormal = true;
+					// if (allowedNormal) {
+					// 	allowedNormal = false;
+					// 	ret.push('with normal character');
+					// }
 				}
 			}
-			if (output.length === 0) { return ''; }
-			return `(${output.join('; ')})`;
+			if (ctx_target === 'html') { return ''; }
+			else { return ''; }
+			if (ret.length === 0) { return ''; }
+			return `(${ret.join('; ')})`;
 		});
+		text = text.replace(/\[\[nowr\]\]([^\[]*?)\[\[\/nowr\]\]/gm,
+			ctx_target === 'html'
+				? '<span class="nowr">$1</span>'
+				: '$1');
 
 		const top = {
 			allowed,
@@ -852,18 +918,146 @@ const buildTriggerDesc = () => {
 		// 	text = `(Forbid:: ${forbid.join('; ')})${cIdx === 0 || true ? '\n' : ' '}${text}`;
 		// }
 		if (c.unique) { c.prevent = true; }
+
+		const bug = TransformBug(c.bug);
 		return {
 			c,
-			impossible: !!c.bug,
+			impossible: !!bug.value,
 			top,
 			text,
+			flags: {
+				normal: allowedNormal,
+			},
 		};
 	});
 };
-const TXT = {
-	normal: 'with normal character',
-};
 
+interface IParsedAncillaryInfo {
+	hasLord: boolean;
+	incompleteLord: boolean;
+	hasHero: boolean;
+	incompleteHero: boolean;
+	list: string[];
+	narrow: string[];
+}
+const getAncillaryInfo = (): IParsedAncillaryInfo => {
+	const { ancillary, group } = context;
+	let info: IParsedAncillaryInfo = {
+		hasLord: false,
+		incompleteLord: false,
+		hasHero: false,
+		incompleteHero: false,
+		list: [],
+		narrow: [],
+	};
+	let ancillaryInfo: string[] = [];
+	if (true || ancillary.toAgent.length > 0) {
+		let cultureAgentList = unique(DB.agent_culture_details.raw.filter(row => (
+			row['culture'] === group.cultureKey
+		)));
+		// .map(row => row['agent'] as AgentType)
+		// let playableList = cultureAgentList.filter(key => key !== 'colonel' && key !== 'minister');
+		let playableList = unique(cultureAgentList
+			.filter(row => !!row['associated_unit'])
+			.map(row => row['agent'] as AgentType));
+		let heroList = playableList.filter(key => key !== 'general');
+
+		let keyList = ancillary.toAgent.filter(key => cultureAgentList.some(row => row['agent'] === key));
+		// let int = intersect(arr, cultureAgentList);
+		const toAgentList = keyList.map(key => ctx_getAgentData(key).name);
+		let narrow = intersect(keyList, playableList);
+		if (narrow.length > 0) {
+			if (narrow.includes('general')) {
+				info.hasLord = true;
+				narrow = narrow.filter(v => v !== 'general');
+			}
+			if (narrow.length > 0) {
+				info.hasHero = true;
+				if (narrow.length === heroList.length) {
+					narrow = [];
+				} else {
+					info.incompleteHero = true;
+				}
+			}
+		}
+
+		info.list = toAgentList;
+		info.narrow = narrow.map(key => ctx_getAgentData(key).name);
+	}
+	if (ancillary.toAgentSubtype.length > 0) {
+		// && DB.start_pos_factions.some(f => (
+		// 	f.faction === row['key']
+		// 	// && f.playable
+		// ))
+		// subculturePermittedSubtypeList
+		const permittedList = ctx_getPermittedSubtypeList();
+		const toAgentSubtypeList = permittedList
+			.filter(row => ancillary.toAgentSubtype.includes(row.subtype))
+			.map(row => ({
+				...ctx_getAgentSubtypeData(row.subtype)!,
+				...row,
+			}));
+		// We always assume, that `ancillaries_included_agent_subtypes` only contain a subset of `agents`
+		// so it will always give **incomplete**
+		// TODO not to assume ;)
+		if (toAgentSubtypeList.some(v => v.agent === 'general')) {
+			info.hasLord = true;
+			info.incompleteLord = true;
+		}
+		if (toAgentSubtypeList.some(v => v.agent !== 'general')) {
+			info.hasHero = true;
+			info.incompleteHero = true;
+		}
+		let keyList = ancillary.toAgentSubtype
+			.map(subtypeKey => ({
+				...ctx_getAgentSubtypeData(subtypeKey)!,
+				subtypeKey,
+			}));
+
+		let sList: string[] = [];
+		for (const [recruitmentKey, subtypeList] of ctx_getRecruitmentCategoryMap()) {
+			const filter = keyList.filter(v => subtypeList.includes(v.subtypeKey));
+			if (filter.length === subtypeList.length) {
+				const category = DB.agent_recruitment_categories.getEntry([recruitmentKey]);
+				// assert(!!category, `hero category "${recruitmentKey}"; ancillary="` + ancillary.ancillary['key'] + '";;;' + JSON.stringify(subtypeList) + ';;;' + JSON.stringify(category))
+				if (category) {
+					sList.push(category['@onscreen_name'] as string);
+					continue;
+				}
+			}
+			sList = sList.concat(filter.map(v => {
+				if (v.row['recruitment_category'] !== 'legendary_lords') {
+					return v.name;
+				}
+				const mainUnitKey = v.row['associated_unit_override'] as string;
+				const unitKey = DB.main_units.getEntry([mainUnitKey])!['land_unit'] as string;
+				assert(!!unitKey);
+				const row = DB.land_units.getEntry([unitKey])!;
+				assert(!!row, `legendary_lord "${v.row['key']}" doesn't have land_unit="${unitKey}" for main_unit="${mainUnitKey}"`);
+				return row['@onscreen_name'] as string;
+			}));
+		}
+
+		if (sList.length > 0) {
+			info.list.push(...sList);
+			info.narrow.push(...sList);
+		}
+		// if (ancillary.ancillary['key'] === 'wh2_main_anc_follower_hef_counsellor') {
+		// 	console.log('keyList', keyList);
+		// 	console.log('info', info);
+		// 	console.log('toAgentSubtype', ancillary.toAgentSubtype);
+		// 	console.log(ctx_getRecruitmentCategoryMap());
+		// 	assert(false);
+		// }
+	}
+	if (info.list.length === 0) {
+		// toAgentList.length === 0
+		// && toAgentSubtypeList.length === 0
+		info.hasLord = true;
+		info.hasHero = true;
+	}
+	return info;
+};
 export interface IParsedTrigger {
 	trigger: ITrigger;
 	chance: number;
@@ -873,32 +1067,15 @@ export interface IParsedTrigger {
 export interface IParsed {
 	// subcultureSubset: SubCultureType[];
 	// effectList: EffectData[]; // string[];
-	ancillaryInfo: AncillaryInfo;
+	ancillaryInfo: IParsedAncillaryInfo;
 	tirggerList: IParsedTrigger[];
 }
-type GroupBy = {
-	by: 'culture';
-	cultureKey: CultureType;
-	subcultureSubset: SubCultureType[];
-} | {
-	by: 'subculture';
-	cultureKey: CultureType;
-	subculture: SubCultureType;
-}
-let context: {
-	ancillary: FindAncillary;
-	ancData: IAncillary;
-	group: GroupBy;
-	trigger: ITrigger;
-	event: Events;
-	condition: ICondition;
-	campaign?: CampaignType;
-};
+let context: IContext;
 export const parseTrigger = (opts: {
 	// ancillaryKey > IParsed
 	// parsed: Map<string, Map<string, IParsed>>;
 	parsed: Map<string, IParsed>;
-	group: GroupBy;
+	group: ICGroupBy;
 	trigger: ITrigger;
 	/** We assume that this subset is of the same `culture` */
 	requestSubcultureSubset: SubCultureType[];
@@ -931,15 +1108,19 @@ export const parseTrigger = (opts: {
 		if (parsedAncillary.tirggerList.some(v => v.trigger === trigger)) { continue; }
 
 		const triggerDesc = buildTriggerDesc();
+		let chance = getChance(context);
 		parsedAncillary.tirggerList.push({
 			trigger,
-			chance: ancData.chance,
+			chance: typeof chance === 'undefined' ? ancData.chance : chance,
 			repeat: ancData.repeat,
 			triggerDesc,
 		});
 	}
 };
 export const sortParsedMap = (parsed: Map<string, Map<string, IParsed>>) => {
+	for (const key of ['filter_all', 'wh2_main_rogue'] as SubCultureType[]) {
+		parsed.delete(key);
+	}
 	for (const [subcultureKey, subcultureMap] of parsed) {
 		parsed.set(subcultureKey, new Map([...subcultureMap.entries()].sort((a, b) => {
 			const aa = findAncillary(a[0]);
@@ -952,12 +1133,12 @@ export const sortParsedMap = (parsed: Map<string, Map<string, IParsed>>) => {
 	}
 };
 
-const typical_output = (output: string[]) => {
-	return output.length === 0
+const typical_output = (ret: string[]) => {
+	return ret.length === 0
 		? '?'
-		: output.length === 1
-			? output[0]
-			: output.slice(0, -1).join(', ') + ' or ' + output[output.length - 1];
+		: ret.length === 1
+			? ret[0]
+			: ret.slice(0, -1).join(', ') + ' or ' + ret[ret.length - 1];
 };
 export const building_exists = (keyList: string[]) => {
 	const { group } = context;
@@ -977,7 +1158,7 @@ export const building_exists = (keyList: string[]) => {
 			return `chain “${chainRow['@chain_tooltip']}”`;
 		}
 	}
-	const output: string[] = [];
+	const ret: string[] = [];
 	for (const buildingRow of buildingList) {
 		const variantList = DB.building_culture_variants.raw.filter(row => (
 			row['building'] === buildingRow['level_name']
@@ -990,9 +1171,9 @@ export const building_exists = (keyList: string[]) => {
 			return (a_culture + a_subculture) - (b_culture + b_subculture);
 		});
 		const variant = variantList[0];
-		output.push(`“${variant['@name']}”`);
+		ret.push(`“${variant['@name']}”`);
 	}
-	return `building ${typical_output(output)}`;
+	return `building ${typical_output(ret)}`;
 };
 // “Saphery Landmark” (“Library of Hoeth”, “White Tower of Hoeth”)
 // text: () => `Spend a turn in own region, which has ${chain_or_superchain(['wh2_main_special_tower_of_hoeth'])} (every 5th turn)`
@@ -1049,7 +1230,7 @@ export const chain_or_superchain = (keyList: string[]): string => {
 	}
 	// Отфильтровать только те chain, которые может построить context.subcultureSubset
 	const filterChainList = (chainList: IEntry[], fowOwn: boolean = true) => {
-		const output: IEntry[] = [];
+		const ret: IEntry[] = [];
 		for (const chainRow of chainList) {
 			let subcultureAvailabilityList = unique(
 				iterate(getChainAvailabilityList(chainRow))
@@ -1079,20 +1260,20 @@ export const chain_or_superchain = (keyList: string[]): string => {
 				contextSubcultureSubset,
 			);
 			if (subcultureSubset.length > 0) {
-				fowOwn && output.push(chainRow);
+				fowOwn && ret.push(chainRow);
 			} else {
-				!fowOwn && output.push(chainRow);
+				!fowOwn && ret.push(chainRow);
 			}
 			// Бессмысленно, т.к. enemy region может быть и твоя же culture
 			// if (false && (!allowOwnRegion || !allowEnemyRegion)) { }
 		}
-		return output;
+		return ret;
 	}
-	const output: string[] = [];
-	const outputChainMap = new Map<string, string[]>(); // chain_tooltip > culture_min[]
+	const ret: string[] = [];
+	const retChainMap = new Map<string, string[]>(); // chain_tooltip > culture_min[]
 	for (let [superchain, chainList] of superChainMap) {
 		// if (foundSuperchainList.includes(superchain)) {
-		// 	output.push(``);
+		// 	ret.push(``);
 		// 	continue;
 		// }
 		let superchainChainList = DB.building_chains.raw.filter(row => (
@@ -1115,7 +1296,7 @@ export const chain_or_superchain = (keyList: string[]): string => {
 				let tooltip = chainRow['@chain_tooltip'] as string;
 				const superchainKey = chainRow['building_superchain'] as string;
 				if (typeof superchain_loc[superchainKey] !== 'undefined') {
-					// addMap(outputChainMap, superchain_loc[superchainKey], '');
+					// addMap(retChainMap, superchain_loc[superchainKey], '');
 					// continue;
 					tooltip = superchain_loc[superchainKey];
 				}
@@ -1127,12 +1308,12 @@ export const chain_or_superchain = (keyList: string[]): string => {
 					culture_min_loc[culture]
 				));
 				for (const min of cultureMin) {
-					addMap(outputChainMap, tooltip, min);
+					addMap(retChainMap, tooltip, min);
 				}
 			}
 			// и при этом нету chain, где key === superchain
 			// if (!chainList.some(chainRow => chainRow['key'] === superchain)) {
-			// тогда нужно будет конкретно дописывать в output, ключ superchain (раз уж нету локализации для superchain)
+			// тогда нужно будет конкретно дописывать в ret, ключ superchain (раз уж нету локализации для superchain)
 			// }
 			continue;
 		}
@@ -1141,11 +1322,11 @@ export const chain_or_superchain = (keyList: string[]): string => {
 			chainList = filterChainList(chainList, filterOwnRegion);
 		}
 		for (const chainRow of chainList) {
-			addMap(outputChainMap, chainRow['@chain_tooltip'] as string, '');
+			addMap(retChainMap, chainRow['@chain_tooltip'] as string, '');
 		}
 	}
-	const outputCultureMinMap = new Map<string[], string[]>(); // culture_min[] > chain_tooltip[]
-	for (let [chainTooltip, cultureMinList] of outputChainMap) {
+	const retCultureMinMap = new Map<string[], string[]>(); // culture_min[] > chain_tooltip[]
+	for (let [chainTooltip, cultureMinList] of retChainMap) {
 		cultureMinList = unique(cultureMinList);
 		if (
 			(+deleteItem(cultureMinList, ''))
@@ -1155,17 +1336,17 @@ export const chain_or_superchain = (keyList: string[]): string => {
 		}
 		cultureMinList.sort((a, b) => a.localeCompare(b));
 		let hasSome = false;
-		for (let kv of outputCultureMinMap) {
+		for (let kv of retCultureMinMap) {
 			if (isEqual(cultureMinList, kv[0])) {
 				hasSome = true;
 				kv[1].push(chainTooltip);
 				break;
 			}
 		}
-		if (!hasSome) { outputCultureMinMap.set(cultureMinList, [chainTooltip]); }
+		if (!hasSome) { retCultureMinMap.set(cultureMinList, [chainTooltip]); }
 	}
-	let sortedOutput = [...outputCultureMinMap.keys()];
-	sortedOutput.sort((a, b) => {
+	let retSorted = [...retCultureMinMap.keys()];
+	retSorted.sort((a, b) => {
 		if (a.length < b.length) { return -1; }
 		if (a.length > b.length) { return 1; }
 		for (let i = 0; i < a.length; ++i) {
@@ -1175,64 +1356,183 @@ export const chain_or_superchain = (keyList: string[]): string => {
 		}
 		return 0;
 	});
-	for (let cultureMinList of sortedOutput) {
-		let chainTooltipList = outputCultureMinMap.get(cultureMinList)!;
+	for (let cultureMinList of retSorted) {
+		let chainTooltipList = retCultureMinMap.get(cultureMinList)!;
 		chainTooltipList = unique(chainTooltipList);
-		output.push(`“${chainTooltipList.join('”, “')}”${cultureMinList.length > 0 ? ` (${cultureMinList.join(', ')})` : ''}`);
+		ret.push(`“${chainTooltipList.join('”, “')}”${cultureMinList.length > 0 ? ` (${cultureMinList.join(', ')})` : ''}`);
 	}
-	return `chain ${typical_output(output)}`;
+	return `chain ${typical_output(ret)}`;
 };
 export const region = (keyList: string[]) => {
-	const output: string[] = [];
+	const ret: string[] = [];
 	for (const key of keyList) {
 		const region = DB.regions.getEntry([key])!;
-		output.push(`“${region['@onscreen']}”`);
+		ret.push(`“${region['@onscreen']}”`);
 	}
-	return `region ${typical_output(output)}`;
+	return `region ${typical_output(ret)}`;
 };
 export const technology = (keyList: string[]) => {
-	const output: string[] = [];
+	const ret: string[] = [];
 	for (const key of keyList) {
 		const row = DB.technologies.getEntry([key])!;
-		output.push(`“${row['@onscreen_name']}”`);
+		ret.push(`“${row['@onscreen_name']}”`);
 	}
-	return `technology ${typical_output(output)}`;
+	return `technology ${typical_output(ret)}`;
 };
 export const unit = (keyList: string[], hideCaption?: boolean) => {
-	const output: string[] = [];
+	const ret: string[] = [];
 	for (const unitKey of keyList) {
 		const row = DB.land_units.getEntry([unitKey])!;
-		output.push(`“${row['@onscreen_name']}”`);
+		ret.push(`“${row['@onscreen_name']}”`);
 	}
-	return `${hideCaption ? '' : 'unit '}${typical_output(output)}`;
+	return `${hideCaption ? '' : 'unit '}${typical_output(ret)}`;
 };
 export const agent = (keyList: AgentType[], hideCaption?: boolean) => {
-	const output: string[] = [];
+	const ret: string[] = [];
 	for (const unitKey of keyList) {
 		const row = ctx_getAgentData(unitKey)!;
-		output.push(`“${row.name}”`);
+		ret.push(`“${row.name}”`);
 	}
-	return `${hideCaption ? '' : 'agent '}${typical_output(output)}`;
+	return `${hideCaption ? '' : 'agent '}${typical_output(ret)}`;
 };
-export const post_battle_captive_option = (captive_option: 'enslave' | 'kill' | 'release') => {
-	const defaultText = {
-		'enslave': 'Enslave Captives',
-		'kill': 'Kill Captives',
-		'release': 'Release Captives',
-	}[captive_option];
+export const agent_subtype = (keyList: AgentSubtype[], hideCaption?: boolean) => {
+	const ret: string[] = [];
+	for (const unitKey of keyList) {
+		const row = ctx_getAgentSubtypeData(unitKey)!;
+		ret.push(`“${row.name}”`);
+	}
+	return `${hideCaption ? '' : 'agent subtype '}${typical_output(ret)}`;
+};
+const getCampaignGroupMemberData = (memberKey: string) => {
+	// we only need "originating" values
+	let cultureKey: CultureType | null = null;
+	let subcultureKey: SubCultureType | null = null;
+	if (current_game === 'warhammer_2') {
+		cultureKey = DB.campaign_group_member_criteria_originating_cultures.getEntry([memberKey])?.['culture'] || null as any;
+		subcultureKey = DB.campaign_group_member_criteria_originating_subcultures.getEntry([memberKey])?.['subculture'] || null as any;
+	} else if (current_game === 'warhammer_3') {
+		cultureKey = DB.campaign_group_member_criteria_cultures.getEntry([memberKey, 'ORIGINATOR'])?.['culture'] || null as any;
+		subcultureKey = DB.campaign_group_member_criteria_subcultures.getEntry([memberKey, 'ORIGINATOR'])?.['subculture'] || null as any;
+	}
+	return {
+		// memberKey,
+		cultureKey,
+		subcultureKey,
+	};
+};
+const getCampaignGroupData = (groupKey: string) => {
+	const data = DB.campaign_group_members.raw
+		.filter(row => (
+			row['group'] == groupKey
+		))
+		.map((row) => ({
+			id: row['id'] as string,
+			priority: row['priority'] as number,
+		}))
+		.sort((a, b) => b['priority'] - a['priority'])
+		.map(row => ({
+			row,
+			member: getCampaignGroupMemberData(row['id']),
+		}));
+	// I'm not sure about this sorting. Maybe game just takes the first sorted priority that matches any criteria
+	// or should it match all the criteries of the 'member'?
+	let culture_idx: number | null = null;
+	let subculture_idx: number | null = null;
+	data.forEach((q, i) => {
+		const m = q.member;
+		if (culture_idx === null && m.cultureKey) { culture_idx = i; }
+		if (subculture_idx === null && m.subcultureKey) { subculture_idx = i; }
+	});
+	const get = (idx: number) => {
+		const q = data[idx];
+		return {
+			...q.member,
+			priority: q.row['priority'],
+		};
+	};
+	if (subculture_idx !== null) { return get(subculture_idx); }
+	if (culture_idx !== null) { return get(culture_idx); }
+	return null;
+};
+const _post_battle_captive_optionCache = new Map<string, any>();
+export const post_battle_captive_option = (captive_option: 'enslave' | 'enslave_slaves_only' | 'kill' | 'release') => {
+	const _settings = {
+		'enslave': ['Enslave Captives'],
+		'enslave_slaves_only': ['Enslave Slaves Only', 'enslave'],
+		'kill': ['Kill Captives'],
+		'release': ['Release Captives'],
+	};
+	const defaultText = _settings[captive_option][0];
+	let captive_outcome = _settings[captive_option][1] || captive_option;
 	const { group: { cultureKey } } = context;
-	let row = DB.campaign_group_member_criteria_originating_cultures.raw.find(row => (
-		row['culture'] === cultureKey
+	const subcultureKey = context.group.by === 'subculture' ? context.group.subculture : null;
+	let pbo_rows: IEntry[] = _post_battle_captive_optionCache.get(captive_outcome);
+	if (!pbo_rows) {
+		const source = DB.campaign_post_battle_captive_options.raw;
+		pbo_rows = source.filter(
+			source[0]!.hasOwnProperty('captive_outcome')
+				? row => (row['captive_outcome'] === captive_outcome)
+				: row => (row['captive_option'] === captive_outcome)
+		);
+		if (current_game === 'warhammer_3') {
+			pbo_rows.sort((a, b) => (b['sort_priority'] as number) - (a['sort_priority'] as number));
+		}
+		_post_battle_captive_optionCache.set(captive_outcome, pbo_rows);
+	}
+	const memberList = pbo_rows.map(row => {
+		const m = getCampaignGroupData(row['campaign_group'] as string);
+		if (!m) { return null; }
+		return {
+			...m,
+			row,
+			// pbo_key: row['id'] as string,
+			// pbo_priority: row['sort_priority'] as number || 0,
+		};
+	}).filter(q => q !== null).map(q => q!);
+	const member = memberList.find(q => (
+		q.cultureKey === cultureKey
+		|| subcultureKey && q.subcultureKey === subcultureKey
 	));
-	if (!row) { return defaultText; }
+	if (!member) { return defaultText; }
 
-	const member = row['member'] as string;
-	const member_row = DB.campaign_group_members.getEntry([member]);
-	if (!member_row) { return defaultText; }
-
-	const group = member_row['group'] as string;
-	const captive_row = DB.campaign_post_battle_captive_options.getEntry([captive_option, group]);
-	if (!captive_row) { return defaultText; }
-
-	return captive_row['@onscreen_name'];
+	let text = member.row['@onscreen_name'] as string;
+	if (ctx_target === 'html') {
+		text = `<span title="${defaultText}">${text}</span>`;
+	}
+	return text;
+	// schema for campaign_post_battle_captive_options
+	if (current_game === 'warhammer_2') {
+		// campaign_group: string
+		// captive_option: string
+		// effect_bundle: string?
+		// effect_bundle_turns: int
+		// icon_path: string
+		// resource_transaction: string?
+		// new_field: string?
+	}
+	if (current_game === 'warhammer_3') {
+		// id: int
+		// sort_priority: int
+		// captive_outcome: string
+		// campaign_group: string
+		// effect_bundle: string?
+		// effect_bundle_turns: int
+		// icon_path: string
+		// resource_transaction: string?
+		// capturing_force_resource_transaction: string?
+		// ...
+		return defaultText;
+	}
 };
+export const culture = (keyList: CultureType[], hideCaption?: boolean) => {
+	const ret: string[] = [];
+	for (const key of keyList) {
+		const row = getCulture(key)!;
+		ret.push(`“${row['@name'] as string}”`);
+	}
+	return `${hideCaption ? '' : 'culture '}${typical_output(ret)}`;
+};
+export function corruption(key: CorruptionType) {
+	let v = corruption_loc[key];
+	return `${v} corruption`;
+}

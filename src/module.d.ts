@@ -3,4 +3,3 @@ declare module "*.xml" {
 	export default content;
 }
 declare module 'asty-astq';
-declare module 'phantom-proxy';
