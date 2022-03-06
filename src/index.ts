@@ -176,6 +176,7 @@ const enum ConditionFlags {
 	prevent = 1,
 	normal = 2,
 };
+const html_public_version = '2'; // ! always update this value, when push update!
 async function outputHTML() {
 	ctx_setTarget('html');
 	// subculture > ancillary > parsed
@@ -478,7 +479,7 @@ Colonel is also a general placeholder for garrison armies`,
 <head>
 <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
 <title>Ultimate Ancillary Guide</title>
-<link rel="stylesheet" href="output/html/style.css" />
+<link rel="stylesheet" href="output/html/style.css?${html_public_version}" />
 </head>
 <body>
 <div id="root">
@@ -526,7 +527,7 @@ ${iterate(Object.entries(data_flags)).map(([k, v]) => (
 data = {${ds.join(',')}\n}
 })());
 </script>
-<script src="output/html/entry.js"></script>
+<script src="output/html/entry.js?${html_public_version}"></script>
 </body>
 </html>`;
 	// data = ${JSON.stringify(output, null, '\t')}
