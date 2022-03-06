@@ -79,9 +79,9 @@
 			}
 			tgDescText += '>';
 			if (fl.length > 0) {
-				tgDescText += '<div class="flag-container"><div class="flag-transform">';
+				tgDescText += '<div class="flag-container">';
 				tgDescText += '<div class="flag-item flag--' + fl.join('"></div><div class="flag-item flag--') + '"></div>';
-				tgDescText += '</div></div>';
+				tgDescText += '</div>';
 			}
 			tgDescText += text + '</div>';
 		}

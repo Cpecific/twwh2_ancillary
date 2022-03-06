@@ -78,17 +78,15 @@ img { width: 1.15em; height: 1.15em; vertical-align: text-top; }
 .dimmed { opacity: .5; }
 .flag-container {
 	position: absolute;
-	z-index: -1;
 	top: 0; left: 0; right: 0;
 	overflow: hidden;
 	height: 1em;
-}
-.flag-transform {
+	pointer-events: none;
 	transform-origin: top left;
 	transform: translateX(-.5em) rotate(-45deg) translateX(-1em);
 }
 .flag-container .flag-item { height: 1.05em; }
-.flag-transform > :nth-child(n + 2) { height: .525em; }
+.flag-container > :nth-child(n + 2) { height: .525em; }
 .flag--prevent { background: orange; }
 .flag--normal { background: #cb3bc6; }
 
