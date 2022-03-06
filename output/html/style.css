@@ -52,9 +52,14 @@ img { width: 1.15em; height: 1.15em; vertical-align: text-top; }
 .tg-result-row { flex: 1 1 auto; display: flex; border-top: 1px solid #777; }
 .tg-result > :nth-child(1) { border-top: 0; }
 .tg-chance { flex: 0 0 3.975em; padding: .14285em .3em; } /* 53em*7.5% = 3.975 */
-.tg-condition-list { flex: 1 1 20.3679em; display: flex; flex-direction: column; justify-content: stretch; }
-.tg-description { flex: 1 1 auto; position: relative; overflow: hidden; padding: .14285em .3em; }
-.tg-description { white-space: normal; word-break: break-word; }
+.tg-condition-list { flex: 1 1 20.3679em; display: flex; flex-direction: column; }
+.tg-description {
+	flex: 0 0 auto;
+	position: relative;
+	overflow: hidden;
+	padding: .14285em .3em;
+}
+.tg-condition-list :nth-last-child(1) { flex: 1 1 auto; }
 .tg-wrap {
 	position: absolute;
 	top: 0; left: 0; right: 0; bottom: 0;
