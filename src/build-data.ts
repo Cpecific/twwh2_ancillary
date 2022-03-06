@@ -171,6 +171,7 @@ export const getFactionListSorted = () => {
 	};
 };
 
+const isHeroAgent = (key:AgentType) => (key !== 'general' && key !== 'colonel' && key !== 'minister');
 interface SchemaEntry { [K: string]: IEntry }
 export const toCultureKey = (subcultureKey: SubCultureType) => {
 	return DB.cultures_subcultures.getEntry([subcultureKey])!['culture'] as CultureType;
@@ -960,16 +961,16 @@ const getAncillaryInfo = (): IParsedAncillaryInfo => {
 		let playableList = unique(cultureAgentList
 			.filter(row => !!row['associated_unit'])
 			.map(row => row['agent'] as AgentType));
-		let heroList = playableList.filter(key => key !== 'general');
+		let heroList = playableList.filter(key => isHeroAgent(key));
 
 		let keyList = ancillary.toAgent.filter(key => cultureAgentList.some(row => row['agent'] === key));
 		// let int = intersect(arr, cultureAgentList);
 		const toAgentList = keyList.map(key => ctx_getAgentData(key).name);
 		let narrow = intersect(keyList, playableList);
 		if (narrow.length > 0) {
-			if (narrow.includes('general')) {
+			if (narrow.some(v => !isHeroAgent(v))) {
 				info.hasLord = true;
-				narrow = narrow.filter(v => v !== 'general');
+				narrow = narrow.filter(v => isHeroAgent(v));
 			}
 			if (narrow.length > 0) {
 				info.hasHero = true;
@@ -1000,11 +1001,11 @@ const getAncillaryInfo = (): IParsedAncillaryInfo => {
 		// We always assume, that `ancillaries_included_agent_subtypes` only contain a subset of `agents`
 		// so it will always give **incomplete**
 		// TODO not to assume ;)
-		if (toAgentSubtypeList.some(v => v.agent === 'general')) {
+		if (toAgentSubtypeList.some(v => !isHeroAgent(v.agent))) {
 			info.hasLord = true;
 			info.incompleteLord = true;
 		}
-		if (toAgentSubtypeList.some(v => v.agent !== 'general')) {
+		if (toAgentSubtypeList.some(v => isHeroAgent(v.agent))) {
 			info.hasHero = true;
 			info.incompleteHero = true;
 		}
@@ -1042,7 +1043,8 @@ const getAncillaryInfo = (): IParsedAncillaryInfo => {
 			info.list.push(...sList);
 			info.narrow.push(...sList);
 		}
-		// if (ancillary.ancillary['key'] === 'wh2_main_anc_follower_hef_counsellor') {
+		// if (ancillary.ancillary['key'] === 'wh3_main_anc_follower_ogr_cave_painter') {
+		// 	console.log('toAgentSubtypeList', toAgentSubtypeList);
 		// 	console.log('keyList', keyList);
 		// 	console.log('info', info);
 		// 	console.log('toAgentSubtype', ancillary.toAgentSubtype);
