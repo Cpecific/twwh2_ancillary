@@ -39,6 +39,10 @@ Events.CharacterTurnStart;
 Events.HeroCharacterParticipatedInBattle;
 
 const BugsWH3 = {
+	wh_main_sch_settlement_major: {
+		value: true,
+		description: `Building superchains "wh_main_sch_settlement_major" and "wh_main_sch_settlement_major_coast" no longer exist in WH3`,
+	},
 	character_won_battle_against_culture: {
 		value: false,
 		description: `Function *character_won_battle_against_culture* will work, only if your faction is Main Attacker/Defender,
@@ -263,7 +267,7 @@ export const ca_ancillary_list = {
 			"wh3_main_anc_armour_weird_plate"
 		],
 	},
-		
+
 	enchanted_item: {
 		common: [
 			"wh_main_anc_enchanted_item_featherfoe_torc",
@@ -292,7 +296,7 @@ export const ca_ancillary_list = {
 			"wh3_main_anc_enchanted_item_rock_eye",
 			"wh3_main_anc_enchanted_item_astromancers_spyglass"
 		],
-		
+
 		uncommon: [
 			"wh_dlc05_anc_enchanted_item_hail_of_doom_arrow",
 			"wh_dlc07_anc_enchanted_item_holy_icon",
@@ -329,7 +333,7 @@ export const ca_ancillary_list = {
 			"wh3_main_anc_enchanted_item_alchemists_elixir_of_iron_skin",
 			"wh3_main_anc_enchanted_item_icon_of_the_spirit_dragon"
 		],
-			
+
 		rare: [
 			"wh_dlc03_anc_enchanted_item_horn_of_the_first_beast",
 			"wh_dlc03_anc_enchanted_item_shard_of_the_herdstone",
@@ -362,7 +366,7 @@ export const ca_ancillary_list = {
 			"wh3_main_anc_enchanted_item_enthralling_musk"
 		],
 	},
-	
+
 	banner: {
 		common: [
 			"wh_dlc03_anc_magic_standard_banner_of_outrage",
@@ -407,7 +411,7 @@ export const ca_ancillary_list = {
 			"wh3_main_anc_magic_standard_bull_standard",
 			"wh3_main_anc_magic_standard_standard_of_wei_jin"
 		],
-		
+
 		uncommon: [
 			"wh_dlc03_anc_mark_of_chaos_slug_skin",
 			"wh_main_anc_magic_standard_banner_of_lost_holds",
@@ -452,7 +456,7 @@ export const ca_ancillary_list = {
 			"wh3_main_anc_magic_standard_standard_of_nan_gau",
 			"wh3_main_anc_magic_standard_standard_of_seeping_decay"
 		],
-		
+
 		rare: [
 			"wh_dlc03_anc_magic_standard_manbane_standard",
 			"wh_dlc03_anc_magic_standard_the_beast_banner",
@@ -491,7 +495,7 @@ export const ca_ancillary_list = {
 			"wh3_main_anc_magic_standard_flag_of_grand_cathay"
 		],
 	},
-	
+
 	talisman: {
 		common: [
 			"wh_main_anc_talisman_dragonbane_gem",
@@ -512,7 +516,7 @@ export const ca_ancillary_list = {
 			"wh3_main_anc_talisman_jade_blood_pendant",
 			"wh3_main_anc_talisman_spangleshard"
 		],
-		
+
 		uncommon: [
 			"wh_dlc03_anc_talisman_chalice_of_dark_rain",
 			"wh_dlc07_anc_talisman_siriennes_locket",
@@ -541,7 +545,7 @@ export const ca_ancillary_list = {
 			"wh3_main_anc_talisman_jade_amulet",
 			"wh3_main_anc_talisman_gnoblar_thiefstone"
 		],
-		
+
 		rare: [
 			"wh_main_anc_talisman_talisman_of_preservation",
 			"wh_main_anc_talisman_the_white_cloak_of_ulric",
@@ -566,7 +570,7 @@ export const ca_ancillary_list = {
 			"wh3_main_anc_talisman_warp_mirror"
 		],
 	},
-	
+
 	weapon: {
 		common: [
 			"wh_dlc03_anc_weapon_everbleed",
@@ -600,7 +604,7 @@ export const ca_ancillary_list = {
 			"wh3_main_anc_weapon_the_tenderiser",
 			"wh3_main_anc_weapon_plague_flail"
 		],
-		
+
 		uncommon: [
 			"wh_dlc03_anc_weapon_axes_of_khorgor",
 			"wh_dlc03_anc_weapon_hunting_spear",
@@ -631,7 +635,7 @@ export const ca_ancillary_list = {
 			"wh3_main_anc_weapon_torment_blade",
 			"wh3_main_anc_weapon_vorpal_shard"
 		],
-		
+
 		rare: [
 			"wh_dlc03_anc_weapon_axe_of_men",
 			"wh_dlc03_anc_weapon_mangelder",
@@ -692,7 +696,7 @@ export const ca_ancillary_list = {
 			"wh3_main_anc_weapon_hellblade"
 		],
 	},
-	
+
 	arcane_item: {
 		common: [
 			"wh_dlc07_anc_arcane_item_sacrament_of_the_lady",
@@ -722,7 +726,7 @@ export const ca_ancillary_list = {
 			"wh3_main_anc_arcane_item_bangstick",
 			"wh3_main_anc_arcane_item_wand_of_whimsey"
 		],
-		
+
 		uncommon: [
 			"wh_main_anc_arcane_item_forbidden_rod",
 			"wh_main_anc_arcane_item_staff_of_damnation",
@@ -740,7 +744,7 @@ export const ca_ancillary_list = {
 			"wh3_main_anc_arcane_item_maw_shard",
 			"wh3_main_anc_arcane_item_scrolls_of_astromancy"
 		],
-		
+
 		rare: [
 			"wh_main_anc_arcane_item_black_periapt",
 			"wh_main_anc_arcane_item_book_of_ashur",
@@ -1130,6 +1134,7 @@ export const data: ITrigger[] = [
 	}, {
 		event: Events.CharacterRankUp,
 		condition: [{
+			bug: BugsWH3.wh_main_sch_settlement_major,
 			turnOwnRegion,
 			hasRegion,
 			// text: () => `Have ${technology(['tech_lzd_4_4'])} and Rank Up in region (1 turn own), with major settlement`
@@ -1249,6 +1254,7 @@ export const data: ITrigger[] = [
 	}, {
 		event: Events.CharacterRankUp,
 		condition: [{
+			bug: BugsWH3.wh_main_sch_settlement_major,
 			hasRegion,
 			turnOwnRegion,
 			text: () => `Have ${technology(['wh2_main_tech_lzd_4_6'])} and Rank Up in region (1 turn own) with ${chain_or_superchain([

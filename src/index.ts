@@ -176,7 +176,7 @@ const enum ConditionFlags {
 	prevent = 1,
 	normal = 2,
 };
-const html_public_version = '6'; // ! always update this value, when push update!
+const html_public_version = '7'; // ! always update this value, when push update!
 async function outputHTML() {
 	ctx_setTarget('html');
 	// subculture > ancillary > parsed

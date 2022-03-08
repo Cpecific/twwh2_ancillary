@@ -1210,6 +1210,10 @@ export const sortParsedMap = (parsed: Map<string, Map<string, IParsed>>) => {
 };
 
 const typical_output = (ret: string[]) => {
+	if (ret.length === 0) {
+		const { condition } = context;
+		assert(!!condition.bug, `condition expects some data, but got none of data and has no "bug" property set`);
+	}
 	return ret.length === 0
 		? '?'
 		: ret.length === 1
@@ -1382,7 +1386,7 @@ export const chain_or_superchain = (keyList: string[]): string => {
 				);
 				const cultureMin = cultureAvailabilityList.map(culture => (
 					culture_min_loc[culture]
-				));
+				)).filter((v): v is string => typeof v === 'string');
 				for (const min of cultureMin) {
 					addMap(retChainMap, tooltip, min);
 				}
