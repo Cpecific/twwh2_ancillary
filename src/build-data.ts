@@ -326,11 +326,9 @@ const getIcon = async (icon: string): Promise<string> => {
 	if (_getIconCache.has(icon)) {
 		return _getIconCache.get(icon)!;
 	}
-	if (current_game === 'warhammer_3') {
-		if (icon === 'icon_general') {
-			// const dir = path.join(__dirname, '../input', current_game, 'ui/skins/')
-			icon = 'icon_army';
-		}
+	if (icon === 'icon_general') {
+		// const dir = path.join(__dirname, '../input', current_game, 'ui/skins/')
+		icon = 'icon_army';
 	}
 	const promiseList: Promise<boolean>[] = [];
 	const dirList = [

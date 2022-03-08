@@ -176,7 +176,7 @@ const enum ConditionFlags {
 	prevent = 1,
 	normal = 2,
 };
-const html_public_version = '5'; // ! always update this value, when push update!
+const html_public_version = '6'; // ! always update this value, when push update!
 async function outputHTML() {
 	ctx_setTarget('html');
 	// subculture > ancillary > parsed
@@ -580,6 +580,18 @@ Colonel is also a general placeholder for garrison armies`,
 		};
 	}).sort((a, b) => a.title.localeCompare(b.title));
 
+	// ! SCRIPT
+	let script = `((function(){
+${iterate(Object.entries(appliedToVar)).map(([k, v]) => (
+		`var ${v} = ${JSON.stringify(k)};`
+	)).join('\n')}
+${iterate(Object.entries(data_flags)).map(([k, v]) => (
+		`${v[2]} = ${flagList.includes(k as any) ? 'true' : 'false'};`
+	)).join('\n')}
+data = {${ds.join(',')}\n}
+})());`;
+
+	// ! CONTENT
 	let string = `<!DOCTYPE html>
 <html>
 <head>
@@ -626,21 +638,15 @@ Read guide's last section for further info">
 		</div>
 	</div>
 </div>
-<script>
-((function(){
-${iterate(Object.entries(appliedToVar)).map(([k, v]) => (
-		`var ${v} = ${JSON.stringify(k)};`
-	)).join('\n')}
-${iterate(Object.entries(data_flags)).map(([k, v]) => (
-		`window.${v[2]} = ${flagList.includes(k as any) ? 'true' : 'false'};`
-	)).join('\n')}
-data = {${ds.join(',')}\n}
-})());
-</script>
+<script src="output/html/${current_game}.js?${html_public_version}"></script>
 <script src="output/html/entry.js?${html_public_version}"></script>
 </body>
 </html>`;
 	// data = ${JSON.stringify(output, null, '\t')}
+
+	if (replace_file_content(path.join(__dirname, '..', `output/html/${current_game}.js`), script)) {
+		console.log(`@written (output/html/${current_game}.js)`);
+	}
 
 	const gdata = game_data.get(current_game)!;
 	if (replace_file_content(path.join(__dirname, '..', `${current_game}.html`), string)) {
