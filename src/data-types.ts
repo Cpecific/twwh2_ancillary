@@ -858,6 +858,12 @@ export type IDataCulture = Map<CultureType, {
 	title: string;
 	description?: string;
 }>
+export interface IDataSpawn {
+	[K: string]: {
+		forename: string;
+		surname: string;
+	};
+}
 
 export const enum Events {
 	AdviceCleared,

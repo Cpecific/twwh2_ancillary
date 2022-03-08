@@ -1,4 +1,4 @@
-import { ITrigger, Events, IGetChance, IDataCulture } from './data-types';
+import { ITrigger, Events, IGetChance, IDataCulture, IDataSpawn } from './data-types';
 import {
 	agent,
 	building_exists,
@@ -102,6 +102,22 @@ export const dataCultureMap: IDataCulture = new Map([
 
 export const getChance: IGetChance = context => {
 	return undefined;
+};
+export const spawn_unique_subtype: IDataSpawn = {
+	wh2_dlc15_grn_goblin_great_shaman_raknik: { forename: 'names_name_385074324', surname: 'names_name_464146333' },
+	wh2_dlc15_grn_orc_warboss_oglok: { forename: 'names_name_340548085', surname: 'names_name_1551329109' },
+
+	wh2_dlc09_tmb_tomb_king_wakhaf: { forename: 'names_name_586036692', surname: '' },
+	wh2_dlc09_tmb_tomb_king_rakhash: { forename: 'names_name_684097886', surname: '' },
+	wh2_dlc09_tmb_tomb_king_thutep: { forename: 'names_name_1216967341', surname: '' },
+	wh2_dlc09_tmb_tomb_king_lahmizzash: { forename: 'names_name_380641190', surname: '' },
+	wh2_dlc09_tmb_tomb_king_setep: { forename: 'names_name_118554284', surname: '' },
+	wh2_dlc09_tmb_tomb_king_alkhazzar_ii: { forename: 'names_name_293842310', surname: '' },
+
+	wh2_dlc11_cst_admiral_tech_01: { forename: 'names_name_471943374', surname: '' },
+	wh2_dlc11_cst_admiral_tech_02: { forename: 'names_name_119593724', surname: '' },
+	wh2_dlc11_cst_admiral_tech_03: { forename: 'names_name_1954332184', surname: '' },
+	wh2_dlc11_cst_admiral_tech_04: { forename: 'names_name_1995028532', surname: '' },
 };
 export const ca_ancillary_list = {
 	armour: {

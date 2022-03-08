@@ -5,6 +5,18 @@ type GameDataType = {
 	title: string;
 	schema_file: string;
 }
+// TODO check wh2_main_anc_follower_skv_pet_wolf_rat for WH3
+// ancillary_to_included_agents:
+//     wh2_main_anc_follower_skv_pet_wolf_rat
+//     wh2_main_anc_follower_skv_pet_wolf_rat
+//     wh2_main_anc_follower_skv_pet_wolf_rat
+// ancillaries_included_agent_subtypes:
+//     wh2_dlc16_skv_ghoritch
+//     wh2_main_skv_assassin
+// output: Assassin
+// expected: Ghoritch, Assassin
+// test: Warlock Engineer, Plague Priest, Assasin, Ghoritch, Assassin
+
 export const game_data = new Map<CurrentGameType, GameDataType>([
 	['warhammer_2', {
 		short_key: 'wh2',
@@ -19,7 +31,7 @@ export const game_data = new Map<CurrentGameType, GameDataType>([
 	}],
 ]);
 export const current_game: CurrentGameType = 'warhammer_3';
-export { data, dataCultureMap, getChance } from './data-warhammer_3';
+export { data, dataCultureMap, getChance, spawn_unique_subtype } from './data-warhammer_3';
 import { ca_ancillary_list } from './data-warhammer_3';
 
 export const has_ca_ancillary = (key: string) => {

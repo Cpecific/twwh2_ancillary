@@ -2,7 +2,7 @@ import fs from 'fs';
 import path from 'path';
 import xml from 'fast-xml-parser';
 import iterate from 'iterare';
-import { current_game, getChance } from './config';
+import { current_game, getChance, spawn_unique_subtype } from './config';
 import { addMap, unique, toArray, deleteItem, intersect, isEqualShuffle } from './common';
 import { schema, IEntry, locFileController } from './ron-db';
 import {
@@ -286,9 +286,15 @@ export const findAncillary = (key: string): ICAncillary => {
 	const toAgent = DB.ancillary_to_included_agents.raw.filter(row => (
 		row['ancillary'] === key
 	)).map(row => row['agent'] as AgentType);
-	const toAgentSubtype: AgentSubtype[] = DB.ancillaries_included_agent_subtypes.raw.filter(row => (
+	let toAgentSubtype: AgentSubtype[] = DB.ancillaries_included_agent_subtypes.raw.filter(row => (
 		row['ancillary'] === key
 	)).map(row => row['agent_subtype'] as AgentSubtype);
+	if (DB.agent_subtypes.raw[0].hasOwnProperty('can_equip_ancillaries')) {
+		let list = toAgentSubtype.filter(key => (
+			DB.agent_subtypes.getEntry([key])!['can_equip_ancillaries']
+		));
+		assert(list.length === toAgentSubtype.length, `currently it is unexpected to have can_equip_ancillaries=false`);
+	}
 
 	let subcultureList: SubCultureType[] = [];
 	if (current_game === 'warhammer_2') {
@@ -559,9 +565,10 @@ const ctx_getAgentSubtypeData = (subtypeKey: string) => {
 		// 	if (typeof name_override === 'string' && name_override) { name = name_override; }
 		// }
 	}
-	const uniqueRow = DB.unique_agents.getEntry([subtypeKey]);
+	const uniqueRow = DB.unique_agents.getEntry([subtypeKey]) || spawn_unique_subtype[subtypeKey];
+	let isUnique = false;
 	if (uniqueRow) {
-		// { [K in name_types.key]: string | null }
+		isUnique = true;
 		const nameResult = {
 			forename: null as (string | null),
 			family_name: null as (string | null), // surname
@@ -571,8 +578,9 @@ const ctx_getAgentSubtypeData = (subtypeKey: string) => {
 		let haveSome = false;
 		// могут не совпадать
 		for (const uniqueColumn of ['forename', 'surname', 'other_name', 'clan_name'] as const) {
-			const nameId = uniqueRow[uniqueColumn];
-			if (typeof nameId === 'string') {
+			let nameId = uniqueRow[uniqueColumn];
+			if (typeof nameId === 'string' && nameId) {
+				if (/^names_name_\d+$/.test(nameId)) { nameId = nameId.substr(11); }
 				haveSome = true;
 				const nameRow = DB.names.getEntry([nameId])!;
 				const type = nameRow['type'] as keyof typeof nameResult;
@@ -592,6 +600,7 @@ const ctx_getAgentSubtypeData = (subtypeKey: string) => {
 		row: agentSubtypeRow,
 		name,
 		unit_caste: getUnitCaste(unit),
+		isUnique,
 	};
 };
 interface GetPermittedSubtypeList {
@@ -970,112 +979,121 @@ const getAncillaryInfo = (): IParsedAncillaryInfo => {
 		list: [],
 		narrow: [],
 	};
-	let ancillaryInfo: string[] = [];
-	if (true || ancillary.toAgent.length > 0) {
-		let cultureAgentList = unique(DB.agent_culture_details.raw.filter(row => (
+	if (ancillary.toAgent.length === 0
+		&& ancillary.toAgentSubtype.length === 0) {
+		info.hasLord = true;
+		info.hasHero = true;
+		return info;
+	}
+	// if ancillary_to_included_agents doesn't contain rows for ancillary, then we suppose that all agents can wear it
+	// *confirmed* with wh_main_anc_magic_standard_the_bad_moon_banner on wh_main_grn_night_goblin_shaman::
+	// .toAgentSubtype will further narrow down, what is mentioned in .toAgent
+	const C = (() => {
+		let agentList = unique(DB.agent_culture_details.raw.filter(row => (
 			row['culture'] === group.cultureKey
 		)));
 		// .map(row => row['agent'] as AgentType)
-		// let playableList = cultureAgentList.filter(key => key !== 'colonel' && key !== 'minister');
-		let playableList = unique(cultureAgentList
+		// let playableList = agentList.filter(key => key !== 'colonel' && key !== 'minister');
+		let playableAgentList = unique(agentList
 			.filter(row => !!row['associated_unit'])
 			.map(row => row['agent'] as AgentType));
-		let heroList = playableList.filter(key => isHeroAgent(key));
-
-		let keyList = ancillary.toAgent.filter(key => cultureAgentList.some(row => row['agent'] === key));
-		// let int = intersect(arr, cultureAgentList);
-		let narrow = intersect(keyList, playableList);
-		if (ancillary.toAgent.length > 0) {
-			// if ancillary_to_included_agents doesn't contain rows for ancillary, then we suppose that all agents can wear it
-			assert(narrow.length > 0);
-			if (narrow.some(v => !isHeroAgent(v))) {
-				info.hasLord = true;
-				narrow = narrow.filter(v => isHeroAgent(v));
-			}
-			info.hasHero = true;
-			if (narrow.length === heroList.length) {
-				narrow = [];
-			} else {
-				info.incompleteHero = true;
-			}
+		let generalList: AgentType[] = [];
+		let heroList: AgentType[] = [];
+		for (const key of playableAgentList) {
+			if (isHeroAgent(key)) { heroList.push(key); }
+			else { generalList.push(key); }
 		}
 
-		info.list = keyList.map(key => ctx_getAgentData(key).name);
-		info.narrow = narrow.map(key => ctx_getAgentData(key).name);
-	}
+		const subtypeList = ctx_getPermittedSubtypeList();
+
+		return {
+			agentList,
+			playableAgentList,
+			generalList,
+			heroList,
+			subtypeList,
+		};
+	})();
 	if (ancillary.toAgentSubtype.length > 0) {
-		// && DB.start_pos_factions.some(f => (
-		// 	f.faction === row['key']
-		// 	// && f.playable
-		// ))
-		// subculturePermittedSubtypeList
-		const permittedList = ctx_getPermittedSubtypeList();
-		const toAgentSubtypeList = permittedList
-			.filter(row => ancillary.toAgentSubtype.includes(row.subtype))
-			.map(row => ({
-				...ctx_getAgentSubtypeData(row.subtype)!,
-				...row,
-			}));
+		// ctx_getAgentSubtypeData(row.subtype)!,
+		let toSubtypeList = C.subtypeList.filter(row => ancillary.toAgentSubtype.includes(row.subtype));
+		if (ancillary.toAgent.length > 0) {
+			toSubtypeList = toSubtypeList.filter(row => ancillary.toAgent.includes(row.agent));
+		}
 		// We always assume, that `ancillaries_included_agent_subtypes` only contain a subset of `agents`
 		// so it will always give **incomplete**
 		// TODO not to assume ;)
-		if (toAgentSubtypeList.some(v => !isHeroAgent(v.agent))) {
+		if (toSubtypeList.some(v => !isHeroAgent(v.agent))) {
 			info.hasLord = true;
 			info.incompleteLord = true;
 		}
-		if (toAgentSubtypeList.some(v => isHeroAgent(v.agent))) {
+		if (toSubtypeList.some(v => isHeroAgent(v.agent))) {
 			info.hasHero = true;
 			info.incompleteHero = true;
 		}
-		let keyList = ancillary.toAgentSubtype
-			.map(subtypeKey => ({
-				...ctx_getAgentSubtypeData(subtypeKey)!,
-				subtypeKey,
-			}));
+		// const keyList = ancillary.toAgentSubtype.map(subtype => ({
+		// 	...ctx_getAgentSubtypeData(subtype)!,
+		// 	subtype,
+		// }));
+		const keyList = toSubtypeList.map(q => ({
+			...ctx_getAgentSubtypeData(q.subtype)!,
+			...q,
+		}));
 
-		let sList: string[] = [];
+		let catList: string[] = [];
+		let uniList: string[] = [];
 		for (const [recruitmentKey, subtypeList] of ctx_getRecruitmentCategoryMap()) {
-			const filter = keyList.filter(v => subtypeList.includes(v.subtypeKey));
-			if (filter.length === subtypeList.length) {
+			const filter = keyList.filter(v => subtypeList.includes(v.subtype));
+			if (filter.length === subtypeList.length
+				&& !filter.some(v => v.isUnique)
+			) {
 				const category = DB.agent_recruitment_categories.getEntry([recruitmentKey]);
 				// assert(!!category, `hero category "${recruitmentKey}"; ancillary="` + ancillary.ancillary['key'] + '";;;' + JSON.stringify(subtypeList) + ';;;' + JSON.stringify(category))
 				if (category) {
-					sList.push(category['@onscreen_name'] as string);
+					catList.push(category['@onscreen_name'] as string);
 					continue;
 				}
 			}
-			sList = sList.concat(filter.map(v => {
+			for (const v of filter) {
 				if (v.row['recruitment_category'] !== 'legendary_lords') {
-					return v.name;
+					uniList.push(v.name);
+					continue;
 				}
 				const mainUnitKey = v.row['associated_unit_override'] as string;
 				const unitKey = DB.main_units.getEntry([mainUnitKey])!['land_unit'] as string;
 				assert(!!unitKey);
 				const row = DB.land_units.getEntry([unitKey])!;
 				assert(!!row, `legendary_lord "${v.row['key']}" doesn't have land_unit="${unitKey}" for main_unit="${mainUnitKey}"`);
-				return row['@onscreen_name'] as string;
-			}));
+				uniList.push(row['@onscreen_name'] as string);
+			}
 		}
 
-		if (sList.length > 0) {
-			info.list.push(...sList);
-			info.narrow.push(...sList);
+		info.list.push(...catList, ...uniList);
+		info.narrow.push(...catList, ...uniList);
+	}
+	else if (ancillary.toAgent.length > 0) {
+		let keyList = ancillary.toAgent.filter(key => C.agentList.some(row => row['agent'] === key));
+		let narrow = intersect(keyList, C.playableAgentList);
+		if (ancillary.toAgent.length > 0) {
+			assert(narrow.length > 0);
+			if (narrow.some(v => !isHeroAgent(v))) {
+				info.hasLord = true;
+				narrow = narrow.filter(v => isHeroAgent(v));
+			}
+			if (narrow.length > 0) {
+				info.hasHero = true;
+				if (narrow.length === C.heroList.length) {
+					narrow = [];
+				} else {
+					info.incompleteHero = true;
+				}
+			}
 		}
-		// if (ancillary.ancillary['key'] === 'wh3_main_anc_follower_ogr_cave_painter') {
-		// 	console.log('toAgentSubtypeList', toAgentSubtypeList);
-		// 	console.log('keyList', keyList);
-		// 	console.log('info', info);
-		// 	console.log('toAgentSubtype', ancillary.toAgentSubtype);
-		// 	console.log(ctx_getRecruitmentCategoryMap());
-		// 	assert(false);
-		// }
+
+		info.list.push(...keyList.map(key => ctx_getAgentData(key).name));
+		info.narrow.push(...narrow.map(key => ctx_getAgentData(key).name));
 	}
-	if (info.list.length === 0) {
-		// toAgentList.length === 0
-		// && toAgentSubtypeList.length === 0
-		info.hasLord = true;
-		info.hasHero = true;
-	}
+	assert(info.list.length > 0);
 	return info;
 };
 export interface IParsedTrigger {

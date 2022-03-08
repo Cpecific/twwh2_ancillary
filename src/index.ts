@@ -176,7 +176,7 @@ const enum ConditionFlags {
 	prevent = 1,
 	normal = 2,
 };
-const html_public_version = '4'; // ! always update this value, when push update!
+const html_public_version = '5'; // ! always update this value, when push update!
 async function outputHTML() {
 	ctx_setTarget('html');
 	// subculture > ancillary > parsed
@@ -503,28 +503,28 @@ async function outputHTML() {
 		str += 'description: ' + JSON.stringify(entry.description) + ',\n\t\t';
 		str += 'ancillaryList: [';
 		str += entry.ancillaryList.map((ancillary, idx, self) => {
-			let str = '\n\t\t\t';
+			let str = '\n';
 			if (ancillary.category_title) {
 				str += JSON.stringify(ancillary.category_title) + ',';
-				str += '\n\t\t\t';
+				str += '\n';
 			}
-			// str += '// ' + ancillary.key + '\n\t\t\t';
+			// str += '// ' + ancillary.key + '\n';
 			str += '[';
 			if (ancillary.flags !== 0) {
 				str += ancillary.flags.toString() + ', ';
 			}
-			str += JSON.stringify(ancillary.ancillaryIcon) + ',\n\t\t\t';
-			str += JSON.stringify(ancillary.ancillaryName) + ',\n\t\t\t';
+			str += JSON.stringify(ancillary.ancillaryIcon) + ',\n';
+			str += JSON.stringify(ancillary.ancillaryName) + ',\n';
 			for (const s of ancillary.effectList) {
-				str += JSON.stringify(s) + ',\n\t\t\t';
+				str += JSON.stringify(s) + ',\n';
 			}
-			str += '[' + ancillary.appliedToIcon.map(s => appliedToVar[s]).join(',') + '],\n\t\t\t';
+			str += '[' + ancillary.appliedToIcon.map(s => appliedToVar[s]).join(',') + '],\n';
 			ancillary.triggerList.forEach((trigger, idx, self) => {
 				const [chance, tgDescList] = trigger;
 				str += JSON.stringify(chance) + ',';
 				tgDescList.forEach((q, idx, self) => {
 					if (idx === 0) { str += '\t'; }
-					else if (self.length > 1) { str += '\n\t\t\t'; }
+					else if (self.length > 1) { str += '\n'; }
 					const description = JSON.stringify(q[0]);
 					const flags = q[1];
 					const bug = TransformBug(q[2]);
@@ -536,7 +536,7 @@ async function outputHTML() {
 						str += description;
 						if (flags !== 0 || bug.description) { str += ', ' + JSON.stringify(flags); }
 						if (bug.description) {
-							str += ',\n\t\t\t\t';
+							str += ',\n\t';
 							if (bug.value) { str += JSON.stringify(bug.description); }
 							else { str += '[false, ' + JSON.stringify(bug.description) + ']'; }
 						}
