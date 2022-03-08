@@ -51,6 +51,8 @@ export const DB = {
 	ancillary_to_effects: schema['ancillary_to_effects'].getData(),
 	ancillary_to_included_agents: schema['ancillary_to_included_agents'].getData(),
 	ancillary_types: schema['ancillary_types'].getData(),
+	banners: schema['banners'].getData(),
+	battle_set_piece_armies_characters_items: schema['battle_set_piece_armies_characters_items'].getData(),
 	campaign_effect_scopes: schema['campaign_effect_scopes'].getData(),
 	campaign_group_members: schema['campaign_group_members'].getData(),
 	campaign_group_member_criteria_cultures: schema['campaign_group_member_criteria_cultures'].getData(),
@@ -62,6 +64,8 @@ export const DB = {
 	culture_packs: schema['culture_packs'].getData(),
 	cultures_subcultures: schema['cultures_subcultures'].getData(),
 	effects: schema['effects'].getData(),
+	effect_bundles: schema['effect_bundles'].getData(),
+	effect_bundles_to_effects_junctions: schema['effect_bundles_to_effects_junctions'].getData(),
 	factions: schema['factions'].getData(),
 	faction_agent_permitted_subtypes: schema['faction_agent_permitted_subtypes'].getData(),
 	faction_set_items: schema['faction_set_items'].getData(),
@@ -171,7 +175,7 @@ export const getFactionListSorted = () => {
 	};
 };
 
-const isHeroAgent = (key:AgentType) => (key !== 'general' && key !== 'colonel' && key !== 'minister');
+const isHeroAgent = (key: AgentType) => (key !== 'general' && key !== 'colonel' && key !== 'minister');
 interface SchemaEntry { [K: string]: IEntry }
 export const toCultureKey = (subcultureKey: SubCultureType) => {
 	return DB.cultures_subcultures.getEntry([subcultureKey])!['culture'] as CultureType;
@@ -200,16 +204,30 @@ const getSubcultureListForFactionSet = (factionSetKey: string) => {
 	let subcultureList: SubCultureType[] = [];
 	const add: IEntry[] = [];
 	const remove: IEntry[] = [];
+	let all_row: boolean = false;
 	for (const row of DB.faction_set_items.raw) {
 		if (row['set'] !== factionSetKey) { continue; }
 		const v1 = ((row['culture'] as string | null) !== null ? 1 : 0);
 		const v2 = ((row['faction'] as string | null) !== null ? 1 : 0);
 		const v3 = ((row['subculture'] as string | null) !== null ? 1 : 0);
-		assert(v1 + v2 + v3 === 1, `unexpected row in faction_set_items_tables with id=${row['id']}`);
-		if (row['remove']) { remove.push(row); }
+		const bRemove = row['remove'] as boolean;
+		if (v1 + v2 + v3 === 0) {
+			all_row = true;
+		} else {
+			assert(v1 + v2 + v3 === 1, `unexpected row in faction_set_items_tables with id=${row['id']}`);
+		}
+		if (bRemove) { remove.push(row); }
 		else { add.push(row); }
 	}
-	assert(add.length + remove.length > 0, `currently, we expect faction_set="${factionSetKey}" to have some entries in faction_set_items_tables`);
+	if (all_row) {
+		// console.log({ add, remove })
+		assert(add.length + remove.length === 1, `we expect faction_set="all" to be the only row`);
+		assert(remove.length === 0, `we expect faction_set="all" not to "remove"`);
+		subcultureList = DB.cultures_subcultures.raw.map(row => row['subculture'] as SubCultureType);
+		return subcultureList;
+	} else {
+		assert(add.length + remove.length > 0, `currently, we expect faction_set="${factionSetKey}" to have some entries in faction_set_items_tables`);
+	}
 	if (add.length > 0) {
 		assert(remove.length === 0, 'not implemented');
 		for (const row of add) {
@@ -236,16 +254,31 @@ export const findAncillary = (key: string): ICAncillary => {
 		return _findAncillaryCache.get(key)!;
 	}
 	const ancillary = DB.ancillaries.getEntry([key])!;
+	assert(ancillary['category'] === 'general', `only category "general" (followers) are currently supported`);
 	const icon = DB.ancillary_types.getEntry([ancillary['type'] as string])!['ui_icon'] as string;
 	const agentList = Object.keys(DB.ancillary_to_included_agents.keyed[key] || {})
 		.filter(agent => DB.agents.getEntry([agent])!['playable'] as boolean);
-	const effectMap = (DB.ancillary_to_effects.keyed[key] || {}) as unknown as SchemaEntry;
-	const effectList = toArray(effectMap).map(([effectKey, effectAnc]): IEffect => {
+	const effectMap = toArray((DB.ancillary_to_effects.keyed[key] || {}) as unknown as SchemaEntry);
+	const bspaci = DB.battle_set_piece_armies_characters_items.raw.filter(row => row['character_item'] === key);
+	const bannerKey = ancillary['provided_banner'] as string | null;
+	if (bannerKey) {
+		// TODO banner_permitted_unit_sets
+		const banner = DB.banners.getEntry([bannerKey]);
+		assert(!!banner, `missing db entry banners="${bannerKey}" for ancillary="${key}"`);
+		const bundleKey = banner['effect_bundle'] as string;
+		const eb = DB.effect_bundles.getEntry([bundleKey]);
+		assert(!!eb, `missing db entry effect_bundles="${bundleKey}" for banners="${bannerKey}", ancillary="${key}"`);
+		for (const row of DB.effect_bundles_to_effects_junctions.raw) {
+			if (row['effect_bundle_key'] !== bundleKey) { continue; }
+			effectMap.push([row['effect_key'] as string, row]);
+		}
+	}
+	const effectList = effectMap.map(([effectKey, row]): IEffect => {
 		const effect = DB.effects.getEntry([effectKey])!;
-		const effectScope = effectAnc['effect_scope'] as string;
+		const effectScope = row['effect_scope'] as string;
 		const scope = DB.campaign_effect_scopes.getEntry([effectScope]);
 		return {
-			effectAnc,
+			row,
 			effect,
 			scope,
 		};
@@ -257,23 +290,12 @@ export const findAncillary = (key: string): ICAncillary => {
 		row['ancillary'] === key
 	)).map(row => row['agent_subtype'] as AgentSubtype);
 
-	let includedSubcultureList: SubCultureType[] = [];
-	if (current_game === 'warhammer_2') {
-		includedSubcultureList = Object.keys(DB.ancillary_included_subcultures.keyed[key] || {}) as any;
-	} else if (current_game === 'warhammer_3') {
-		includedSubcultureList = getSubcultureListForFactionSet(ancillary['faction_set'] as string);
-	}
-	const includedCultureList: CultureType[] = includedSubcultureList.map(subculture => (
-		toCultureKey(subculture)
-	));
-
 	let subcultureList: SubCultureType[] = [];
-	// if (current_game === 'warhammer_3') {
-	// 	subcultureList = subcultureList.concat(
-	// 		getSubcultureListForAgentSubtypeList(toAgentSubtype)
-	// 	);
-	// }
-	subcultureList = subcultureList.concat(includedSubcultureList);
+	if (current_game === 'warhammer_2') {
+		subcultureList = Object.keys(DB.ancillary_included_subcultures.keyed[key] || {}) as any;
+	} else if (current_game === 'warhammer_3') {
+		subcultureList = getSubcultureListForFactionSet(ancillary['faction_set'] as string);
+	}
 	subcultureList = unique(subcultureList);
 	const cultureList: CultureType[] = unique(subcultureList.map(subculture => (
 		toCultureKey(subculture)
@@ -286,9 +308,6 @@ export const findAncillary = (key: string): ICAncillary => {
 		effectList,
 		toAgent,
 		toAgentSubtype,
-
-		includedSubcultureList,
-		includedCultureList,
 
 		subcultureList,
 		cultureList,
@@ -343,8 +362,8 @@ export const getEffectDesc = async (v: IEffect, opts?: {
 	subcultureKey?: SubCultureType;
 	cultureKey?: CultureType;
 }) => {
-	const { effect, effectAnc, scope } = v;
-	const effectValue = effectAnc['value'] as number;
+	const { effect, row, scope } = v;
+	const effectValue = row['value'] as number;
 	let desc = effect['@description'] as string;
 	desc = desc
 		.replace('%+n', `${effectValue > 0 ? '+' : ''}${effectValue.toString()}`)
@@ -965,24 +984,23 @@ const getAncillaryInfo = (): IParsedAncillaryInfo => {
 
 		let keyList = ancillary.toAgent.filter(key => cultureAgentList.some(row => row['agent'] === key));
 		// let int = intersect(arr, cultureAgentList);
-		const toAgentList = keyList.map(key => ctx_getAgentData(key).name);
 		let narrow = intersect(keyList, playableList);
-		if (narrow.length > 0) {
+		if (ancillary.toAgent.length > 0) {
+			// if ancillary_to_included_agents doesn't contain rows for ancillary, then we suppose that all agents can wear it
+			assert(narrow.length > 0);
 			if (narrow.some(v => !isHeroAgent(v))) {
 				info.hasLord = true;
 				narrow = narrow.filter(v => isHeroAgent(v));
 			}
-			if (narrow.length > 0) {
-				info.hasHero = true;
-				if (narrow.length === heroList.length) {
-					narrow = [];
-				} else {
-					info.incompleteHero = true;
-				}
+			info.hasHero = true;
+			if (narrow.length === heroList.length) {
+				narrow = [];
+			} else {
+				info.incompleteHero = true;
 			}
 		}
 
-		info.list = toAgentList;
+		info.list = keyList.map(key => ctx_getAgentData(key).name);
 		info.narrow = narrow.map(key => ctx_getAgentData(key).name);
 	}
 	if (ancillary.toAgentSubtype.length > 0) {
@@ -1062,7 +1080,7 @@ const getAncillaryInfo = (): IParsedAncillaryInfo => {
 };
 export interface IParsedTrigger {
 	trigger: ITrigger;
-	chance: number;
+	chance: number | null;
 	repeat?: number;
 	triggerDesc: ReturnType<typeof buildTriggerDesc>;
 }
@@ -1100,38 +1118,78 @@ export const parseTrigger = (opts: {
 
 		if (!parsed.has(ancData.key)) {
 			// const subcultureSubset = getSubcultureSubset(cultureKey, ancillary.subcultureList);
-			parsed.set(ancData.key, {
-				// effectList: ancillary.effectList,
-				ancillaryInfo: getAncillaryInfo(),
-				tirggerList: [],
-			});
+			try {
+				parsed.set(ancData.key, {
+					// effectList: ancillary.effectList,
+					ancillaryInfo: getAncillaryInfo(),
+					tirggerList: [],
+				});
+			} catch (e) {
+				continue;
+			}
 		}
+		// if (!trigger.event) { continue; }
+
 		const parsedAncillary = parsed.get(ancData.key)!;
 		if (parsedAncillary.tirggerList.some(v => v.trigger === trigger)) { continue; }
 
-		const triggerDesc = buildTriggerDesc();
-		let chance = getChance(context);
+		const triggerDesc = !trigger.event ? [] : buildTriggerDesc();
+		let chance: number | undefined | null = null;
+		if (typeof ancData.chance === 'undefined') {
+			assert(!trigger.event);
+			// @ts-ignore
+			const c: IDataCondition = {};
+			let text: string[] = ancillary.subcultureList.slice();
+			assert(group.by === 'subculture');
+			// text = text.filter(key => key !== group.subculture);
+			if (text.includes('filter_all')) { text = ['filter_all']; }
+			text = text.map(key => {
+				let title = DB.cultures_subcultures.getEntry([key])!['@name'] as string;
+				if (key === group.subculture) {
+					if (ctx_target === 'html') {
+						title = `<span class="dimmed">${title}</span>`;
+					}
+				}
+				return title;
+			});
+			triggerDesc.push({
+				c,
+				impossible: false,
+				top: {
+					against: [],
+					allowed: [],
+					forbid: [],
+				},
+				text: text.join(', '),
+				flags: {
+					normal: false,
+				},
+			})
+		} else {
+			chance = getChance(context);
+			if (typeof chance === 'undefined') { chance = ancData.chance; }
+		}
 		parsedAncillary.tirggerList.push({
 			trigger,
-			chance: typeof chance === 'undefined' ? ancData.chance : chance,
+			chance: chance,
 			repeat: ancData.repeat,
 			triggerDesc,
 		});
 	}
 };
+export const sortAncMap = (ancMap: Map<string, IParsed>) => {
+	return new Map([...ancMap.entries()].sort((a, b) => {
+		const aa = findAncillary(a[0]);
+		const bb = findAncillary(b[0]);
+		const as = aa.ancillary['@onscreen_name'] as string;
+		const bs = bb.ancillary['@onscreen_name'] as string;
+		return as.localeCompare(bs);
+		// return a[0].localeCompare(b[0]);
+	}));
+};
 export const sortParsedMap = (parsed: Map<string, Map<string, IParsed>>) => {
-	for (const key of ['filter_all', 'wh2_main_rogue'] as SubCultureType[]) {
-		parsed.delete(key);
-	}
-	for (const [subcultureKey, subcultureMap] of parsed) {
-		parsed.set(subcultureKey, new Map([...subcultureMap.entries()].sort((a, b) => {
-			const aa = findAncillary(a[0]);
-			const bb = findAncillary(b[0]);
-			const as = aa.ancillary['@onscreen_name'] as string;
-			const bs = bb.ancillary['@onscreen_name'] as string;
-			return as.localeCompare(bs);
-			// return a[0].localeCompare(b[0]);
-		})));
+	for (const [subcultureKey, ancMap] of parsed) {
+		parsed.set(subcultureKey, sortAncMap(ancMap));
 	}
 };
 

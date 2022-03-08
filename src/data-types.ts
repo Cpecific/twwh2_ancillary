@@ -818,10 +818,10 @@ export interface ITrigger {
 
 export interface IGetChance {
 	// (trigger: ITrigger, ancillary: IDataAncillary): number | undefined | void;
-	(context: IContext): number | undefined | void;
+	(context: IContext): number | undefined;
 }
 export interface IEffect {
-	effectAnc: IEntry;
+	row: IEntry;
 	effect: IEntry;
 	scope: IEntry | null;
 }
@@ -832,10 +832,6 @@ export interface ICAncillary {
 	effectList: IEffect[];
 	toAgent: AgentType[];
 	toAgentSubtype: AgentSubtype[];
-	
-	includedSubcultureList: SubCultureType[];
-	/** Список получен из includedSubcultureList. В базе только указано каким subcultures давать ancillary */
-	includedCultureList: CultureType[];
 
 	subcultureList: SubCultureType[];
 	cultureList: CultureType[];

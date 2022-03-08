@@ -3,7 +3,7 @@ import glob from 'glob';
 import iterate from 'iterare';
 import { isEqual } from 'lodash';
 import path from 'path';
-import { current_game, game_data, data, dataCultureMap } from './config';
+import { current_game, game_data, data, dataCultureMap, has_ca_ancillary } from './config';
 import { isEqualShuffle, toArray, unique, toMap } from './common';
 import {
 	concatTextNode,
@@ -176,11 +176,12 @@ const enum ConditionFlags {
 	prevent = 1,
 	normal = 2,
 };
-const html_public_version = '3'; // ! always update this value, when push update!
+const html_public_version = '4'; // ! always update this value, when push update!
 async function outputHTML() {
 	ctx_setTarget('html');
 	// subculture > ancillary > parsed
-	const parsed = new Map<SubCultureType, Map<string, IParsed>>();
+	type ParsedMapType = Map<SubCultureType, Map<string, IParsed>>;
+	const parsed: ParsedMapType = new Map();
 	let {
 		cultureMap,
 		playableFactionList,
@@ -199,12 +200,12 @@ async function outputHTML() {
 				if (!parsed.has(subcultureKey)) {
 					parsed.set(subcultureKey, new Map());
 				}
-				const cultureMap = parsed.get(subcultureKey)!;
+				const ancMap = parsed.get(subcultureKey)!;
 				const cultureKey = toCultureKey(subcultureKey);
 				const requestSubcultureSubset = [subcultureKey];
 
 				parseTrigger({
-					parsed: cultureMap,
+					parsed: ancMap,
 					group: {
 						by: 'subculture',
 						cultureKey,
@@ -216,6 +217,9 @@ async function outputHTML() {
 			}
 		}
 	}
+	for (const key of ['filter_all', 'wh2_main_rogue'] as SubCultureType[]) {
+		parsed.delete(key);
+	}
 	sortParsedMap(parsed);
 	if (current_game === 'warhammer_3') {
 		// удаляем prologue
@@ -225,20 +229,108 @@ async function outputHTML() {
 			'wh3_main_pro_sc_ksl_kislev',
 		] as SubCultureType[]) { parsed.delete(k); }
 	}
+	const extra = {
+		stolen: {
+			followers: new Map() as ParsedMapType,
+			banners: new Map() as ParsedMapType,
+		},
+		randomly_dropped: {
+			followers: new Map() as ParsedMapType,
+			banners: new Map() as ParsedMapType,
+		},
+	};
+	for (const row of DB.ancillaries.raw) {
+		const ancillaryKey = row['key'] as string;
+		const cbs = row['can_be_stolen'];
+		if (!cbs || !has_ca_ancillary(ancillaryKey)) { continue; }
+		const category = row['category'] as string;
+		if (category !== 'general') { continue; }
+		const bannerKey = row['provided_banner'] as string | null;
+		const ancillary = findAncillary(ancillaryKey);
+		// @ts-ignore
+		let ex: ParsedMapType = cbs ? extra.stolen : extra.randomly_dropped;
+		// @ts-ignore
+		ex = bannerKey ? ex.banners : ex.followers;
+		for (const subcultureKey of ancillary.subcultureList) {
+			const ancMap = parsed.get(subcultureKey);
+			if (!ancMap) { continue; }
+			let exMap = ex.get(subcultureKey);
+			if (!exMap) { ex.set(subcultureKey, exMap = new Map()); }
+			if (ancMap.has(ancillaryKey)) { continue; }
+
+			const cultureKey = toCultureKey(subcultureKey);
+			const requestSubcultureSubset = [subcultureKey];
+			parseTrigger({
+				parsed: exMap,
+				group: {
+					by: 'subculture',
+					cultureKey,
+					subculture: subcultureKey,
+				},
+				trigger: {
+					// @ts-ignore
+					ancillaryList: [{ key: ancillaryKey }]
+				},
+				requestSubcultureSubset,
+			});
+		}
+	}
+	let prevTitle = new Map<SubCultureType, string>();
+	const setExMap = (map: ParsedMapType, flags: JsonAncillaryEnum, category_title: string) => {
+		sortParsedMap(map);
+		for (const [subcultureKey, exMap] of map) {
+			const ancMap = parsed.get(subcultureKey)!;
+			let pt = prevTitle.get(subcultureKey);
+			if (typeof pt === 'undefined') { prevTitle.set(subcultureKey, pt = ''); }
+			if (pt === category_title) {
+				pt = '';
+			} else {
+				const first = ancMap.entries().next();
+				assert(!first.done);
+				prevTitle.set(subcultureKey, pt = category_title);
+			}
+			for (const [ancillaryKey, tg] of exMap) {
+				if (pt) {
+					// @ts-ignore
+					tg._category_title = pt;
+					pt = '';
+				}
+				let fl = flags;
+				// const ancillary = findAncillary(ancillaryKey);
+				// if (ancillary.ancillary['randomly_dropped']) { fl |= JsonAncillaryEnum.RandomlyDropped; }
+				if (has_ca_ancillary(ancillaryKey)) { fl |= JsonAncillaryEnum.RandomlyDropped; }
+				// @ts-ignore
+				tg._ancillary_flags = fl;
+				ancMap.set(ancillaryKey, tg);
+			}
+		}
+	};
+	setExMap(extra.stolen.followers, JsonAncillaryEnum.CanBeStolen, 'Can be stolen');
+	setExMap(extra.stolen.banners, JsonAncillaryEnum.CanBeStolen, 'Can be stolen');
+	setExMap(extra.randomly_dropped.followers, JsonAncillaryEnum.RandomlyDropped, '...');
+	setExMap(extra.randomly_dropped.banners, JsonAncillaryEnum.RandomlyDropped, '...');
 	type OutputEntry = {
 		title: string;
 		description: string | undefined;
 		ancillaryList: JsonEntry[];
 	}
-	type JsonEntry = [
+	const enum JsonAncillaryEnum {
+		None = 0,
+		CanBeStolen = 1,
+		RandomlyDropped = 2,
+	}
+	type JsonEntry = {
+		key: string;
+		category_title?: string;
+		flags: JsonAncillaryEnum,
 		ancillaryIcon: string,
 		ancillaryName: string,
 		effectList: string[],
 		appliedToIcon: string[],
 		triggerList: JsonTriggerEntry[],
-	]
+	}
 	type JsonTriggerEntry = [
-		chance: number,
+		chance: number | null,
 		conditionList: JsonConditionEntry[]
 	]
 	type JsonConditionEntry = [
@@ -260,17 +352,21 @@ async function outputHTML() {
 		src = `${outputGameFolder}/${src}`;
 		return src;
 	}
-	for (const [subcultureKey, subcultureMap] of parsed) {
-		if (subcultureMap.size === 0) { continue; }
+	for (const [subcultureKey, ancMap] of parsed) {
+		if (ancMap.size === 0) { continue; }
 		let jsonList: JsonEntry[] = [];
 		const cultureKey = toCultureKey(subcultureKey);
 		const culture = getCulture(cultureKey)!;
 		const cultureData = dataCultureMap.get(cultureKey);
 		assert(!!cultureData, `missing key "${cultureKey}" from your config \`dataCultureMap\``);
 		const subcultureRow = DB.cultures_subcultures.getEntry([subcultureKey])!;
-		for (const [ancillaryKey, parsed] of subcultureMap) {
+		for (const [ancillaryKey, parsed] of ancMap) {
 			const { ancillaryInfo, tirggerList } = parsed;
 			const ancillary = findAncillary(ancillaryKey);
+			// @ts-ignore
+			let flags: JsonAncillaryEnum = parsed._ancillary_flags || 0;
+			// @ts-ignore
+			const category_title = parsed._category_title;
 			const effectList = (await Promise.all(
 				ancillary.effectList.map(v => getEffectDesc(v, { subcultureKey, cultureKey }))
 			)).map(v => (
@@ -342,14 +438,16 @@ async function outputHTML() {
 
 			myInfo = myInfo.map(v => `(${v})`);
 
-			let json: JsonEntry = [
-				getIconSrc(ancillary.icon),
-				ancillary.ancillary['@onscreen_name'] as string,
-				[...myInfo, ...effectList],
+			let json: JsonEntry = {
+				key: ancillaryKey,
+				category_title,
+				flags,
+				ancillaryIcon: getIconSrc(ancillary.icon),
+				ancillaryName: ancillary.ancillary['@onscreen_name'] as string,
+				effectList: [...myInfo, ...effectList],
 				appliedToIcon,
-				tgResult,
-			];
-			(json as any).key = ancillaryKey;
+				triggerList: tgResult,
+			};
 			jsonList.push(json);
 		}
 		output[subcultureKey] = {
@@ -406,14 +504,22 @@ async function outputHTML() {
 		str += 'ancillaryList: [';
 		str += entry.ancillaryList.map((ancillary, idx, self) => {
 			let str = '\n\t\t\t';
-			// str += '// ' + (ancillary as any).key + '\n\t\t\t';
-			str += '[' + JSON.stringify(ancillary[0]) + ',\n\t\t\t';
-			str += JSON.stringify(ancillary[1]) + ',\n\t\t\t';
-			for (const s of ancillary[2]) {
+			if (ancillary.category_title) {
+				str += JSON.stringify(ancillary.category_title) + ',';
+				str += '\n\t\t\t';
+			}
+			// str += '// ' + ancillary.key + '\n\t\t\t';
+			str += '[';
+			if (ancillary.flags !== 0) {
+				str += ancillary.flags.toString() + ', ';
+			}
+			str += JSON.stringify(ancillary.ancillaryIcon) + ',\n\t\t\t';
+			str += JSON.stringify(ancillary.ancillaryName) + ',\n\t\t\t';
+			for (const s of ancillary.effectList) {
 				str += JSON.stringify(s) + ',\n\t\t\t';
 			}
-			str += '[' + ancillary[3].map(s => appliedToVar[s]).join(',') + '],\n\t\t\t';
-			ancillary[4].forEach((trigger, idx, self) => {
+			str += '[' + ancillary.appliedToIcon.map(s => appliedToVar[s]).join(',') + '],\n\t\t\t';
+			ancillary.triggerList.forEach((trigger, idx, self) => {
 				const [chance, tgDescList] = trigger;
 				str += JSON.stringify(chance) + ',';
 				tgDescList.forEach((q, idx, self) => {
@@ -510,6 +616,10 @@ ${flagList.map(key => {
 	<div class="flag-item flag--${key}"></div>${desc}
 </div>`;
 	}).join('\n')}
+<div class="legend-item" title="This ancillary can be randomly dropped after winning a battle.
+Read guide's last section for further info">
+	<div class="flag-item flag--randomly_dropped"></div>Randomly dropped
+</div>
 <div class="legend-item legend--soft-bug" title="Hover over such trigger condition to see bug explanation">
 	Doesn't work as expected
 </div>
@@ -543,7 +653,7 @@ data = {${ds.join(',')}\n}
 	}
 }
 
-async function main(){
+async function main() {
 	await outputSteam();
 	await outputHTML();
 	ctx_setTarget(null);

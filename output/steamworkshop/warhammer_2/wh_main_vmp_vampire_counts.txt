@@ -93,7 +93,7 @@ Win battle and have less than 3000 in treasury[/td]
 [/tr][tr]
 [td]Warlock[/td]
 [td]Ambush defence chance: +10% (Lord's army)[/td]
-[td][previewicon=21641941;sizeOriginal,inline;battle_general_ability.png][/previewicon]
+[td][previewicon=21641941;sizeOriginal,inline;battle_general_ability.png][/previewicon][previewicon=21642086;sizeOriginal,inline;character_agent.png][/previewicon]
 25%[/td]
 [td]*([u]Lord[/u])
 Participate in ambush battle[/td]

@@ -22,6 +22,7 @@
 		var tgHiddenText = '';
 		var tgDescText = '';
 		var scip = false;
+		if (chance === null) { scip = true; }
 		for (var i = 0; i < tgDescList.length; ++i) {
 			var b = tgDescList[i];
 			var text = b[0], flags = b[1];
@@ -91,8 +92,11 @@
 		if (!scip) { cl.push('dimmed'); }
 		// 		var text = '<td' + (cl.length > 0 ? ' class="' + cl.join(' ') + '"' : '') + '>' + (idx === 0 ? appliedToText + '<br/>' : '') + chance + '%</td>\n\
 		// <td class="trigger-condition-list">'+ tgDescText + '</td>';
+		if (chance === null) { chance = ''; }
+		else { chance = (idx === 0 ? '<br/>' : '') + chance + '%'; }
+		if (idx === 0) { chance = appliedToText + chance; }
 		var text = '<div class="tg-result-row">\
-	<div class="tg-chance'+ (!scip ? ' dimmed' : '') + '">' + (idx === 0 ? appliedToText + '<br/>' : '') + chance + '%</div>\
+	<div class="tg-chance'+ (!scip ? ' dimmed' : '') + '">' + chance + '</div>\
 	<div class="tg-condition-list">'+ tgDescText + '</div>\
 </div>';
 		return {
@@ -102,9 +106,13 @@
 	};
 	function generateAncillary(json) {
 		var string = '';
-		var ancillaryIcon = json[0];
-		var ancillaryName = json[1];
-		var k = 2;
+		var k = 0;
+		var flags = 0;
+		if (typeof json[0] === 'number') {
+			flags = json[k++];
+		}
+		var ancillaryIcon = json[k++];
+		var ancillaryName = json[k++];
 		var effectList = [];
 		while (typeof json[k] !== 'object') {
 			effectList.push(json[k++]);
@@ -126,6 +134,9 @@
 		}
 		var tgResult = [];
 		var scip = false; // someConditionIsPossible
+		// if (triggerList.length === 0) {
+		// 	triggerList.push([null, []]);
+		// }
 		for (var idx = 0; idx < triggerList.length; ++idx) {
 			var trigger = triggerList[idx];
 			var r = generateTrigger(trigger, idx, {
@@ -148,12 +159,26 @@
 		// 				.map(function (string) { return '<tr>' + string + '</tr>'; })
 		// 				.join('');
 		// 		}
+
+
+		var ecl = 'effect-row';
+		if (effectList.length > 0 && effectList[0].substr(0, 1) === '(') { ecl += ' effect-row--desc'; }
 		string += '<div class="row">\
-<div class="ancillary-icon'+ cl + '">\
-<span class="ancillary-name">' + ancillaryName + '</span>\
+<div class="ancillary-icon'+ cl + '">';
+
+		var fl = [];
+		// if (flags & 1) { fl.push('stolen'); }
+		if (flags & 2) { fl.push('randomly_dropped'); }
+		if (fl.length > 0) {
+			string += '<div class="flag-container"><div class="flag-transform">';
+			string += '<div class="flag-item flag--' + fl.join('"></div><div class="flag-item flag--') + '"></div>';
+			string += '</div></div>';
+		}
+
+		string += '<span class="ancillary-name">' + ancillaryName + '</span>\
 <img src="output/html/' + ancillaryIcon + '" />\
 </div>\
-<div class="effect-list'+ cl + '"><div class="effect-row' + (effectList[0].substr(0, 1) === '(' ? ' effect-row--desc' : '') + '">' + effectList.join('</div><div class="effect-row">') + '</div></div>\
+<div class="effect-list'+ cl + '"><div class="' + ecl + '">' + effectList.join('</div><div class="effect-row">') + '</div></div>\
 <div class="tg-result">'+ tgResult.join('') + '</div>\
 </div>';
 		return string;
@@ -162,7 +187,11 @@
 		var string = '';
 		for (var i = 0; i < data.ancillaryList.length; ++i) {
 			var json = data.ancillaryList[i];
-			string += generateAncillary(json);
+			if (typeof json === 'string') {
+				string += '<div class="row row--title">' + json + '</div>';
+			} else {
+				string += generateAncillary(json);
+			}
 		}
 		return string;
 	}

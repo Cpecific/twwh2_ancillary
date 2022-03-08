@@ -7,14 +7,14 @@
 [td]Alchemist[/td]
 [td]Enables poison attacks
 Casualty replenishment rate: +5% (Lord's army)[/td]
-[td][previewicon=21641941;sizeOriginal,inline;battle_general_ability.png][/previewicon]
+[td][previewicon=21641941;sizeOriginal,inline;battle_general_ability.png][/previewicon][previewicon=21642086;sizeOriginal,inline;character_agent.png][/previewicon]
 1%[/td]
 [td]*([u]Lord[/u])
 Win battle[/td]
 [/tr][tr]
 [td]Artefact Hunter[/td]
 [td]Post battle chance of stealing a magic item: +10%[/td]
-[td][previewicon=21641941;sizeOriginal,inline;battle_general_ability.png][/previewicon]
+[td][previewicon=21641941;sizeOriginal,inline;battle_general_ability.png][/previewicon][previewicon=21642086;sizeOriginal,inline;character_agent.png][/previewicon]
 25%[/td]
 [td]*([u]Lord[/u])
 Sack settlement[/td]
@@ -139,7 +139,7 @@ Complete battle as defender[/td]
 [td]Scribe[/td]
 [td]Campaign movement range: +8%
 Recruitment cost: -10% (Lord's army)[/td]
-[td][previewicon=21641941;sizeOriginal,inline;battle_general_ability.png][/previewicon]
+[td][previewicon=21641941;sizeOriginal,inline;battle_general_ability.png][/previewicon][previewicon=21642086;sizeOriginal,inline;character_agent.png][/previewicon]
 6%[/td]
 [td]*([u]Lord[/u])
 Loot settlement and have more than 10 units in your army[/td]
