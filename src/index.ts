@@ -176,7 +176,7 @@ const enum ConditionFlags {
 	prevent = 1,
 	normal = 2,
 };
-const html_public_version = '7'; // ! always update this value, when push update!
+const html_public_version = '8'; // ! always update this value, when push update!
 async function outputHTML() {
 	ctx_setTarget('html');
 	// subculture > ancillary > parsed
@@ -348,10 +348,11 @@ async function outputHTML() {
 		}
 		// if (src.startsWith(`output/${current_game}/html/`)) { return src; }
 		src = src.replace(/\\/, '/');
+		src = src.toLowerCase();
 		requiredImageSet.add(src);
 		src = `${outputGameFolder}/${src}`;
 		return src;
-	}
+	};
 	for (const [subcultureKey, ancMap] of parsed) {
 		if (ancMap.size === 0) { continue; }
 		let jsonList: JsonEntry[] = [];

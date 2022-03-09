@@ -331,12 +331,12 @@ const getIcon = async (icon: string): Promise<string> => {
 		icon = 'icon_army';
 	}
 	const promiseList: Promise<boolean>[] = [];
-	const dirList = [
+	const dirList: [string, boolean][] = [
 		['ui/skins/default/', false],
 		['ui/campaign ui/effect_bundles/', true],
 		['ui/common ui/unit_category_icons/', false],
 		['ui/common ui/unit_category_icons/', true],
-	] as const;
+	];
 	for (const [dir, mustBeIcon] of dirList) {
 		let src = icon;
 		if (mustBeIcon) {
