@@ -37,7 +37,7 @@
 			} else {
 				bug = { value: false, description: '' };
 			}
-			text = text.replace(/^\((.+)\)\n/gm, '<div class="desc">($1)</div>')
+			text = text.replace(/^\((.+)\)\n/gm, '<div class="desc">$1</div>')
 			text = text.replace(/\n/g, '<br/>');
 			// #region
 			// text = text.replace(/\{(.*?)\}(\s?)/g, function(_, q, space) {
@@ -162,7 +162,10 @@
 
 
 		var ecl = 'effect-row';
-		if (effectList.length > 0 && effectList[0].substr(0, 1) === '(') { ecl += ' effect-row--desc'; }
+		if (effectList.length > 0 && effectList[0].substr(0, 1) === '(') {
+			ecl += ' effect-row--desc';
+			effectList[0] = effectList[0].substr(1, effectList[0].length - 2);
+		}
 		string += '<div class="row">\
 <div class="ancillary-icon'+ cl + '">';
 
