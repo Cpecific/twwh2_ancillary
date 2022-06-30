@@ -4,6 +4,7 @@
 !/input/warhammer_2/start_pos_factions.xml
 !/input/warhammer_3/schema_wh3.ron
 !/input/warhammer_3/wh3_campaign_followers.lua
+!/input/warhammer_3/wh3_campaign_magic_items.lua
 node_modules/*
 !node_modules/tokenizr/
 src/data-mod.ts

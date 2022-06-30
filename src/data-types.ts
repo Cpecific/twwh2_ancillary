@@ -929,7 +929,7 @@ export const enum Events {
 	CharacterBuildingCompleted,
 	CharacterCanLiberate,
 	CharacterCandidateBecomesMinister,
-	CharacterCapturedSettlementUnopposed,
+	CharacterCapturedSettlementUnopposed, // TODO only for lord?
 	CharacterCharacterTargetAction,
 	CharacterComesOfAge,
 	CharacterCompletedBattle,
@@ -1037,7 +1037,7 @@ export const enum Events {
 	FortSelected,
 	FrontendScreenTransition,
 	GarrisonAttackedEvent,
-	GarrisonOccupiedEvent,
+	GarrisonOccupiedEvent, // TODO only for lord?
 	GarrisonResidenceCaptured,
 	GarrisonResidenceExposedToFaction,
 	GovernorAssignedCharacterEvent,
@@ -1125,7 +1125,7 @@ export const enum Events {
 	ScriptedForceCreated,
 	SeaTradeRouteRaided,
 	SettlementDeselected,
-	SettlementOccupied,
+	SettlementOccupied, // TODO only for lord?
 	SettlementSelected,
 	ShortcutPressed,
 	ShortcutTriggered,
