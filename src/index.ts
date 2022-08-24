@@ -285,8 +285,10 @@ async function outputHTML() {
 			if (pt === category_title) {
 				pt = '';
 			} else {
-				const first = ancMap.entries().next();
-				assert(!first.done);
+				// I don't know why I wanted to put this asset here,
+				// but it broke, when 2.0 update came out. Broke because of wh2_main_rogue
+				// const first = ancMap.entries().next();
+				// assert(!first.done);
 				prevTitle.set(subcultureKey, pt = category_title);
 			}
 			for (const [ancillaryKey, tg] of exMap) {

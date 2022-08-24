@@ -160,6 +160,11 @@ export const dataCultureMap: IDataCulture = new Map([
 		title: 'Slaanesh',
 		description: _generic_description,
 	}],
+
+	['wh2_main_rogue', {
+		title: 'Rogue Armies',
+		description: _generic_description,
+	}],
 ]);
 
 export const getChance: IGetChance = context => {
@@ -230,7 +235,8 @@ export const ca_ancillary_list = {
 			"wh3_main_anc_armour_shield_of_sacrifice",
 			"wh3_main_anc_armour_gut_maw",
 			"wh3_main_anc_armour_mastodon_armour",
-			"wh3_main_anc_armour_laminate_shield"
+			"wh3_main_anc_armour_laminate_shield",
+			"wh3_dlc20_anc_armour_bronze_armour_of_zhrakk"
 		],
 
 		rare: [
@@ -331,7 +337,13 @@ export const ca_ancillary_list = {
 			"wh3_main_anc_enchanted_item_alchemists_elixir_of_venom",
 			"wh3_main_anc_enchanted_item_alchemists_mask",
 			"wh3_main_anc_enchanted_item_alchemists_elixir_of_iron_skin",
-			"wh3_main_anc_enchanted_item_icon_of_the_spirit_dragon"
+			"wh3_main_anc_enchanted_item_icon_of_the_spirit_dragon",
+			"wh3_dlc20_anc_enchanted_item_blasphemous_amulet",
+			"wh3_dlc20_anc_enchanted_item_doom_totem",
+			"wh3_dlc20_anc_item_armour_of_damnation",
+			"wh3_dlc20_anc_item_crown_of_everlasting_conquest",
+			"wh3_dlc20_anc_enchanted_item_the_beguiling_gem",
+			"wh3_dlc20_anc_item_the_festering_shroud"
 		],
 
 		rare: [
@@ -387,8 +399,6 @@ export const ca_ancillary_list = {
 			"wh_main_anc_magic_standard_scarecrow_banner",
 			"wh_main_anc_magic_standard_standard_of_discipline",
 			"wh_main_anc_magic_standard_the_screaming_banner",
-			"wh_main_anc_mark_of_chaos_mark_of_nurgle",
-			"wh_main_anc_mark_of_chaos_mark_of_slaanesh",
 			"wh_main_anc_rune_ancestor_rune",
 			"wh_main_anc_rune_master_rune_of_courage",
 			"wh_dlc08_anc_magic_standard_banner_of_wolfclaw",
@@ -418,8 +428,6 @@ export const ca_ancillary_list = {
 			"wh_main_anc_magic_standard_razor_standard",
 			"wh_main_anc_magic_standard_steel_standard",
 			"wh_main_anc_magic_standard_war_banner",
-			"wh_main_anc_mark_of_chaos_mark_of_khorne",
-			"wh_main_anc_mark_of_chaos_mark_of_tzeentch",
 			"wh_main_anc_rune_master_rune_of_groth_one-eye",
 			"wh_main_anc_rune_master_rune_of_grungni",
 			"wh_main_anc_rune_master_rune_of_sanctuary",
@@ -626,14 +634,14 @@ export const ca_ancillary_list = {
 			"wh2_main_anc_weapon_caledors_bane",
 			"wh2_main_anc_weapon_crimson_death",
 			"wh2_main_anc_weapon_dagger_of_hotek",
-			"wh2_main_anc_weapon_the_star_lance",
 			"wh2_main_anc_weapon_the_white_sword",
 			"wh2_main_anc_weapon_warlock_augmented_weapon",
 			"wh2_main_anc_weapon_weeping_blade",
 			"wh3_main_anc_weapon_etherblade",
 			"wh3_main_anc_weapon_firestorm_blade",
 			"wh3_main_anc_weapon_torment_blade",
-			"wh3_main_anc_weapon_vorpal_shard"
+			"wh3_main_anc_weapon_vorpal_shard",
+			"wh3_dlc20_anc_weapon_sword_of_change",
 		],
 
 		rare: [
@@ -693,7 +701,10 @@ export const ca_ancillary_list = {
 			"wh3_main_anc_weapon_blade_of_xen_wu",
 			"wh3_main_anc_weapon_spirit_qilin_spear",
 			"wh3_main_anc_weapon_dawn_glaive",
-			"wh3_main_anc_weapon_hellblade"
+			"wh3_main_anc_weapon_hellblade",
+			"wh3_dlc20_anc_weapon_aether_sword",
+			"wh3_dlc20_anc_weapon_axe_of_khorne",
+			"wh3_dlc20_anc_weapon_rapier_of_ecstacy"
 		],
 	},
 
@@ -768,7 +779,8 @@ export const ca_ancillary_list = {
 			"wh3_main_anc_arcane_item_prismatic_amplifier",
 			"wh3_main_anc_arcane_item_rod_of_command",
 			"wh3_main_anc_arcane_item_sceptre_of_entropy",
-			"wh3_main_anc_arcane_item_void_pendulum"
+			"wh3_main_anc_arcane_item_void_pendulum",
+			"wh3_dlc20_anc_arcane_item_rod_of_torment"
 		]
 	},
 };
@@ -2482,7 +2494,7 @@ export const data: ITrigger[] = [
 	}, {
 		event: Events.CharacterRankUp,
 		condition: [{
-			allowed: { agent_subtype: ['dwf_runesmith'] },
+			allowed: { agent_subtype: ['wh_main_dwf_runesmith'] },
 			text: () => `Rank Up outside of army`
 		}],
 		ancillaryList: [{
@@ -2880,7 +2892,7 @@ export const data: ITrigger[] = [
 	}, {
 		event: Events.CharacterRankUp,
 		condition: [{
-			allowed: { agent_subtype: ['grn_goblin_great_shaman'] },
+			allowed: { agent_subtype: ['wh_main_grn_goblin_great_shaman'] },
 			turnOwnRegion,
 			text: () => `Rank Up (4 turn own) and character has won 3 battles`
 		}],
@@ -3001,7 +3013,7 @@ export const data: ITrigger[] = [
 	}, {
 		event: Events.CharacterRankUp,
 		condition: [{
-			allowed: { agent_subtype: ['grn_night_goblin_shaman'], },
+			allowed: { agent_subtype: ['wh_main_grn_night_goblin_shaman'], },
 			text: () => `Rank Up`
 		}],
 		ancillaryList: [{
@@ -3038,7 +3050,7 @@ export const data: ITrigger[] = [
 	}, {
 		event: Events.CharacterRankUp,
 		condition: [{
-			allowed: { agent_subtype: ['grn_goblin_great_shaman'] },
+			allowed: { agent_subtype: ['wh_main_grn_goblin_great_shaman'] },
 			text: () => `Rank Up`
 		}],
 		ancillaryList: [{
@@ -3048,7 +3060,7 @@ export const data: ITrigger[] = [
 	}, {
 		event: Events.CharacterRankUp,
 		condition: [{
-			allowed: { agent_subtype: ['grn_night_goblin_shaman'], },
+			allowed: { agent_subtype: ['wh_main_grn_night_goblin_shaman'], },
 			text: () => `Rank Up`
 		}],
 		ancillaryList: [{

@@ -45,7 +45,8 @@ local ancillary_list = {
 			"wh3_main_anc_armour_shield_of_sacrifice",
 			"wh3_main_anc_armour_gut_maw",
 			"wh3_main_anc_armour_mastodon_armour",
-			"wh3_main_anc_armour_laminate_shield"
+			"wh3_main_anc_armour_laminate_shield",
+			"wh3_dlc20_anc_armour_bronze_armour_of_zhrakk"
 		},
 
 		["rare"] = {
@@ -146,7 +147,13 @@ local ancillary_list = {
 			"wh3_main_anc_enchanted_item_alchemists_elixir_of_venom",
 			"wh3_main_anc_enchanted_item_alchemists_mask",
 			"wh3_main_anc_enchanted_item_alchemists_elixir_of_iron_skin",
-			"wh3_main_anc_enchanted_item_icon_of_the_spirit_dragon"
+			"wh3_main_anc_enchanted_item_icon_of_the_spirit_dragon",
+			"wh3_dlc20_anc_enchanted_item_blasphemous_amulet",
+			"wh3_dlc20_anc_enchanted_item_doom_totem",
+			"wh3_dlc20_anc_item_armour_of_damnation",
+			"wh3_dlc20_anc_item_crown_of_everlasting_conquest",
+			"wh3_dlc20_anc_enchanted_item_the_beguiling_gem",
+			"wh3_dlc20_anc_item_the_festering_shroud"
 		},
 			
 		["rare"] = {
@@ -202,8 +209,6 @@ local ancillary_list = {
 			"wh_main_anc_magic_standard_scarecrow_banner",
 			"wh_main_anc_magic_standard_standard_of_discipline",
 			"wh_main_anc_magic_standard_the_screaming_banner",
-			"wh_main_anc_mark_of_chaos_mark_of_nurgle",
-			"wh_main_anc_mark_of_chaos_mark_of_slaanesh",
 			"wh_main_anc_rune_ancestor_rune",
 			"wh_main_anc_rune_master_rune_of_courage",
 			"wh_dlc08_anc_magic_standard_banner_of_wolfclaw",
@@ -233,8 +238,6 @@ local ancillary_list = {
 			"wh_main_anc_magic_standard_razor_standard",
 			"wh_main_anc_magic_standard_steel_standard",
 			"wh_main_anc_magic_standard_war_banner",
-			"wh_main_anc_mark_of_chaos_mark_of_khorne",
-			"wh_main_anc_mark_of_chaos_mark_of_tzeentch",
 			"wh_main_anc_rune_master_rune_of_groth_one-eye",
 			"wh_main_anc_rune_master_rune_of_grungni",
 			"wh_main_anc_rune_master_rune_of_sanctuary",
@@ -441,14 +444,14 @@ local ancillary_list = {
 			"wh2_main_anc_weapon_caledors_bane",
 			"wh2_main_anc_weapon_crimson_death",
 			"wh2_main_anc_weapon_dagger_of_hotek",
-			"wh2_main_anc_weapon_the_star_lance",
 			"wh2_main_anc_weapon_the_white_sword",
 			"wh2_main_anc_weapon_warlock_augmented_weapon",
 			"wh2_main_anc_weapon_weeping_blade",
 			"wh3_main_anc_weapon_etherblade",
 			"wh3_main_anc_weapon_firestorm_blade",
 			"wh3_main_anc_weapon_torment_blade",
-			"wh3_main_anc_weapon_vorpal_shard"
+			"wh3_main_anc_weapon_vorpal_shard",
+			"wh3_dlc20_anc_weapon_sword_of_change",
 		},
 		
 		["rare"] = {
@@ -508,7 +511,10 @@ local ancillary_list = {
 			"wh3_main_anc_weapon_blade_of_xen_wu",
 			"wh3_main_anc_weapon_spirit_qilin_spear",
 			"wh3_main_anc_weapon_dawn_glaive",
-			"wh3_main_anc_weapon_hellblade"
+			"wh3_main_anc_weapon_hellblade",
+			"wh3_dlc20_anc_weapon_aether_sword",
+			"wh3_dlc20_anc_weapon_axe_of_khorne",
+			"wh3_dlc20_anc_weapon_rapier_of_ecstacy"
 		},
 	},
 	
@@ -583,7 +589,8 @@ local ancillary_list = {
 			"wh3_main_anc_arcane_item_prismatic_amplifier",
 			"wh3_main_anc_arcane_item_rod_of_command",
 			"wh3_main_anc_arcane_item_sceptre_of_entropy",
-			"wh3_main_anc_arcane_item_void_pendulum"
+			"wh3_main_anc_arcane_item_void_pendulum",
+			"wh3_dlc20_anc_arcane_item_rod_of_torment"
 		}
 	}
 };
@@ -797,7 +804,7 @@ end;
 
 
 
-function get_random_ancillary_key_for_faction(faction_key, category, rarity)
+function get_random_ancillary_key_for_faction(faction_key, specified_category, rarity)
 	if not validate.is_string(faction_key) then
 		return false;
 	end;
@@ -827,7 +834,9 @@ function get_random_ancillary_key_for_faction(faction_key, category, rarity)
 		"arcane_item"
 	};
 	
-	if not category then
+	local category = specified_category;
+	
+	if not specified_category then
 		category = valid_ancillary_categories[cm:random_number(#valid_ancillary_categories)];
 	elseif not validate.is_string(category) then
 		return false;
@@ -855,10 +864,31 @@ function get_random_ancillary_key_for_faction(faction_key, category, rarity)
 		return;
 	end;
 
+	local char = faction:faction_leader();
+	
+	-- if we're looking for an arcane item, try and find a caster in the faction if the faction leader isn't one (they can't equip arcane items)
+	if category == "arcane_item" and not char:is_caster() then
+		local character_list = faction:character_list();
+		
+		for i = 0, character_list:num_items() - 1 do
+			local current_character = character_list:item_at(i);
+			
+			if current_character:is_caster() and not current_character:character_type("colonel") then
+				char = current_character;
+				break;
+			end;
+		end;
+	end;
+	
+	-- we still haven't found a caster to test, and the random category selected was arcane item - so change the random category to something else, otherwise we'll never find an equippable arcane item
+	if category == "arcane_item" and specified_category ~= "arcane_item" and not char:is_caster() then
+		table.remove(valid_ancillary_categories, 6);
+
+		category = valid_ancillary_categories[cm:random_number(#valid_ancillary_categories)];
+	end;
+
 	local ancillary_list_for_category_for_faction = cm:random_sort(ancillary_list[category][rarity]);
 	ancillary_list[category][rarity] = ancillary_list_for_category_for_faction;
-
-	local char = faction:faction_leader();
 
 	for i = 1, #ancillary_list_for_category_for_faction do
 		local current_ancillary_key = ancillary_list_for_category_for_faction[i];

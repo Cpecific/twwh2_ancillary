@@ -1581,7 +1581,7 @@ local followers = {
 		["condition"] =
 			function(context)
 				local character = context:character();
-				return character:character_subtype("dwf_runesmith") and not character:is_embedded_in_military_force();
+				return character:character_subtype("wh_main_dwf_runesmith") and not character:is_embedded_in_military_force();
 			end,
 		["chance"] = 20
 	},
@@ -1966,7 +1966,7 @@ local followers = {
 		["condition"] =
 			function(context)
 				local character = context:character();
-				return character:character_subtype("grn_goblin_great_shaman") and character:turns_in_own_regions() > 3 and character:battles_won() > 2;
+				return character:character_subtype("wh_main_grn_goblin_great_shaman") and character:turns_in_own_regions() > 3 and character:battles_won() > 2;
 			end,
 		["chance"] = 5
 	},
@@ -2074,7 +2074,7 @@ local followers = {
 		["event"] = "CharacterRankUp",
 		["condition"] =
 			function(context)
-				return context:character():character_subtype("grn_night_goblin_shaman");
+				return context:character():character_subtype("wh_main_grn_night_goblin_shaman");
 			end,
 		["chance"] = 10
 	},
@@ -2112,7 +2112,7 @@ local followers = {
 		["event"] = "CharacterRankUp",
 		["condition"] =
 			function(context)
-				return context:character():character_subtype("grn_goblin_great_shaman");
+				return context:character():character_subtype("wh_main_grn_goblin_great_shaman");
 			end,
 		["chance"] = 5
 	},
@@ -2121,7 +2121,7 @@ local followers = {
 		["event"] = "CharacterRankUp",
 		["condition"] =
 			function(context)
-				return context:character():character_subtype("grn_night_goblin_shaman");
+				return context:character():character_subtype("wh_main_grn_night_goblin_shaman");
 			end,
 		["chance"] = 4
 	},
