@@ -669,6 +669,7 @@ export const culture_min_loc = {
 	'wh_main_brt_bretonnia': 'brt',
 	'wh_main_chs_chaos': 'chs',
 	'wh_main_dwf_dwarfs': 'dwf',
+	'wh3_dlc23_chd_chaos_dwarfs': 'chd',
 	'wh_main_emp_empire': 'emp',
 	'wh_main_grn_greenskins': 'grn',
 	'wh_main_vmp_vampire_counts': 'vmp',

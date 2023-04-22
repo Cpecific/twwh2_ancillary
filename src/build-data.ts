@@ -78,7 +78,7 @@ export const DB = {
 	unit_castes: schema['unit_castes'].getData(),
 	start_pos_factions: (() => {
 		let source: any[] = [];
-		if (current_game === 'warhammer_2') {
+		if (current_game === 'warhammer_2' || true) {
 			const content = fs.readFileSync(
 				path.join(__dirname, `../input/${current_game}/start_pos_factions.xml`)
 			);
@@ -136,7 +136,7 @@ export const getFactionListSorted = () => {
 		subcultureKey: DB.factions.raw.find(q => q['key'] === row['faction'])!['subculture'] as SubCultureType,
 	}))
 	let playableFactionList = frontendFactionList.map(q => q.factionKey as string);
-	if (current_game === 'warhammer_2') {
+	if (current_game === 'warhammer_2' || true) {
 		playableFactionList = playableFactionList.filter(factionKey => DB.start_pos_factions.some(q => q.faction === factionKey && q.playable));
 	} else if (current_game === 'warhammer_3') {
 		playableFactionList = playableFactionList.filter(q => q.startsWith('wh3_main_'));

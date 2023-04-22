@@ -9,6 +9,12 @@ import ASTY from 'asty-astq';
  * Otherwise, native `tokenizr` will take tens of hours (or probably never)
  * to finish processing .ron file
  */
+/**
+ * !INSTRUCTION
+ * To extract binary files, go to RPFM folder and do dis:
+ * .\rpfm_cli.exe -g warhammer_3 pack extract -p "E:\SteamLibrary\steamapps\common\Total War WARHAMMER III\data\data.pack" -F "db;F:\tww2_mods\data\warhammer_3"
+ * .\rpfm_cli.exe -g warhammer_3 pack extract -p "E:\SteamLibrary\steamapps\common\Total War WARHAMMER III\data\local_en.pack" -F "text;F:\tww2_mods\data\warhammer_3"
+ */
 import Tokenizr, { IToken } from 'tokenizr';
 import { get } from 'lodash';
 import { StringDecoder } from 'string_decoder';
@@ -37,6 +43,10 @@ interface ISchema {
 	table: string;
 	name: string;
 	definitionList: IDefinition[];
+}
+interface ISchemaClass extends ISchema {
+	version: number | null;
+	getData(input?: SchemaInput): SchemaData;
 }
 const readString = (opts: {
 	buf: Buffer;
@@ -145,7 +155,7 @@ class LocFileController {
 	}
 }
 export const locFileController = new LocFileController();
-class Schema implements ISchema {
+class Schema implements ISchemaClass {
 	table: string;
 	name: string;
 	version: number | null;
@@ -675,14 +685,21 @@ function parseFieldList(rawFieldList: any) {
 function loadSchema() {
 	const schemaContent = fs.readFileSync(path.join(__dirname, '../input', current_game, game_data.get(current_game)!.schema_file)).toString();
 	const schemaRaw = parseSchema(schemaContent);
-	for (const dbTuple of schemaRaw.value[1].value.value) {
-		if (dbTuple.type !== 'Tuple'
-			|| dbTuple.name !== 'DB') { continue; }
+	for (const $item of schemaRaw.value[1].value.value) {
+		// if ($item.type !== 'Tuple' || $item.name !== 'DB') { continue; }
+		// const dbTableName = $item.value[0].value as string;
+		// const dbVersionList = $item.value[1].value as any[];
 
-		const dbTableName = dbTuple.value[0].value as string;
-		const dbVersionList = dbTuple.value[1].value as any[];
+		if ($item.type !== 'Property') { continue; }
+		const dbTableName = $item.key as string;
+		const dbVersionList = $item.value.value as any[];
+
+		// sort by version number
 		dbVersionList.sort((a, b) => b.value[0].value.value - a.value[0].value.value);
 		const definitionList = dbVersionList.map(({ value: def }): IDefinition => {
+			assert(def[0].key === 'version');
+			assert(def[1].key === 'fields');
+			assert(def[2].key === 'localised_fields');
 			const [fieldList, pFieldList] = parseFieldList(def[1].value.value); // fields
 			const [locList] = parseFieldList(def[2].value.value); // localised_fields
 			const refList = fieldList.filter(q => typeof q.locFile !== 'undefined');
@@ -709,16 +726,18 @@ function loadSchema() {
 
 		const table = dbTableName;
 		const name = table.replace(/\_tables$/, '');
-		// console.log(name, fieldList);
-		// if (name === 'achievements') { console.log(pFieldList); }
-		if (!fs.existsSync(path.join(__dirname, '../input', current_game, 'db', table, 'data__'))) {
+		// console.log(name);
+		// if (name === 'ancillaries') { console.dir(definitionList, { depth: 5 }); }
+		let sch: Schema;
+		if (fs.existsSync(path.join(__dirname, '../input', current_game, 'db', table, 'data__'))) {
+			sch = new Schema({
+				table,
+				name,
+				definitionList,
+			});
+		} else {
 			continue;
 		}
-		const sch = new Schema({
-			table,
-			name,
-			definitionList,
-		});
 		// if (sch.fieldList.some(f => f.name.indexOf('?') !== -1)) { continue; }
 		schema[name] = sch;
 	}
