@@ -411,6 +411,7 @@ export const findAncillary = (key: string): ICAncillary => {
 };
 const _getIconCache = new Map<string, string>();
 const getIcon = async (icon: string): Promise<string> => {
+	if (/\.png$/.test(icon)) { icon = icon.substr(0, icon.length - 4); }
 	if (_getIconCache.has(icon)) {
 		return _getIconCache.get(icon)!;
 	}
@@ -421,6 +422,7 @@ const getIcon = async (icon: string): Promise<string> => {
 	const promiseList: Promise<boolean>[] = [];
 	const dirList: [string, boolean][] = [
 		['ui/skins/default/', false],
+		// ['ui/skins/warhammer_3/', false],
 		['ui/campaign ui/effect_bundles/', true],
 		['ui/common ui/unit_category_icons/', false],
 		['ui/common ui/unit_category_icons/', true],
@@ -798,12 +800,14 @@ export const printTextNode = (self: TextNode[], format: (v: TextNode) => string)
 };
 // TODO ancillary_to_included_agents
 // TODO ancillaries_included_agent_subtypes
-const buildTriggerDesc = () => {
+const buildTriggerDesc = async () => {
 	const { trigger, group } = context;
 	const subcultureSubset = ctx_getSubcultureSubset();
 	// const ancillaryKey = ancData.key;
 	let { notObviousHeroEvent, onlyMainLord } = ctx_getEventData();
-	return trigger.condition.map((c, cIdx) => {
+	const ret = []
+	for (let cIdx = 0; cIdx < trigger.condition.length; ++cIdx) {
+		const c = trigger.condition[cIdx];
 		let allowed: TextNode[] = [];
 		let allowedGreenKnight = false; // c.allowed.default: case 'no-green-knight':
 		let allowedNormal = false; // c.allowed.default: case 'normal':
@@ -992,7 +996,14 @@ const buildTriggerDesc = () => {
 			hasEmpty: false,
 		};
 		context.condition = c;
-		let text = c.text().replace(/\{(.*?)\}(\s?)/g, (_, q: string, space: string) => {
+		let text;
+		let textValue = c.text()
+		if (typeof textValue === 'string') {
+			text = textValue;
+		} else {
+			text = await textValue;
+		}
+		text = text.replace(/\{(.*?)\}(\s?)/g, (_, q: string, space: string) => {
 			const qList = q.split(',');
 			const ret: string[] = [];
 			for (const val of qList) {
@@ -1035,7 +1046,7 @@ const buildTriggerDesc = () => {
 		if (c.unique) { c.prevent = true; }
 
 		const bug = TransformBug(c.bug);
-		return {
+		ret.push({
 			c,
 			impossible: !!bug.value,
 			top,
@@ -1043,8 +1054,9 @@ const buildTriggerDesc = () => {
 			flags: {
 				normal: allowedNormal,
 			},
-		};
-	});
+		});
+	}
+	return ret;
 };
 
 interface IParsedAncillaryInfo {
@@ -1186,7 +1198,7 @@ export interface IParsedTrigger {
 	trigger: ITrigger;
 	chance: number | null;
 	repeat?: number;
-	triggerDesc: ReturnType<typeof buildTriggerDesc>;
+	triggerDesc: ReturnType<typeof buildTriggerDesc> extends Promise<infer R> ? R : never;
 }
 export interface IParsed {
 	// subcultureSubset: SubCultureType[];
@@ -1195,7 +1207,7 @@ export interface IParsed {
 	tirggerList: IParsedTrigger[];
 }
 let context: IContext;
-export const parseTrigger = (opts: {
+export const parseTrigger = async (opts: {
 	// ancillaryKey > IParsed
 	// parsed: Map<string, Map<string, IParsed>>;
 	parsed: Map<string, IParsed>;
@@ -1237,7 +1249,7 @@ export const parseTrigger = (opts: {
 		const parsedAncillary = parsed.get(ancData.key)!;
 		if (parsedAncillary.tirggerList.some(v => v.trigger === trigger)) { continue; }
 
-		const triggerDesc = !trigger.event ? [] : buildTriggerDesc();
+		const triggerDesc = !trigger.event ? [] : await buildTriggerDesc();
 		let chance: number | undefined | null = null;
 		if (typeof ancData.chance === 'undefined') {
 			assert(!trigger.event);
@@ -1554,6 +1566,16 @@ export const unit = (keyList: string[], hideCaption?: boolean) => {
 		ret.push(`“${row['@onscreen_name']}”`);
 	}
 	return `${hideCaption ? '' : 'unit '}${typical_output(ret)}`;
+};
+export const resource = async (keyList: string[], hideCaption?: boolean) => {
+	const ret: string[] = [];
+	for (const unitKey of keyList) {
+		const row = DB.pooled_resources.getEntry([unitKey])!;
+		const icon = row['optional_icon_path'] as string;
+		const path = await getIcon(icon);
+		ret.push(`<img src="${path}" icon="${icon}" /> “${row['@display_name']}”`);
+	}
+	return `${hideCaption ? '' : 'resource '}${typical_output(ret)}`;
 };
 export const agent = (keyList: AgentType[], hideCaption?: boolean) => {
 	const ret: string[] = [];

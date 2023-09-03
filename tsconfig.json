@@ -19,11 +19,11 @@
 			"./node_modules/@types"
 		],
 		// "types": [
-		// 	"./module.d.ts"
+		// 	"./src/module.d.ts"
 		// ],
 	},
 	// "files": [
-	// 	"./module.d.ts"
+	// 	"./src/module.d.ts"
 	// ],
 	"include": [
 		"./src/**/*.ts"

@@ -53,7 +53,7 @@ async function outputSteam() {
 				const cultureMap = parsed.get(cultureKey)!;
 				const requestSubcultureSubset = getSubcultureSubset(cultureKey, ancillary.subcultureList);
 
-				parseTrigger({
+				await parseTrigger({
 					parsed: cultureMap,
 					group: {
 						by: 'culture',
@@ -176,7 +176,7 @@ const enum ConditionFlags {
 	prevent = 1,
 	normal = 2,
 };
-const html_public_version = '10'; // ! always update this value, when push update!
+const html_public_version = '11'; // ! always update this value, when push update!
 async function outputHTML() {
 	ctx_setTarget('html');
 	// subculture > ancillary > parsed
@@ -204,7 +204,7 @@ async function outputHTML() {
 				const cultureKey = toCultureKey(subcultureKey);
 				const requestSubcultureSubset = [subcultureKey];
 
-				parseTrigger({
+				await parseTrigger({
 					parsed: ancMap,
 					group: {
 						by: 'subculture',
@@ -260,7 +260,7 @@ async function outputHTML() {
 
 			const cultureKey = toCultureKey(subcultureKey);
 			const requestSubcultureSubset = [subcultureKey];
-			parseTrigger({
+			await parseTrigger({
 				parsed: exMap,
 				group: {
 					by: 'subculture',
@@ -355,6 +355,11 @@ async function outputHTML() {
 		src = `${outputGameFolder}/${src}`;
 		return src;
 	};
+	const replaceRequiredImage = (text: string) => {
+		return text.replace(/\<img(.*?) src\=\"(.*?)\"(.*?)\>/g, (_, before, src, after) => {
+			return `<img${before} src="output/html/${getIconSrc(src)}"${after}>`;
+		});
+	}
 	for (const [subcultureKey, ancMap] of parsed) {
 		if (ancMap.size === 0) { continue; }
 		let jsonList: JsonEntry[] = [];
@@ -373,11 +378,7 @@ async function outputHTML() {
 			const effectList = (await Promise.all(
 				ancillary.effectList.map(v => getEffectDesc(v, { subcultureKey, cultureKey }))
 			)).map(v => (
-				v
-					.replace(/\n/g, '<br/>')
-					.replace(/\<img(.*?) src\=\"(.*?)\"(.*?)\>/g, (_, before, src, after) => {
-						return `<img${before} src="output/html/${getIconSrc(src)}"${after}>`;
-					})
+				replaceRequiredImage(v.replace(/\n/g, '<br/>'))
 			));
 
 			let appliedToIcon: string[] = [];
@@ -428,7 +429,7 @@ async function outputHTML() {
 					}
 					if (v.flags.normal) { flags |= ConditionFlags.normal; }
 					return [
-						text,
+						replaceRequiredImage(text),
 						flags,
 						v.c.bug || false,
 					];

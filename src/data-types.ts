@@ -798,7 +798,7 @@ export interface IDataCondition {
 		culture?: CultureType[];
 		subculture?: SubCultureType[];
 	}
-	text: () => string;
+	text: () => string | Promise<string>;
 }
 export interface IDataAncillary {
 	/** В условии допущена роковая ошибка, которая не позволит получить данный фолловер */
