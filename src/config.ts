@@ -32,15 +32,4 @@ export const game_data = new Map<CurrentGameType, GameDataType>([
 ]);
 export const current_game: CurrentGameType = 'warhammer_3';
 export { data, dataCultureMap, getChance, spawn_unique_subtype } from './data-warhammer_3';
-import { ca_ancillary_list } from './data-warhammer_3';
-
-export const has_ca_ancillary = (key: string) => {
-	for (const k in ca_ancillary_list) {
-		// @ts-ignore
-		const q = ca_ancillary_list[k];
-		for (const g in q) {
-			if (q[g].includes(key)) { return true; }
-		}
-	}
-	return false;
-};
+export { ca_ancillary_list } from './data-warhammer_3';

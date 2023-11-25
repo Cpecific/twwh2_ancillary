@@ -3,7 +3,7 @@
 <head>
 <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
 <title>Ultimate Ancillary Guide</title>
-<link rel="stylesheet" href="output/html/style.css?11" />
+<link rel="stylesheet" href="output/html/style.css?12" />
 </head>
 <body>
 <div id="root">
@@ -48,9 +48,16 @@
 <div class="legend-item" title="Prevent, if character (or faction, if specified) already has ancillary equipped">
 	<div class="flag-item flag--prevent"></div>Prevent ancillary duplication
 </div>
-<div class="legend-item" title="This ancillary can be randomly dropped after winning a battle.
-Read guide's last section for further info">
+<div class="legend-item" title="This ancillary can be randomly dropped... after winning a battle?
+I'm not exactly sure about how this actually works.
+The main difference from &quot;Lua randomly dropped&quot; is that this flag indicates the value specified in Database.
+Either way &quot;Randomly dropped&quot; and &quot;Lua randomly dropped&quot; work independent of each other.
+In theory you can get both (if my half-baked understanding without any testing is correct).">
 	<div class="flag-item flag--randomly_dropped"></div>Randomly dropped
+</div>
+<div class="legend-item" title="This ancillary can be randomly dropped after winning a battle (explicit in lua).
+Read guide's last section for further info">
+	<div class="flag-item flag--lua_dropped"></div>Lua randomly dropped
 </div>
 <div class="legend-item legend--soft-bug" title="Hover over such trigger condition to see bug explanation">
 	Doesn't work as expected
@@ -58,7 +65,7 @@ Read guide's last section for further info">
 		</div>
 	</div>
 </div>
-<script src="output/html/warhammer_3.js?11"></script>
-<script src="output/html/entry.js?11"></script>
+<script src="output/html/warhammer_3.js?12"></script>
+<script src="output/html/entry.js?12"></script>
 </body>
 </html>

@@ -3,7 +3,7 @@ import glob from 'glob';
 import iterate from 'iterare';
 import { isEqual } from 'lodash';
 import path from 'path';
-import { current_game, game_data, data, dataCultureMap, has_ca_ancillary } from './config';
+import { current_game, game_data, data, dataCultureMap } from './config';
 import { isEqualShuffle, toArray, unique, toMap } from './common';
 import {
 	concatTextNode,
@@ -13,13 +13,16 @@ import {
 	getCulture,
 	getCultureSubcultureList,
 	getEffectDesc,
+	getFaction,
 	getFactionListSorted,
+	getSubcultureFactionList,
 	getSubcultureSubset,
 	IParsed,
 	parseTrigger,
 	printTextNode,
 	sortParsedMap,
-	toCultureKey
+	toCultureKey,
+	has_ca_ancillary,
 } from './build-data';
 import { _BugType, CultureType, ITrigger, SubCultureType, TransformBug } from './data-types';
 import { } from './ron-db';
@@ -173,14 +176,19 @@ ${string}
 
 // !HTML
 const enum ConditionFlags {
+	not_stolen = 0,
 	prevent = 1,
 	normal = 2,
+	randomly_dropped = 0,
+	lua_dropped = 4,
 };
-const html_public_version = '11'; // ! always update this value, when push update!
+const html_public_version = '12'; // ! always update this value, when push update!
 async function outputHTML() {
 	ctx_setTarget('html');
 	// subculture > ancillary > parsed
-	type ParsedMapType = Map<SubCultureType, Map<string, IParsed>>;
+	type ParsedMapType = Map<SubCultureType, Map<string, IParsed & {
+		_category_title?: string;
+	}>>;
 	const parsed: ParsedMapType = new Map();
 	let {
 		cultureMap,
@@ -242,15 +250,14 @@ async function outputHTML() {
 	for (const row of DB.ancillaries.raw) {
 		const ancillaryKey = row['key'] as string;
 		const cbs = row['can_be_stolen'];
-		if (!cbs || !has_ca_ancillary(ancillaryKey)) { continue; }
+		const rd = row['randomly_dropped'];
+		const hcaa = has_ca_ancillary(ancillaryKey);
+		if (!cbs && !rd && !hcaa) { continue; } // we are only interested in those that can be (stolen or dropped or lua dropped)
 		const category = row['category'] as string;
 		if (category !== 'general') { continue; }
 		const bannerKey = row['provided_banner'] as string | null;
 		const ancillary = findAncillary(ancillaryKey);
-		// @ts-ignore
-		let ex: ParsedMapType = cbs ? extra.stolen : extra.randomly_dropped;
-		// @ts-ignore
-		ex = bannerKey ? ex.banners : ex.followers;
+		let ex: ParsedMapType = extra[cbs ? 'stolen' : 'randomly_dropped'][bannerKey ? 'banners' : 'followers'];
 		for (const subcultureKey of ancillary.subcultureList) {
 			const ancMap = parsed.get(subcultureKey);
 			if (!ancMap) { continue; }
@@ -282,35 +289,31 @@ async function outputHTML() {
 			const ancMap = parsed.get(subcultureKey)!;
 			let pt = prevTitle.get(subcultureKey);
 			if (typeof pt === 'undefined') { prevTitle.set(subcultureKey, pt = ''); }
-			if (pt === category_title) {
-				pt = '';
-			} else {
-				// I don't know why I wanted to put this asset here,
-				// but it broke, when 2.0 update came out. Broke because of wh2_main_rogue
-				// const first = ancMap.entries().next();
-				// assert(!first.done);
-				prevTitle.set(subcultureKey, pt = category_title);
+			if (exMap.size > 0) {
+				if (pt === category_title) {
+					pt = '';
+				} else {
+					// I don't know why I wanted to put this assert here,
+					// but it broke, when 2.0 update came out. Broke because of wh2_main_rogue
+					// const first = ancMap.entries().next();
+					// assert(!first.done);
+					prevTitle.set(subcultureKey, pt = category_title);
+				}
 			}
 			for (const [ancillaryKey, tg] of exMap) {
 				if (pt) {
-					// @ts-ignore
 					tg._category_title = pt;
 					pt = '';
 				}
 				let fl = flags;
-				// const ancillary = findAncillary(ancillaryKey);
-				// if (ancillary.ancillary['randomly_dropped']) { fl |= JsonAncillaryEnum.RandomlyDropped; }
-				if (has_ca_ancillary(ancillaryKey)) { fl |= JsonAncillaryEnum.RandomlyDropped; }
-				// @ts-ignore
-				tg._ancillary_flags = fl;
 				ancMap.set(ancillaryKey, tg);
 			}
 		}
 	};
 	setExMap(extra.stolen.followers, JsonAncillaryEnum.CanBeStolen, 'Can be stolen');
 	setExMap(extra.stolen.banners, JsonAncillaryEnum.CanBeStolen, 'Can be stolen');
-	setExMap(extra.randomly_dropped.followers, JsonAncillaryEnum.RandomlyDropped, '...');
-	setExMap(extra.randomly_dropped.banners, JsonAncillaryEnum.RandomlyDropped, '...');
+	setExMap(extra.randomly_dropped.followers, 0, 'Randomly dropped');
+	setExMap(extra.randomly_dropped.banners, 0, 'Randomly dropped');
 	type OutputEntry = {
 		title: string;
 		description: string | undefined;
@@ -320,16 +323,18 @@ async function outputHTML() {
 		None = 0,
 		CanBeStolen = 1,
 		RandomlyDropped = 2,
+		LuaDropped = 4,
 	}
-	type JsonEntry = {
+	interface JsonEntry {
 		key: string;
 		category_title?: string;
-		flags: JsonAncillaryEnum,
-		ancillaryIcon: string,
-		ancillaryName: string,
-		effectList: string[],
-		appliedToIcon: string[],
-		triggerList: JsonTriggerEntry[],
+		flags: JsonAncillaryEnum;
+		ancillaryIcon: string;
+		ancillaryName: string;
+		excludeFactionList: string[];
+		effectList: string[];
+		appliedToIcon: string[];
+		triggerList: JsonTriggerEntry[];
 	}
 	type JsonTriggerEntry = [
 		chance: number | null,
@@ -360,6 +365,7 @@ async function outputHTML() {
 			return `<img${before} src="output/html/${getIconSrc(src)}"${after}>`;
 		});
 	}
+	let has1_not_stolen = false;
 	for (const [subcultureKey, ancMap] of parsed) {
 		if (ancMap.size === 0) { continue; }
 		let jsonList: JsonEntry[] = [];
@@ -368,13 +374,20 @@ async function outputHTML() {
 		const cultureData = dataCultureMap.get(cultureKey);
 		assert(!!cultureData, `missing key "${cultureKey}" from your config \`dataCultureMap\``);
 		const subcultureRow = DB.cultures_subcultures.getEntry([subcultureKey])!;
+		const factionList = getSubcultureFactionList(subcultureKey);
 		for (const [ancillaryKey, parsed] of ancMap) {
 			const { ancillaryInfo, tirggerList } = parsed;
 			const ancillary = findAncillary(ancillaryKey);
-			// @ts-ignore
-			let flags: JsonAncillaryEnum = parsed._ancillary_flags || 0;
-			// @ts-ignore
-			const category_title = parsed._category_title;
+
+			let flags: JsonAncillaryEnum = 0;
+			if (ancillary.ancillary['can_be_stolen'] === false) {
+				flags |= JsonAncillaryEnum.CanBeStolen;
+				has1_not_stolen = true;
+			}
+			if (ancillary.ancillary['randomly_dropped']) { flags |= JsonAncillaryEnum.RandomlyDropped; }
+			if (has_ca_ancillary(ancillaryKey)) { flags |= JsonAncillaryEnum.LuaDropped; }
+
+			const category_title = parsed._category_title!;
 			const effectList = (await Promise.all(
 				ancillary.effectList.map(v => getEffectDesc(v, { subcultureKey, cultureKey }))
 			)).map(v => (
@@ -442,12 +455,25 @@ async function outputHTML() {
 
 			myInfo = myInfo.map(v => `(${v})`);
 
+			let excludeFactionList: string[];
+			const replace_exclude = (arr: string[]) => {
+				return arr.map(key => getFaction(key)['@screen_name'] as string);
+			};
+			if (ancillary.excludeFactionList.length >= factionList.length * 0.66) {
+				excludeFactionList = ['+'].concat(replace_exclude(factionList.filter(key =>
+					!ancillary.excludeFactionList.includes(key)
+				)))
+			}
+			else {
+				excludeFactionList = replace_exclude(ancillary.excludeFactionList);
+			}
 			let json: JsonEntry = {
 				key: ancillaryKey,
 				category_title,
 				flags,
 				ancillaryIcon: getIconSrc(ancillary.icon),
 				ancillaryName: ancillary.ancillary['@onscreen_name'] as string,
+				excludeFactionList,
 				effectList: [...myInfo, ...effectList],
 				appliedToIcon,
 				triggerList: tgResult,
@@ -500,6 +526,11 @@ async function outputHTML() {
 		'character_agent.png': 'c',
 		'campaign_agent.png': 'd',
 	};
+	const flagList: (keyof typeof ConditionFlags)[] = [];
+	if (has1_not_stolen) { flagList.push('not_stolen'); }
+	flagList.push('prevent');
+	if (current_game === 'warhammer_2') { flagList.push('normal'); }
+	flagList.push('randomly_dropped', 'lua_dropped');
 	for (const subcultureKey in output) {
 		const entry = output[subcultureKey as SubCultureType];
 		let str = '\n\t' + JSON.stringify(subcultureKey) + ': {\n\t\t';
@@ -514,11 +545,15 @@ async function outputHTML() {
 			}
 			// str += '// ' + ancillary.key + '\n';
 			str += '[';
-			if (ancillary.flags !== 0) {
-				str += ancillary.flags.toString() + ', ';
+			let flags = ancillary.flags;
+			if (flags !== 0) {
+				str += flags.toString() + ', ';
 			}
 			str += JSON.stringify(ancillary.ancillaryIcon) + ',\n';
 			str += JSON.stringify(ancillary.ancillaryName) + ',\n';
+			if (ancillary.excludeFactionList.length > 0) {
+				str += JSON.stringify(ancillary.excludeFactionList) + ',\n';
+			}
 			for (const s of ancillary.effectList) {
 				str += JSON.stringify(s) + ',\n';
 			}
@@ -559,22 +594,41 @@ async function outputHTML() {
 		str += '}';
 		ds.push(str);
 	}
-	const data_flags: { [K in (keyof typeof ConditionFlags)]: [string, string, string] } = {
-		prevent: [
-			`Prevent, if character (or faction, if specified) already has ancillary equipped`,
-			`Prevent ancillary duplication`,
-			'bFprevent',
-		],
-		normal: [
-			`Prevent colonel from acquiring ancillary
+	const data_flags: { [K in (keyof typeof ConditionFlags)]: {
+		tooltip?: string;
+		label: string;
+		defineVar?: string;
+	} } = {
+		not_stolen: {
+			// tooltip: `Prevent, if character (or faction, if specified) already has ancillary equipped`,
+			label: `Can not be stolen`,
+		},
+		prevent: {
+			tooltip: `Prevent, if character (or faction, if specified) already has ancillary equipped`,
+			label: `Prevent ancillary duplication`,
+			defineVar: 'bFprevent',
+		},
+		normal: {
+			tooltip: `Prevent colonel from acquiring ancillary
 Colonel is a temporary placeholder, when your lord is killed during the end turn
 Colonel is also a general placeholder for garrison armies`,
-			`Forbid colonel`,
-			'bFnormal',
-		],
+			label: `Forbid colonel`,
+			defineVar: 'bFnormal',
+		},
+		randomly_dropped: {
+			tooltip: `This ancillary can be randomly dropped... after winning a battle?
+I'm not exactly sure about how this actually works.
+The main difference from &quot;Lua randomly dropped&quot; is that this flag indicates the value specified in Database.
+Either way &quot;Randomly dropped&quot; and &quot;Lua randomly dropped&quot; work independent of each other.
+In theory you can get both (if my half-baked understanding without any testing is correct).`,
+			label: `Randomly dropped`,
+		},
+		lua_dropped: {
+			tooltip: `This ancillary can be randomly dropped after winning a battle (explicit in lua).
+Read guide's last section for further info`,
+			label: `Lua randomly dropped`,
+		},
 	};
-	const flagList: (keyof typeof ConditionFlags)[] = ['prevent'];
-	if (current_game === 'warhammer_2') { flagList.push('normal'); }
 
 	const sortedSubcultureList = subcultureList.map(v => {
 		const subcultureRow = DB.cultures_subcultures.getEntry([v.subcultureKey])!;
@@ -589,8 +643,8 @@ Colonel is also a general placeholder for garrison armies`,
 ${iterate(Object.entries(appliedToVar)).map(([k, v]) => (
 		`var ${v} = ${JSON.stringify(k)};`
 	)).join('\n')}
-${iterate(Object.entries(data_flags)).map(([k, v]) => (
-		`${v[2]} = ${flagList.includes(k as any) ? 'true' : 'false'};`
+${iterate(Object.entries(data_flags)).filter(([k, v]) => typeof v.defineVar !== 'undefined').map(([k, v]) => (
+		`${v.defineVar!} = ${flagList.includes(k as any) ? 'true' : 'false'};`
 	)).join('\n')}
 data = {${ds.join(',')}\n}
 })());`;
@@ -627,15 +681,11 @@ ${iterate(game_data).map(([key, gdata]) => {
 		</div>
 		<div id="legend">
 ${flagList.map(key => {
-		const [title, desc] = data_flags[key];
-		return `<div class="legend-item" title="${title.replace(/\"/g, '&quot;')}">
-	<div class="flag-item flag--${key}"></div>${desc}
+		const { tooltip, label } = data_flags[key];
+		return `<div class="legend-item" ${typeof tooltip === 'string' ? `title="${tooltip.replace(/"/g, '&quot;')}"` : ''}>
+	<div class="flag-item flag--${key}"></div>${label}
 </div>`;
 	}).join('\n')}
-<div class="legend-item" title="This ancillary can be randomly dropped after winning a battle.
-Read guide's last section for further info">
-	<div class="flag-item flag--randomly_dropped"></div>Randomly dropped
-</div>
 <div class="legend-item legend--soft-bug" title="Hover over such trigger condition to see bug explanation">
 	Doesn't work as expected
 </div>

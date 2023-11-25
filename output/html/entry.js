@@ -39,30 +39,11 @@
 			}
 			text = text.replace(/^\((.+)\)\n/gm, '<div class="desc">$1</div>')
 			text = text.replace(/\n/g, '<br/>');
-			// #region
-			// text = text.replace(/\{(.*?)\}(\s?)/g, function(_, q, space) {
-			// 	if (!bExtra) { return ''; }
-			// 	var qList = q.split(',');
-			// 	if (qList.length === 0) {
-			// 		return '';
-			// 	}
-			// 	var ret = [];
-			// 	for (const val of qList) {
-			// 		switch (val) {
-			// 			case 'normal':
-			// 				ret.push('with normal character');
-			// 		}
-			// 	}
-			// 	if (ret.length === 0) { return ''; }
-			// 	return '(' + ret.join('; ') + ')' + space;
-			// });
-			// #endregion
 			text = text.trim();
 
 			var title = [];
 			var cl = ['tg-description'];
 			if (bug.description) { title.push('BUG: ' + bug.description); }
-			// console.log(bug.description)
 			if (bug.value) {
 				cl.push('dimmed');
 				text = '<s>' + text + '</s>';
@@ -86,12 +67,9 @@
 			}
 			tgDescText += text + '</div>';
 		}
-		// tgDescText = '<div class="tg-hidden">' + tgDescText + '</div>' + '<div class="tg-wrap">' + tgDescText + '</div>';
 
 		var cl = [];
 		if (!scip) { cl.push('dimmed'); }
-		// 		var text = '<td' + (cl.length > 0 ? ' class="' + cl.join(' ') + '"' : '') + '>' + (idx === 0 ? appliedToText + '<br/>' : '') + chance + '%</td>\n\
-		// <td class="trigger-condition-list">'+ tgDescText + '</td>';
 		if (chance === null) { chance = ''; }
 		else { chance = (idx === 0 ? '<br/>' : '') + chance + '%'; }
 		if (idx === 0) { chance = appliedToText + chance; }
@@ -113,6 +91,7 @@
 		}
 		var ancillaryIcon = json[k++];
 		var ancillaryName = json[k++];
+		var excludedFactionList = typeof json[k] === 'string' ? 0 : json[k++];
 		var effectList = [];
 		while (typeof json[k] !== 'object') {
 			effectList.push(json[k++]);
@@ -134,9 +113,6 @@
 		}
 		var tgResult = [];
 		var scip = false; // someConditionIsPossible
-		// if (triggerList.length === 0) {
-		// 	triggerList.push([null, []]);
-		// }
 		for (var idx = 0; idx < triggerList.length; ++idx) {
 			var trigger = triggerList[idx];
 			var r = generateTrigger(trigger, idx, {
@@ -147,18 +123,6 @@
 		}
 
 		var cl = (scip ? '' : ' dimmed');
-		// 		string += '<tr>\
-		// <td class="ancillary-icon'+ cl + '" rowspan="' + tgResult.length + '"><img class="ancillary-icon" src="output/html/' + ancillaryIcon + '" /></td>\
-		// <td class="ancillary-name'+ cl + '" rowspan="' + tgResult.length + '">' + ancillaryName + '</td>\
-		// <td class="effect-list'+ cl + '" rowspan="' + tgResult.length + '">' + effectList.join('<br/>') + '</td>\
-		// '+ tgResult[0] + '\
-		// </tr>';
-		// 		if (tgResult.length > 1) {
-		// 			string += tgResult
-		// 				.slice(1)
-		// 				.map(function (string) { return '<tr>' + string + '</tr>'; })
-		// 				.join('');
-		// 		}
 
 
 		var ecl = 'effect-row';
@@ -166,12 +130,23 @@
 			ecl += ' effect-row--desc';
 			effectList[0] = effectList[0].substr(1, effectList[0].length - 2);
 		}
-		string += '<div class="row">\
-<div class="ancillary-icon'+ cl + '">';
+		string += '<div class="row">\n';
+		if (excludedFactionList) {
+			string += '<div class="ancillary-info ancillary--';
+			if (excludedFactionList[0] === '+') {
+				string += 'inclusion">Available only for: ' + excludedFactionList.slice(1).join(', ');
+			} else {
+				string += 'exclusion">Unavailable for: ' + excludedFactionList.join(', ');
+			}
+			string += '</div>';
+		}
+
+		string += '<div class="ancillary-icon' + cl + '">';
 
 		var fl = [];
-		// if (flags & 1) { fl.push('stolen'); }
+		if (flags & 1) { fl.push('not_stolen'); }
 		if (flags & 2) { fl.push('randomly_dropped'); }
+		if (flags & 4) { fl.push('lua_dropped'); }
 		if (fl.length > 0) {
 			string += '<div class="flag-container"><div class="flag-transform">';
 			string += '<div class="flag-item flag--' + fl.join('"></div><div class="flag-item flag--') + '"></div>';
@@ -179,6 +154,13 @@
 		}
 
 		string += '<span class="ancillary-name">' + ancillaryName + '</span>\
+<span class="ancillary-name-bg" data="'+ ancillaryName
+				.replace(/&/g, '&amp;')
+				.replace(/'/g, '&apos;')
+				.replace(/"/g, '&quot;')
+				.replace(/</g, '&lt;')
+				.replace(/>/g, '&gt;')
+			+ '"></span>\
 <img src="output/html/' + ancillaryIcon + '" />\
 </div>\
 <div class="effect-list'+ cl + '"><div class="' + ecl + '">' + effectList.join('</div><div class="effect-row">') + '</div></div>\
@@ -200,25 +182,10 @@
 	}
 	function generateHTML(data) {
 		var string = '';
-		// string += '<div id="page_title">';
 		string += '<h1>' + data.title + '</h1>';
-		// string += '<label class="noselect">Show extra info</label>';
-		// string += '</div>';
 		if (typeof data.description !== 'undefined') {
 			string += '<div id="page_description">' + data.description + '</div>';
 		}
-		// 720px [40, 110, 240, 42, *]
-		// 		string += '\n<table>\
-		// <thead>\
-		// <th width="5.5%"></th>\
-		// <th width="15.27%"></th>\
-		// <th width="33.3%"></th>\
-		// <th width="7.5%"></th>\
-		// <th></th>\
-		// </thead>\
-		// <tbody>'
-		// 		string += generateContent(data);
-		// 		string += '</tbody></table>';
 		string += '\n<div class="table">';
 		string += generateContent(data);
 		string += '</div>';
@@ -226,15 +193,6 @@
 	}
 	function setData(data) {
 		el.innerHTML = data ? generateHTML(data) : '';
-		// var el_content = el.children[1].lastChild; // tbody
-		// var el_ce = document.createElement('input'); // checkbox_extra
-		// el_ce.type = 'checkbox';
-		// el_ce.checked = bExtra;
-		// el_ce.onchange = function (ev) {
-		// 	bExtra = this.checked;
-		// 	el_content.innerHTML = generateContent(data);
-		// };
-		// el.children[0].children[1].prepend(el_ce);
 	}
 	function setSubculture(subcultureKey) {
 		if (curSelectedKey === subcultureKey) { return; }

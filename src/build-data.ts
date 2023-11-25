@@ -2,7 +2,7 @@ import fs from 'fs';
 import path from 'path';
 import xml from 'fast-xml-parser';
 import iterate from 'iterare';
-import { current_game, getChance, spawn_unique_subtype } from './config';
+import { current_game, getChance, spawn_unique_subtype, ca_ancillary_list } from './config';
 import { addMap, unique, toArray, deleteItem, intersect, isEqualShuffle } from './common';
 import { schema, IEntry, locFileController } from './ron-db';
 import {
@@ -25,6 +25,7 @@ import {
 	IEffect,
 	ICAncillary,
 	ICGroupBy,
+	ICAncillaryRarity,
 } from './data-types';
 import { isEqual } from 'lodash';
 import assert from 'assert';
@@ -51,6 +52,7 @@ export const DB = {
 	ancillary_to_effects: schema['ancillary_to_effects'].getData(),
 	ancillary_to_included_agents: schema['ancillary_to_included_agents'].getData(),
 	ancillary_types: schema['ancillary_types'].getData(),
+	ancillary_uniqueness_groupings: schema['ancillary_uniqueness_groupings'].getData(),
 	banners: schema['banners'].getData(),
 	battle_set_piece_armies_characters_items: schema['battle_set_piece_armies_characters_items'].getData(),
 	campaign_effect_scopes: schema['campaign_effect_scopes'].getData(),
@@ -285,14 +287,40 @@ export const getCultureSubcultureList = (cultureKey: CultureType): SubCultureTyp
 	_getCultureSubcultureListCache.set(cultureKey, ret);
 	return ret;
 };
-const getFactionSubculture = (factionKey: string): SubCultureType => {
-	return DB.factions.getEntry([factionKey])!['subculture'] as SubCultureType;
+export const getFaction = (factionKey: string) => {
+	return DB.factions.getEntry([factionKey])!;
+};
+export const getFactionSubculture = (factionKey: string): SubCultureType => {
+	return getFaction(factionKey)['subculture'] as SubCultureType;
+};
+const _getSubcultureFactionListCache = new Map<SubCultureType, string[]>();
+export const getSubcultureFactionList = (subcultureKey: SubCultureType): string[] => {
+	if (_getSubcultureFactionListCache.has(subcultureKey)) {
+		return _getSubcultureFactionListCache.get(subcultureKey)!;
+	}
+	const ret: string[] = [];
+	for (const row of DB.factions.raw) {
+		if (row['subculture'] === subcultureKey) {
+			ret.push(row['key'] as string);
+		}
+	}
+	_getSubcultureFactionListCache.set(subcultureKey, ret);
+	return ret;
+};
+export const getSubcultureSubsetFactionList = (subcultureSubset: SubCultureType[]): string[] => {
+	return unique(subcultureSubset
+		.map(key =>
+			getSubcultureFactionList(key)
+		)
+		.flat()
+	);
+	// return unique(DB.factions.raw.filter(row => (
+	// 	subcultureSubset.includes(row['subculture'] as SubCultureType)
+	// )).map(row => row['key'] as string));
 };
 const getSubcultureListForFactionSet = (factionSetKey: string) => {
-	let subcultureList: SubCultureType[] = [];
 	const add: IEntry[] = [];
 	const remove: IEntry[] = [];
-	let all_row: boolean = false;
 	for (const row of DB.faction_set_items.raw) {
 		if (row['set'] !== factionSetKey) { continue; }
 		const v1 = ((row['culture'] as string | null) !== null ? 1 : 0);
@@ -300,41 +328,62 @@ const getSubcultureListForFactionSet = (factionSetKey: string) => {
 		const v3 = ((row['subculture'] as string | null) !== null ? 1 : 0);
 		const bRemove = row['remove'] as boolean;
 		if (v1 + v2 + v3 === 0) {
-			all_row = true;
+
 		} else {
 			assert(v1 + v2 + v3 === 1, `unexpected row in faction_set_items_tables with id=${row['id']}`);
 		}
 		if (bRemove) { remove.push(row); }
 		else { add.push(row); }
 	}
-	if (all_row) {
-		// console.log({ add, remove })
-		assert(add.length + remove.length === 1, `we expect faction_set="all" to be the only row`);
-		assert(remove.length === 0, `we expect faction_set="all" not to "remove"`);
-		subcultureList = DB.cultures_subcultures.raw.map(row => row['subculture'] as SubCultureType);
-		return subcultureList;
-	} else {
-		assert(add.length + remove.length > 0, `currently, we expect faction_set="${factionSetKey}" to have some entries in faction_set_items_tables`);
+	let includedFactions = new Set<string>();
+	const do_stuff = (bRemove: boolean, arr: IEntry[]) => {
+		for (const row of arr) {
+			if (row['culture']) {
+				const cultureKey = row['culture'] as CultureType;
+				const subcultureList = getCultureSubcultureList(cultureKey);
+				const factions = getSubcultureSubsetFactionList(subcultureList);
+				for (const key of factions) {
+					includedFactions[bRemove ? 'delete' : 'add'](key);
+				}
+			}
+			else if (row['faction']) {
+				includedFactions[bRemove ? 'delete' : 'add'](row['faction'] as string);
+			}
+			else if (row['subculture']) {
+				const factions = getSubcultureFactionList(row['subculture'] as SubCultureType);
+				for (const key of factions) {
+					includedFactions[bRemove ? 'delete' : 'add'](key);
+				}
+			} else {
+				for (const row of DB.factions.raw) {
+					const key = row['key'] as string;
+					includedFactions[bRemove ? 'delete' : 'add'](key);
+				}
+			}
+		}
+	};
+	do_stuff(false, add);
+	do_stuff(true, remove);
+	let subcultureList: SubCultureType[] = [...new Set([...includedFactions].map(key => getFactionSubculture(key)))];
+	let excludeFactionList = new Set(subcultureList.map(key => getSubcultureFactionList(key)).flat());
+	for (const key of includedFactions) {
+		excludeFactionList.delete(key);
 	}
-	if (add.length > 0) {
-		assert(remove.length === 0, 'not implemented');
-		for (const row of add) {
-			if (row['culture']) { subcultureList.push(...getCultureSubcultureList(row['culture'] as CultureType)); }
-			if (row['faction']) { subcultureList.push(getFactionSubculture(row['faction'] as string)); }
-			if (row['subculture']) { subcultureList.push(row['subculture'] as SubCultureType); }
+	return {
+		subcultureList,
+		excludeFactionList: [...excludeFactionList],
+	};
+};
+const getAncillaryRarity = (row: IEntry) => {
+	let rarity: ICAncillaryRarity | undefined = undefined;
+	const unique_score = row['uniqueness_score'] as number;
+	for (const row of DB.ancillary_uniqueness_groupings.raw) {
+		if ((row['uniqueness_min'] as number) <= unique_score && unique_score <= (row['uniqueness_max'] as number)) {
+			rarity = row['ui_state'] as ICAncillaryRarity;
 		}
 	}
-	if (remove.length > 0) {
-		assert(add.length === 0, 'not implemented');
-		for (const row of remove) {
-			if (row['culture']) { subcultureList.push(...getCultureSubcultureList(row['culture'] as CultureType)); }
-			if (row['faction']) { subcultureList.push(getFactionSubculture(row['faction'] as string)); }
-			if (row['subculture']) { subcultureList.push(row['subculture'] as SubCultureType); }
-		}
-		subcultureList = DB.cultures_subcultures.raw.map(row => row['subculture'] as SubCultureType)
-			.filter(k => !subcultureList.includes(k));
-	}
-	return unique(subcultureList);
+	assert(typeof rarity !== 'undefined');
+	return rarity;
 };
 const _findAncillaryCache = new Map<string, ICAncillary>(); // ancillary_key -> { ancillary, subcultureList, cultureList, effectList }
 export const findAncillary = (key: string): ICAncillary => {
@@ -385,10 +434,13 @@ export const findAncillary = (key: string): ICAncillary => {
 	}
 
 	let subcultureList: SubCultureType[] = [];
+	let excludeFactionList: string[] = [];
 	if (current_game === 'warhammer_2') {
 		subcultureList = Object.keys(DB.ancillary_included_subcultures.keyed[key] || {}) as any;
 	} else if (current_game === 'warhammer_3') {
-		subcultureList = getSubcultureListForFactionSet(ancillary['faction_set'] as string);
+		let r = getSubcultureListForFactionSet(ancillary['faction_set'] as string);
+		subcultureList = r.subcultureList;
+		excludeFactionList = r.excludeFactionList;
 	}
 	subcultureList = unique(subcultureList);
 	const cultureList: CultureType[] = unique(subcultureList.map(subculture => (
@@ -403,6 +455,7 @@ export const findAncillary = (key: string): ICAncillary => {
 		toAgent,
 		toAgentSubtype,
 
+		excludeFactionList,
 		subcultureList,
 		cultureList,
 	};
@@ -531,11 +584,6 @@ export const getSubcultureSubset = (cultureKey: CultureType | SubCultureType[], 
 	// 	cultureKey;
 	// return subcultureList
 	// 	.filter(subcultureKey => allSubcultureList.includes(subcultureKey));
-};
-const getSubcultureFactionList = (subcultureSubset: SubCultureType[]): string[] => {
-	return unique(DB.factions.raw.filter(row => (
-		subcultureSubset.includes(row['subculture'] as SubCultureType)
-	)).map(row => row['key'] as string));
 };
 const getUnitCaste = (associated_unit: any): UnitCasteType | null => {
 	if (typeof associated_unit === 'string') {
@@ -702,7 +750,7 @@ const ctx_getPermittedSubtypeList = (): GetPermittedSubtypeList[] => {
 	if (_ctx_getPermittedSubtypeListCache.has(key)) {
 		return _ctx_getPermittedSubtypeListCache.get(key)!;
 	}
-	const factionList = getSubcultureFactionList(subcultureSubset);
+	const factionList = getSubcultureSubsetFactionList(subcultureSubset);
 	const list = DB.faction_agent_permitted_subtypes.raw.filter(row => (
 		factionList.includes(row['faction'] as string)
 	))
@@ -1067,7 +1115,7 @@ interface IParsedAncillaryInfo {
 	list: string[];
 	narrow: string[];
 }
-const getAncillaryInfo = (): IParsedAncillaryInfo => {
+const ctx_getAncillaryInfo = (): IParsedAncillaryInfo | null => {
 	const { ancillary, group } = context;
 	let info: IParsedAncillaryInfo = {
 		hasLord: false,
@@ -1173,7 +1221,10 @@ const getAncillaryInfo = (): IParsedAncillaryInfo => {
 		let keyList = ancillary.toAgent.filter(key => C.agentList.some(row => row['agent'] === key));
 		let narrow = intersect(keyList, C.playableAgentList);
 		if (ancillary.toAgent.length > 0) {
-			assert(narrow.length > 0);
+			if (narrow.length === 0) {
+				return null;
+				assert(false, `ancillary "${ancillary.ancillary['key']}" has .toAgent=${JSON.stringify(ancillary.toAgent)}, which has no intersection with C.playableAgentList=${JSON.stringify(C.playableAgentList)}`);
+			}
 			if (narrow.some(v => !isHeroAgent(v))) {
 				info.hasLord = true;
 				narrow = narrow.filter(v => isHeroAgent(v));
@@ -1234,15 +1285,19 @@ export const parseTrigger = async (opts: {
 
 		if (!parsed.has(ancData.key)) {
 			// const subcultureSubset = getSubcultureSubset(cultureKey, ancillary.subcultureList);
-			try {
-				parsed.set(ancData.key, {
-					// effectList: ancillary.effectList,
-					ancillaryInfo: getAncillaryInfo(),
-					tirggerList: [],
-				});
-			} catch (e) {
-				continue;
-			}
+			// try {
+			const ancillaryInfo = ctx_getAncillaryInfo();
+			if (!ancillaryInfo) { continue; }
+			parsed.set(ancData.key, {
+				// effectList: ancillary.effectList,
+				ancillaryInfo,
+				tirggerList: [],
+			});
+			// } catch (e) {
+			// 	// assert(false, 'why did I even put try catch here?')
+			// 	console.log('[ERROR::dropped] parseTrigger caught from getAncillaryInfo()', e)
+			// 	continue;
+			// }
 		}
 		// if (!trigger.event) { continue; }
 
@@ -1259,15 +1314,30 @@ export const parseTrigger = async (opts: {
 			assert(group.by === 'subculture');
 			// text = text.filter(key => key !== group.subculture);
 			if (text.includes('filter_all')) { text = ['filter_all']; }
-			text = text.map(key => {
-				let title = DB.cultures_subcultures.getEntry([key])!['@name'] as string;
-				if (key === group.subculture) {
-					if (ctx_target === 'html') {
-						title = `<span class="dimmed">${title}</span>`;
+			const replace_text = (text: string[]) => {
+				return text.map(key => {
+					let title = DB.cultures_subcultures.getEntry([key])!['@name'] as string;
+					if (key === group.subculture) {
+						if (ctx_target === 'html') {
+							title = `<span class="dimmed">${title}</span>`;
+						}
 					}
+					return title;
+				});
+			};
+			if (text.length >= DB.cultures_subcultures.raw.length * 0.66) {
+				text = replace_text(
+					DB.cultures_subcultures.raw.map(row => row['subculture'] as SubCultureType).filter(key =>
+						key !== 'filter_all' && !text.includes(key)
+					)
+				);
+				if (text.length > 0) {
+					text[0] = '<span class="dimmed">Except:</span> ' + text[0];
 				}
-				return title;
-			});
+				text.unshift(replace_text(['filter_all'])[0]);
+			} else {
+				text = replace_text(text);
+			}
 			triggerDesc.push({
 				c,
 				impossible: false,
@@ -1307,6 +1377,36 @@ export const sortParsedMap = (parsed: Map<string, Map<string, IParsed>>) => {
 	for (const [subcultureKey, ancMap] of parsed) {
 		parsed.set(subcultureKey, sortAncMap(ancMap));
 	}
+};
+
+let _init_has_ca_ancillary = false;
+export const has_ca_ancillary = (key: string) => {
+	if (current_game === 'warhammer_2') {
+
+	} else if (!_init_has_ca_ancillary) {
+		_init_has_ca_ancillary = true;
+		for (const row of DB.ancillaries.raw) {
+			const key = row['key'] as string;
+			const rd = row['randomly_dropped'] as boolean;
+			if (!rd) { continue; }
+			const category = row['category'] as string;
+			const rarityState = getAncillaryRarity(row);
+			// @ts-ignore
+			let obj = ca_ancillary_list[category];
+			if (typeof obj === 'undefined') { continue; }
+			obj = obj[rarityState];
+			if (typeof obj === 'undefined') { continue; }
+			obj.push(key);
+		}
+	}
+	for (const k in ca_ancillary_list) {
+		// @ts-ignore
+		const q = ca_ancillary_list[k];
+		for (const g in q) {
+			if (q[g].includes(key)) { return true; }
+		}
+	}
+	return false;
 };
 
 const typical_output = (ret: string[]) => {
@@ -1725,4 +1825,4 @@ export const culture = (keyList: CultureType[], hideCaption?: boolean) => {
 export function corruption(key: CorruptionType) {
 	let v = corruption_loc[key];
 	return `${v} corruption`;
-}
+};

@@ -826,6 +826,7 @@ export interface IEffect {
 	effect: IEntry;
 	scope: IEntry | null;
 }
+export type ICAncillaryRarity = 'crafter' | 'common' | 'rare' | 'uncommon' | 'legendary';
 export interface ICAncillary {
 	ancillary: IEntry;
 	icon: string;
@@ -834,6 +835,7 @@ export interface ICAncillary {
 	toAgent: AgentType[];
 	toAgentSubtype: AgentSubtype[];
 
+	excludeFactionList: string[];
 	subcultureList: SubCultureType[];
 	cultureList: CultureType[];
 }
