@@ -123,10 +123,16 @@ export const DB = {
 };
 const TEXT = {
 	ui_text_replacements: new Map(toArray(locFileController.loadFile({ name: 'ui_text_replacements' }))
-		.map(([k, v]) => [
-			// ui_text_replacements_localised_text_
-			k.substr(36),
-			v
+		.flatMap(([k, v]) => [
+			[
+				k,
+				v
+			],
+			[
+				// ui_text_replacements_localised_text_
+				k.substr(36),
+				v
+			],
 		])),
 };
 
@@ -547,13 +553,18 @@ export const getEffectDesc = async (v: IEffect, opts?: {
 		return '';
 	});
 	await Promise.all(imgPromiseList);
-	desc = desc.replace(/\{\{tr\:(.*?)\}\}/g, (_, key) => {
+	desc = desc.replace(/\{\{tr\:(.*?)\}\}/g, (pattern, key) => {
 		let arr = [
 			opts?.subcultureKey ? TEXT.ui_text_replacements.get(key + '_' + opts.subcultureKey) || null : null,
 			opts?.cultureKey ? TEXT.ui_text_replacements.get(key + '_' + opts.cultureKey) || null : null,
 			TEXT.ui_text_replacements.get(key) || null,
 		];
-		return arr.find(q => q !== null) || '';
+		let text = arr.find(q => q !== null);
+		if (typeof text !== 'string') {
+			// console.dir([...TEXT.ui_text_replacements.keys()].filter(v => v.indexOf('tunnelling') !== -1))
+			throw new Error(`failed to find text localisation: pattern = ${JSON.stringify(pattern)}; key = ${JSON.stringify(key)} opts = ${JSON.stringify(opts)}; arr = ${JSON.stringify(arr)}`);
+		}
+		return text;
 	});
 	let colMap = {
 		green: '#00ff00', // it's too dark
@@ -813,6 +824,7 @@ type TextNode = {
 	text: string;
 	category?: boolean | TextNode;
 	underline?: boolean;
+	strike?: boolean;
 	// [K: string]: string | boolean | undefined;
 } & {
 	[K: string]: string;
@@ -936,8 +948,6 @@ const buildTriggerDesc = async () => {
 					allowed = tmp.concat(allowed);
 				}
 			}
-		}
-		if (typeof c.allowed !== 'undefined') {
 			if (typeof c.allowed.culture !== 'undefined') {
 				let culture = c.allowed.culture.slice();
 				culture = culture.filter(cultureKey => cultureKey !== group.cultureKey);
@@ -967,11 +977,23 @@ const buildTriggerDesc = async () => {
 		let forbid: TextNode[] = [];
 		if (typeof c.forbid !== 'undefined') {
 			if (typeof c.forbid.agent !== 'undefined') {
-				const agent = c.forbid.agent.slice();
-				if (deleteItem(agent, 'colonel')) {
+				const agentList = c.forbid.agent.slice();
+				if (deleteItem(agentList, 'colonel')) {
 					allowedNormal = true;
 				}
-				if (agent.length > 0) { console.error('TODO'); }
+				const tmp: TextNode[] = [];
+				for (const agentKey of agentList) {
+					const res = ctx_getAgentData(agentKey);
+					if (res) {
+						const node: TextNode = { text: res.name };
+						// node.strike = true;
+						tmp.push(node);
+					}
+				}
+				if (tmp.length > 0) {
+					tmp[0].category = true;
+					forbid = forbid.concat(tmp);
+				}
 			}
 			if (typeof c.forbid.agent_subtype !== 'undefined') {
 				let agent_subtype = c.forbid.agent_subtype.slice();

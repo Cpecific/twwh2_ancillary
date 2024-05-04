@@ -346,7 +346,7 @@ function parseSchema(input: string) {
 	// #region LEXER
 	const lexer = new Tokenizr();
 	// Some|SequenceU32|DB
-	lexer.rule(/(None|Boolean|StringU8|StringU16|OptionalStringU8|OptionalStringU16|ColourRGB|I8|I16|I32|I64|U8|U16|U32|U64|F32|F64)/, (ctx, match) => {
+	lexer.rule(/(None|Boolean|StringU8|StringU16|OptionalStringU8|OptionalStringU16|ColourRGB|I8|I16|I32|I64|U8|U16|U32|U64|F32|F64|OptionalI32)/, (ctx, match) => {
 		ctx.accept('keyword', match[1]);
 	});
 	lexer.rule(/(true|false)/i, (ctx, match) => {

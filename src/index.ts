@@ -130,6 +130,7 @@ async function outputSteam() {
 						let topText = printTextNode(top, v => {
 							let t = v.text;
 							if (v.underline) { t = `[u]${t}[/u]`; }
+							if (v.strike) { t = `[s]${t}[/s]`; }
 							return t;
 						});
 						text = `(${topText})\n${text}`;
@@ -182,7 +183,7 @@ const enum ConditionFlags {
 	randomly_dropped = 0,
 	lua_dropped = 4,
 };
-const html_public_version = '12'; // ! always update this value, when push update!
+const html_public_version = '13'; // ! always update this value, when push update!
 async function outputHTML() {
 	ctx_setTarget('html');
 	// subculture > ancillary > parsed
@@ -428,10 +429,16 @@ async function outputHTML() {
 						// 	top = top.concat([`Forbid:: ${v.top.forbid[0]}`, ...v.top.forbid.slice(1)]);
 						// }
 						let topText = printTextNode(top, v => {
+							let t = v.text;
 							if (v.type === 'onlyMainLord') {
-								return `<u title="Main Lord - the one, who leads the attack/defense">${v.text}</u>`;
+								t = `<u title="Main Lord - the one, who leads the attack/defense">${t}</u>`;
+							} else if (v.underline){
+								t = `<u>${t}</u>`;
 							}
-							return v.text;
+							if (v.strike){
+								t = `<s>${t}</s>`;
+							}
+							return t;
 						});
 						text = `(${topText})\n${text}`;
 					}

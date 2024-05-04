@@ -110,32 +110,36 @@ function attempt_to_award_random_magical_item(context)
 			index = cm:random_number(5); -- don't drop arcane items if the character involved is not a caster
 		end;
 		
-		local new_ancillary_list = {};
+		local new_ancillary_category_list;
+		local new_ancillary_list;
 		
 		if index == 1 then
-			new_ancillary_list = ancillary_list.armour;
+			new_ancillary_category_list = ancillary_list.armour;
 		elseif index == 2 then
-			new_ancillary_list = ancillary_list.enchanted_item;
+			new_ancillary_category_list = ancillary_list.enchanted_item;
 		elseif index == 3 then
-			new_ancillary_list = ancillary_list.general;
+			new_ancillary_category_list = ancillary_list.general;
 		elseif index == 4 then
-			new_ancillary_list = ancillary_list.talisman;
+			new_ancillary_category_list = ancillary_list.talisman;
 		elseif index == 5 then
-			new_ancillary_list = ancillary_list.weapon;
+			new_ancillary_category_list = ancillary_list.weapon;
 		else
-			new_ancillary_list = ancillary_list.arcane_item;
+			new_ancillary_category_list = ancillary_list.arcane_item;
 		end;
 		
 		-- get the list of ancillaries based on the rarity
 		local rarity_roll = cm:random_number(100);
 		
 		if rarity_roll > 90 then
-			new_ancillary_list = new_ancillary_list.rare;
+			new_ancillary_list = new_ancillary_category_list.rare;
 		elseif rarity_roll > 61 then
-			new_ancillary_list = new_ancillary_list.uncommon;
+			new_ancillary_list = new_ancillary_category_list.uncommon;
 		else
-			new_ancillary_list = new_ancillary_list.common;
+			new_ancillary_list = new_ancillary_category_list.common;
 		end;
+
+		-- Copy the ancillary list, so that changes to it do not destroy the source data
+		new_ancillary_list = table.copy(new_ancillary_list);
 		
 		local pb = context:pending_battle();
 		local model = pb:model();
@@ -195,7 +199,7 @@ function attempt_to_award_random_magical_item(context)
 			end;
 		end;
 		
-		chance = math.max(chance + victory_type_mod, 100)
+		chance = math.min(chance + victory_type_mod, 100)
 		
 		-- tomb kings chance is cut in half due to mortuary cult
 		if faction:culture() == "wh2_dlc09_tmb_tomb_kings" then
@@ -230,8 +234,12 @@ function attempt_to_award_random_magical_item(context)
 end;
 
 
-function ancillary_is_available_to_faction(ancillary, faction)
-	return cco("CcoAncillaryRecord", ancillary):Call("CanFactionUseAncillary(DatabaseRecordContext(\"CcoFactionRecord\", \"" .. faction .. "\"))")
+function ancillary_is_available_to_faction(ancillary, faction_key)
+	if faction_key == "rebels" then
+		return false
+	end
+
+	return cco("CcoAncillaryRecord", ancillary):Call("CanFactionUseAncillary(DatabaseRecordContext(\"CcoFactionRecord\", \"" .. faction_key .. "\"))")
 end
 
 

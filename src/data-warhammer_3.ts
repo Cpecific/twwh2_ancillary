@@ -1738,10 +1738,13 @@ export const data: ITrigger[] = [
 	}, {
 		event: Events.CharacterRankUp,
 		condition: [{
+			forbid: {
+				agent: ['general'],
+			},
 			text: () => `Rank Up on the same turn when you finished researching some technology after 1st turn`
 		}],
 		ancillaryList: [{
-			chance: 13,
+			chance: 7,
 			key: 'wh_main_anc_follower_all_student',
 		}]
 	},
