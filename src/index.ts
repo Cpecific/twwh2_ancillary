@@ -183,7 +183,7 @@ const enum ConditionFlags {
 	randomly_dropped = 0,
 	lua_dropped = 4,
 };
-const html_public_version = '13'; // ! always update this value, when push update!
+const html_public_version = '14'; // ! always update this value, when push update!
 async function outputHTML() {
 	ctx_setTarget('html');
 	// subculture > ancillary > parsed
