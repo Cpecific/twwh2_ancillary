@@ -23,6 +23,7 @@ import {
 	sortParsedMap,
 	toCultureKey,
 	has_ca_ancillary,
+	getTranslation,
 } from './build-data';
 import { _BugType, CultureType, ITrigger, SubCultureType, TransformBug } from './data-types';
 import { } from './ron-db';
@@ -183,7 +184,7 @@ const enum ConditionFlags {
 	randomly_dropped = 0,
 	lua_dropped = 4,
 };
-const html_public_version = '14'; // ! always update this value, when push update!
+const html_public_version = '15'; // ! always update this value, when push update!
 async function outputHTML() {
 	ctx_setTarget('html');
 	// subculture > ancillary > parsed
@@ -412,7 +413,9 @@ async function outputHTML() {
 			}
 
 			let myInfo: string[] = [];
-			ancillaryInfo.narrow.length > 0 && myInfo.push(ancillaryInfo.narrow.join(', '));
+			ancillaryInfo.narrow.length > 0 && myInfo.push((await Promise.all(ancillaryInfo.narrow.map(v => (
+				getTranslation(v, { subcultureKey, cultureKey })
+			)))).join(', '));
 
 			const tgResult = tirggerList.map(({ chance, triggerDesc }, idx): JsonTriggerEntry => {
 				const tgDescList = triggerDesc.map((v): JsonConditionEntry => {
@@ -432,10 +435,10 @@ async function outputHTML() {
 							let t = v.text;
 							if (v.type === 'onlyMainLord') {
 								t = `<u title="Main Lord - the one, who leads the attack/defense">${t}</u>`;
-							} else if (v.underline){
+							} else if (v.underline) {
 								t = `<u>${t}</u>`;
 							}
-							if (v.strike){
+							if (v.strike) {
 								t = `<s>${t}</s>`;
 							}
 							return t;

@@ -124,15 +124,13 @@ export const DB = {
 const TEXT = {
 	ui_text_replacements: new Map(toArray(locFileController.loadFile({ name: 'ui_text_replacements' }))
 		.flatMap(([k, v]) => [
-			[
-				k,
-				v
-			],
-			[
-				// ui_text_replacements_localised_text_
-				k.substr(36),
-				v
-			],
+			[k, v],
+			[k.substr(36), v], // ui_text_replacements_localised_text_
+		])),
+	land_units: new Map(toArray(locFileController.loadFile({ name: 'land_units' }))
+		.flatMap(([k, v]) => [
+			[k, v],
+			[k.substr(25), v], // land_units_onscreen_name_
 		])),
 };
 
@@ -511,29 +509,10 @@ const getIcon = async (icon: string): Promise<string> => {
 	_getIconCache.set(icon, ret);
 	return ret;
 };
-export const getEffectDesc = async (v: IEffect, opts?: {
+export const getTranslation = async (desc: string, opts?: {
 	subcultureKey?: SubCultureType;
 	cultureKey?: CultureType;
 }) => {
-	const { effect, row, scope } = v;
-	const effectValue = row['value'] as number;
-	let desc = effect['@description'] as string;
-	desc = desc
-		.replace('%+n', `${effectValue > 0 ? '+' : ''}${effectValue.toString()}`)
-		.replace('%n', effectValue.toString());
-	if (scope) {
-		let str = scope['@localised_text'] as string;
-		if (/^\n/.test(str)) {
-			if (ctx_target === 'html') {
-				str = str.replace(/^\n/, '');
-				str = str.replace(/^([^\s]+?)(?=\s)|(?<=\s)([^\s]+?)$/g, '<span class="nowr">$1$2</span>');
-				str = ' ' + str;
-			} else {
-				str = str.replace(/^\n/, ' ');
-			}
-		}
-		desc += str;
-	}
 	let imgIdx = 0;
 	const imgPromiseList: Promise<void>[] = [];
 	desc = desc.replace(/\[\[img\:([^\]]*)\]\][^\[]*\[\[\/img\]\]/gm, (_, icon) => {
@@ -561,6 +540,14 @@ export const getEffectDesc = async (v: IEffect, opts?: {
 		];
 		let text = arr.find(q => q !== null);
 		if (typeof text !== 'string') {
+			arr = [
+				opts?.subcultureKey ? TEXT.land_units.get(key + '_' + opts.subcultureKey) || null : null,
+				opts?.cultureKey ? TEXT.land_units.get(key + '_' + opts.cultureKey) || null : null,
+				TEXT.land_units.get(key) || null,
+			];
+			text = arr.find(q => q !== null);
+		}
+		if (typeof text !== 'string') {
 			// console.dir([...TEXT.ui_text_replacements.keys()].filter(v => v.indexOf('tunnelling') !== -1))
 			throw new Error(`failed to find text localisation: pattern = ${JSON.stringify(pattern)}; key = ${JSON.stringify(key)} opts = ${JSON.stringify(opts)}; arr = ${JSON.stringify(arr)}`);
 		}
@@ -582,6 +569,31 @@ export const getEffectDesc = async (v: IEffect, opts?: {
 		});
 	}
 	return desc;
+};
+export const getEffectDesc = async (v: IEffect, opts?: {
+	subcultureKey?: SubCultureType;
+	cultureKey?: CultureType;
+}) => {
+	const { effect, row, scope } = v;
+	const effectValue = row['value'] as number;
+	let desc = effect['@description'] as string;
+	desc = desc
+		.replace('%+n', `${effectValue > 0 ? '+' : ''}${effectValue.toString()}`)
+		.replace('%n', effectValue.toString());
+	if (scope) {
+		let str = scope['@localised_text'] as string;
+		if (/^\n/.test(str)) {
+			if (ctx_target === 'html') {
+				str = str.replace(/^\n/, '');
+				str = str.replace(/^([^\s]+?)(?=\s)|(?<=\s)([^\s]+?)$/g, '<span class="nowr">$1$2</span>');
+				str = ' ' + str;
+			} else {
+				str = str.replace(/^\n/, ' ');
+			}
+		}
+		desc += str;
+	}
+	return getTranslation(desc, opts);
 };
 export const getSubcultureSubset = (cultureKey: CultureType | SubCultureType[], subcultureList: SubCultureType[]): SubCultureType[] => {
 	return intersect(
@@ -725,6 +737,7 @@ const ctx_getAgentSubtypeData = (subtypeKey: string) => {
 		let haveSome = false;
 		// могут не совпадать
 		for (const uniqueColumn of ['forename', 'surname', 'other_name', 'clan_name'] as const) {
+			// @ts-ignore
 			let nameId = uniqueRow[uniqueColumn];
 			if (typeof nameId === 'string' && nameId) {
 				if (/^names_name_\d+$/.test(nameId)) { nameId = nameId.substr(11); }
