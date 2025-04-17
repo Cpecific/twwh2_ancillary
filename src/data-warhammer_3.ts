@@ -176,7 +176,10 @@ export const getChance: IGetChance = context => {
 	let { chance } = context.ancData;
 	// if (context.group.by === 'culture') {
 	if (context.group.cultureKey === 'wh3_main_dae_daemons') {
-		return chance * 0.5;
+		return Math.round(chance * 0.4);
+	} else{
+		// NOTE: floor because random_number returns integer
+		return Math.floor(chance * 0.5);
 	}
 	// }
 };
@@ -1744,7 +1747,7 @@ export const data: ITrigger[] = [
 			text: () => `Rank Up on the same turn when you finished researching some technology after 1st turn`
 		}],
 		ancillaryList: [{
-			chance: 7,
+			chance: 3,
 			key: 'wh_main_anc_follower_all_student',
 		}]
 	},
@@ -3656,7 +3659,7 @@ otherwise will check in forces of attackers`
 			text: () => `Rank Up (1 turn enemy)`
 		}],
 		ancillaryList: [{
-			chance: 8,
+			chance: 6,
 			key: 'wh3_main_anc_follower_ksl_akshina_informant',
 		}]
 	}, {
@@ -3666,7 +3669,7 @@ otherwise will check in forces of attackers`
 			text: () => `Rank Up in own region`
 		}],
 		ancillaryList: [{
-			chance: 5,
+			chance: 4,
 			key: 'wh3_main_anc_follower_ksl_atamans_administrator',
 		}]
 	}, {
@@ -3679,7 +3682,7 @@ otherwise will check in forces of attackers`
 			])} is in the army`
 		}],
 		ancillaryList: [{
-			chance: 10,
+			chance: 6,
 			key: 'wh3_main_anc_follower_ksl_knights_squire',
 		}]
 	}, {
@@ -3689,7 +3692,7 @@ otherwise will check in forces of attackers`
 			text: () => `Win battle as defender`
 		}],
 		ancillaryList: [{
-			chance: 8,
+			chance: 6,
 			key: 'wh3_main_anc_follower_ksl_knights_ward',
 		}]
 	}, {
@@ -3699,7 +3702,7 @@ otherwise will check in forces of attackers`
 			text: () => `Rank Up in region, which belongs to your military ally`
 		}],
 		ancillaryList: [{
-			chance: 10,
+			chance: 8,
 			key: 'wh3_main_anc_follower_ksl_kvas_deye',
 		}]
 	}, {
@@ -3730,7 +3733,7 @@ otherwise will check in forces of attackers`
 			text: () => `Perform (critical) successfull action against another character other than “Assist Army”`
 		}],
 		ancillaryList: [{
-			chance: 10,
+			chance: 8,
 			key: 'wh3_main_anc_follower_ksl_orthodoxy_cleric',
 		}]
 	}, {
@@ -3750,7 +3753,7 @@ otherwise will check in forces of attackers`
 				]
 			},
 			prevent,
-			text: async () => `Win battle, and your faction must have ${await resource(['wh3_main_ksl_devotion'])}`
+			text: async () => `Win battle`
 		}],
 		ancillaryList: [{
 			chance: 5,
@@ -3772,7 +3775,7 @@ otherwise will check in forces of attackers`
 				]
 			},
 			prevent,
-			text: async () => `Perform (critical) successfull action against another character other than “Assist Army”, and your faction must have ${await resource(['wh3_main_ksl_devotion'])}`
+			text: async () => `Perform (critical) successfull action against another character other than “Assist Army”`
 		}],
 		ancillaryList: [{
 			chance: 5,
@@ -3816,7 +3819,7 @@ otherwise will check in forces of attackers`
 			text: () => `Win battle and have 8 units of type “Melee Infantry” or “Ranged Infantry” in the army`
 		}],
 		ancillaryList: [{
-			chance: 20,
+			chance: 10,
 			key: 'wh3_main_anc_follower_ksl_veteran_warrior',
 		}]
 	}, {
